@@ -26,7 +26,7 @@ let s:palette = {
     \ 'cyan':        { 'gui': '#60bda8', 'term': 73,     'term_default': 6      },
     \ 'orange':      { 'gui': '#f66d04', 'term': 202,    'term_default': 3      },
     \ 'magenta':     { 'gui': '#ff0569', 'term': 197,    'term_default': 1      },
-    \ 'darklime':    { 'gui': '#3a4318' },
+    \ 'darklime':    { 'gui': '#3b4318' },
     \ 'darkyellow':  { 'gui': '#49422b' },
     \ 'darkpurple':  { 'gui': '#3b3342' },
     \ 'darkcyan':    { 'gui': '#2f3f37' },
