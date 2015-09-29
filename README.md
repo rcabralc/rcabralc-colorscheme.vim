@@ -36,7 +36,7 @@ Color index    | Color value
 6, 14          | `#60bda8`
 7              | `#6e6a57`
 8              | `#36342b`
-11             | `#ebcc56`
+11             | `#ebcc66`
 15, Foreground | `#fff6cd`
 
 Then set this in your `vimrc` file (before setting the color scheme):
