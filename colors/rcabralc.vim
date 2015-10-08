@@ -25,12 +25,12 @@ let s:palette = {
     \ 'purple':      { 'gui': '#a773e2', 'term': 140,    'term_default': 5      },
     \ 'cyan':        { 'gui': '#60bda8', 'term': 73,     'term_default': 6      },
     \ 'orange':      { 'gui': '#f66d04', 'term': 202,    'term_default': 3      },
-    \ 'magenta':     { 'gui': '#ff0569', 'term': 197,    'term_default': 1      },
+    \ 'magenta':     { 'gui': '#f60461', 'term': 197,    'term_default': 1      },
     \ 'darklime':    { 'gui': '#3b4318' },
     \ 'darkyellow':  { 'gui': '#49422b' },
     \ 'darkpurple':  { 'gui': '#3c3142' },
     \ 'darkcyan':    { 'gui': '#2f3f37' },
-    \ 'darkmagenta': { 'gui': '#4d1c2b' }
+    \ 'darkmagenta': { 'gui': '#4b1c2a' }
 \ }
 
 if !exists("g:rcabralc_colorscheme#transparent_background")
