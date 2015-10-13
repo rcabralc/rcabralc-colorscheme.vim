@@ -13,6 +13,12 @@
 "
 " The dark colors are blends of the respective normal colors with alpha = 48
 " (0-255) over the 'black' color.
+"
+" Note: The "blue" color is not used in this colorscheme because there's no
+" equivalent in the original Monokai, and it's not needed anyway.  It is
+" defined here as a matter of standardization; since it's recommended to change
+" the terminal colorscheme for better color fidelity, it's worth to specify a
+" blueish color to be used as a replacement for the 4th terminal color.
 let s:palette = {
     \ 'NONE':        { 'gui': 'NONE',    'term': 'NONE', 'term_default': 'NONE' },
     \ 'black':       { 'gui': '#24231d', 'term': 235,    'term_default': 0      },
@@ -146,8 +152,8 @@ call s:hl('Constant',       'purple',    'NONE', 'bold')
 "          Boolean        a boolean constant: TRUE, false
 "          Float          a floating point constant: 2.3e10
 call s:hl('String',         'yellow',    'NONE')
-call s:hl('Number',         'blue',      'NONE', 'bold')
-call s:hl('Boolean',        'blue',      'NONE')
+call s:hl('Number',         'purple',    'NONE')
+call s:hl('Boolean',        'orange',    'NONE')
 
 call s:hl('Identifier',     'lime',      'NONE')
 "         *Identifier     any variable name
