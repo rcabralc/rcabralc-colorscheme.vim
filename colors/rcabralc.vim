@@ -47,6 +47,10 @@ if !exists("g:rcabralc_colorscheme#use_default_term_colors")
     let g:rcabralc_colorscheme#use_default_term_colors = 0
 endif
 
+if !exists("g:rcabralc_colorscheme#prominent_search_highlight")
+    let g:rcabralc_colorscheme#prominent_search_highlight = 1
+endif
+
 if g:rcabralc_colorscheme#transparent_background == 1
     let s:palette['blackbg'] = { 'gui': 'NONE', 'term': 'NONE', 'term_default': 'NONE' }
 else
@@ -216,8 +220,14 @@ call s:hl('StatusLineNC', 'black',     'lightgray')
 call s:hl('Visual',       'NONE',      'darkgray')
 call s:hl('Directory',    'purple',    'NONE')
 call s:hl('ErrorMsg',     'white',     'magenta',   'bold')
-call s:hl('IncSearch',    'black',     'yellow')
-call s:hl('Search',       'NONE',      'darkgray',  'underline')
+call s:hl('IncSearch',    'NONE',      'NONE',      'underline')
+
+if g:rcabralc_colorscheme#prominent_search_highlight
+    call s:hl('Search',       'NONE',      'NONE',      'reverse')
+else
+    call s:hl('Search',       'NONE',      'darkgray',  'underline')
+endif
+
 call s:hl('MoreMsg',      'black',     'cyan')
 call s:hl('ModeMsg',      'lime',      'blackbg')
 call s:hl('LineNr',       'lightgray', 'blackbg')
