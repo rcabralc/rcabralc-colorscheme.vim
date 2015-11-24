@@ -1,3 +1,4 @@
+" vim: fdm=marker
 " Name:   rcabralc's Colorscheme for Vim.
 " Author: rcabralc <rcabralc@gmail.com>
 " URL:    https://github.com/rcabralc/monokai.vim
@@ -10,34 +11,67 @@
 " orthogonal space and metric distance doesn't reflect actual differences in
 " vision perception.
 " TODO: Provide better approximation (maybe through CSApprox?).
-"
-" The dark colors are blends of the respective normal colors with alpha = 48
-" (0-255) over the 'black' color.
-"
+
+" {{{
+function! s:blend(fg, bg, opacity)
+    let fg = s:from_hex_color(a:fg)
+    let bg = s:from_hex_color(a:bg)
+    let opacity = a:opacity / 255.0
+
+    let result = {}
+
+    let result.r = fg.r * opacity + bg.r * (1 - opacity)
+    let result.g = fg.g * opacity + bg.g * (1 - opacity)
+    let result.b = fg.b * opacity + bg.b * (1 - opacity)
+
+    return s:to_hex_color(result)
+endfunction
+
+function! s:from_hex_color(color)
+    return {
+        \ 'r': ('0x' . a:color[1:2]) + 0,
+        \ 'g': ('0x' . a:color[3:4]) + 0,
+        \ 'b': ('0x' . a:color[5:]) + 0,
+    \ }
+endfunction
+
+function! s:to_hex_color(color)
+    let r = float2nr(round(a:color.r))
+    let g = float2nr(round(a:color.g))
+    let b = float2nr(round(a:color.b))
+
+    let r = r > 255 ? 255 : r
+    let g = g > 255 ? 255 : g
+    let b = b > 255 ? 255 : b
+
+    return printf('#%02x%02x%02x', r, g, b)
+endfunction
+" }}}
+
 " Note: The "blue" color is not used in this colorscheme because there's no
 " equivalent in the original Monokai, and it's not needed anyway.  It is
 " defined here as a matter of standardization; since it's recommended to change
 " the terminal colorscheme for better color fidelity, it's worth to specify a
 " blueish color to be used as a replacement for the 4th terminal color.
-let s:palette = {
-    \ 'NONE':        { 'gui': 'NONE',    'term': 'NONE', 'term_default': 'NONE' },
-    \ 'black':       { 'gui': '#24231d', 'term': 235,    'term_default': 0      },
-    \ 'darkgray':    { 'gui': '#36342b', 'term': 236,    'term_default': 8      },
-    \ 'lightgray':   { 'gui': '#6e6a57', 'term': 241,    'term_default': 7      },
-    \ 'white':       { 'gui': '#fff6cd', 'term': 230,    'term_default': 15     },
-    \ 'lime':        { 'gui': '#9fd304', 'term': 148,    'term_default': 2      },
-    \ 'yellow':      { 'gui': '#ebcc66', 'term': 185,    'term_default': 11     },
-    \ 'blue':        { 'gui': '#6f82d9', 'term': 68,     'term_default': 4      },
-    \ 'purple':      { 'gui': '#a773e2', 'term': 140,    'term_default': 5      },
-    \ 'cyan':        { 'gui': '#60bda8', 'term': 73,     'term_default': 6      },
-    \ 'orange':      { 'gui': '#f66d04', 'term': 202,    'term_default': 3      },
-    \ 'magenta':     { 'gui': '#f60461', 'term': 197,    'term_default': 1      },
-    \ 'darklime':    { 'gui': '#3b4318' },
-    \ 'darkyellow':  { 'gui': '#49422b' },
-    \ 'darkpurple':  { 'gui': '#3c3142' },
-    \ 'darkcyan':    { 'gui': '#2f3f37' },
-    \ 'darkmagenta': { 'gui': '#4b1c2a' }
-\ }
+let s:none      = { 'gui': 'NONE',    'term': 'NONE', 'term_default': 'NONE' }
+let s:black     = { 'gui': '#24231d', 'term': 235,    'term_default': 0      }
+let s:darkgray  = { 'gui': '#36342b', 'term': 236,    'term_default': 8      }
+let s:lightgray = { 'gui': '#6e6a57', 'term': 241,    'term_default': 7      }
+let s:white     = { 'gui': '#fff6cd', 'term': 230,    'term_default': 15     }
+let s:lime      = { 'gui': '#9fd304', 'term': 148,    'term_default': 10     }
+let s:yellow    = { 'gui': '#ebcc66', 'term': 185,    'term_default': 11     }
+let s:blue      = { 'gui': '#6f82d9', 'term': 68,     'term_default': 12     }
+let s:purple    = { 'gui': '#a773e2', 'term': 140,    'term_default': 13     }
+let s:cyan      = { 'gui': '#60bda8', 'term': 73,     'term_default': 14     }
+let s:orange    = { 'gui': '#f66d04', 'term': 202,    'term_default': 3      }
+let s:magenta   = { 'gui': '#f60461', 'term': 197,    'term_default': 9      }
+
+" These are only defined for GUI.
+let s:darklime    = { 'gui': s:blend(s:lime.gui,    s:black.gui, 48) }
+let s:darkyellow  = { 'gui': s:blend(s:yellow.gui,  s:black.gui, 48) }
+let s:darkpurple  = { 'gui': s:blend(s:purple.gui,  s:black.gui, 48) }
+let s:darkcyan    = { 'gui': s:blend(s:cyan.gui,    s:black.gui, 48) }
+let s:darkmagenta = { 'gui': s:blend(s:magenta.gui, s:black.gui, 48) }
 
 if !exists("g:rcabralc_colorscheme#transparent_background")
     let g:rcabralc_colorscheme#transparent_background = 0
@@ -52,12 +86,12 @@ if !exists("g:rcabralc_colorscheme#prominent_search_highlight")
 endif
 
 if g:rcabralc_colorscheme#transparent_background == 1
-    let s:palette['blackbg'] = { 'gui': 'NONE', 'term': 'NONE', 'term_default': 'NONE' }
+    let s:blackbg = { 'gui': 'NONE', 'term': 'NONE', 'term_default': 'NONE' }
 else
-    let s:palette['blackbg'] = {
-        \ 'gui': s:palette['black']['gui'],
-        \ 'term': s:palette['black']['term'],
-        \ 'term_default': s:palette['black']['term_default']
+    let s:blackbg = {
+        \ 'gui': s:black.gui,
+        \ 'term': s:black.term,
+        \ 'term_default': s:black.term_default
     \ }
 endif
 
@@ -68,10 +102,10 @@ else
 endif
 
 function! s:hl(group, fg, bg, ...)
-    let fg_color = s:palette[a:fg]
-    let bg_color = s:palette[a:bg]
-    let gui_fg = fg_color['gui']
-    let gui_bg = bg_color['gui']
+    let fg_color = a:fg
+    let bg_color = a:bg
+    let gui_fg = fg_color.gui
+    let gui_bg = bg_color.gui
     let term_fg = fg_color[s:term_key]
     let term_bg = bg_color[s:term_key]
     let gui_sp = ''
@@ -85,7 +119,7 @@ function! s:hl(group, fg, bg, ...)
         endif
 
         if a:0 > 2
-            let gui_sp = ' guisp=' . s:palette[a:3]['gui']
+            let gui_sp = ' guisp=' . a:3.gui
         endif
     else
         let gui_mod = 'NONE'
@@ -107,15 +141,15 @@ function! s:hl(group, fg, bg, ...)
 endfunction
 
 function! s:hl_gui(group, fg, bg, ...)
-    let gui_fg = s:palette[a:fg]['gui']
-    let gui_bg = s:palette[a:bg]['gui']
+    let gui_fg = a:fg.gui
+    let gui_bg = a:bg.gui
     let gui_sp = ''
 
     if a:0 > 0
         let gui_mod = a:1
 
         if a:0 > 2
-            let gui_sp = ' guisp=' . s:palette[a:3]['gui']
+            let gui_sp = ' guisp=' . a:3.gui
         endif
     else
         let gui_mod = 'NONE'
@@ -144,26 +178,27 @@ let g:colors_name = "rcabralc"
 " For testing:
 " :source $VIMRUNTIME/syntax/hitest.vim
 
-call s:hl('Normal',         'white',     'blackbg')
-call s:hl('Comment',        'lightgray', 'NONE')
+call s:hl('Normal',         s:white,     s:blackbg)
+call s:hl('Comment',        s:lightgray, s:none)
+call s:hl_gui('Comment',    s:lightgray, s:none, 'italic')
 "         *Comment        any comment
 
-call s:hl('Constant',       'purple',    'NONE', 'bold')
+call s:hl('Constant',       s:purple,    s:none, 'bold')
 "         *Constant       any constant
 "          String         a string constant: "this is a string"
 "          Character      a character constant: 'c', '\n'
 "          Number         a number constant: 234, 0xff
 "          Boolean        a boolean constant: TRUE, false
 "          Float          a floating point constant: 2.3e10
-call s:hl('String',         'yellow',    'NONE')
-call s:hl('Number',         'purple',    'NONE')
-call s:hl('Boolean',        'orange',    'NONE')
+call s:hl('String',         s:yellow,    s:none)
+call s:hl('Number',         s:purple,    s:none)
+call s:hl('Boolean',        s:orange,    s:none)
 
-call s:hl('Identifier',     'lime',      'NONE')
+call s:hl('Identifier',     s:lime,      s:none)
 "         *Identifier     any variable name
 "          Function       function name (also: methods for classes)
 
-call s:hl('Statement',      'magenta',   'NONE', 'bold')
+call s:hl('Statement',      s:magenta,   s:none, 'bold')
 "         *Statement      any statement
 "          Conditional    if, then, else, endif, switch, etc.
 "          Repeat         for, do, while, etc.
@@ -171,103 +206,103 @@ call s:hl('Statement',      'magenta',   'NONE', 'bold')
 "          Operator       "sizeof", "+", "*", etc.
 "          Keyword        any other keyword
 "          Exception      try, catch, throw
-call s:hl('Operator',       'magenta',   'NONE')
-call s:hl('Exception',      'lime',      'NONE', 'bold')
+call s:hl('Operator',       s:magenta,   s:none)
+call s:hl('Exception',      s:lime,      s:none, 'bold')
 
-call s:hl('PreProc',        'magenta',   'NONE', 'bold')
+call s:hl('PreProc',        s:magenta,   s:none, 'bold')
 "         *PreProc        generic Preprocessor
 "          Include        preprocessor #include
 "          Define         preprocessor #define
 "          Macro          same as Define
 "          PreCondit      preprocessor #if, #else, #endif, etc.
 
-call s:hl('Type',           'cyan',      'NONE', 'bold')
+call s:hl('Type',           s:cyan,      s:none, 'bold')
 "         *Type           int, long, char, etc.
 "          StorageClass   static, register, volatile, etc.
 "          Structure      struct, union, enum, etc.
 "          Typedef        A typedef
-call s:hl('StorageClass',   'magenta',   'NONE', 'bold')
+call s:hl('StorageClass',   s:magenta,   s:none, 'bold')
 
-call s:hl('Special',        'orange',    'NONE')
+call s:hl('Special',        s:orange,    s:none)
 "         *Special        any special symbol
 "          SpecialChar    special character in a constant
 "          Tag            you can use CTRL-] on this
 "          Delimiter      character that needs attention
 "          SpecialComment special things inside a comment
 "          Debug          debugging statements
-call s:hl('Tag',            'magenta',   'NONE', 'bold')
-call s:hl('SpecialComment', 'white',     'NONE', 'bold')
+call s:hl('Tag',            s:magenta,   s:none, 'bold')
+call s:hl('SpecialComment', s:white,     s:none, 'bold')
 
-call s:hl('Underlined',     'NONE',      'NONE', 'underline')
+call s:hl('Underlined',     s:none,      s:none, 'underline')
 "         *Underlined     text that stands out, HTML links
 
-call s:hl('Ignore',         'NONE',      'NONE')
+call s:hl('Ignore',         s:none,      s:none)
 "         *Ignore         left blank, hidden |hl-Ignore|
 
-call s:hl('Error',          'magenta',   'NONE', 'bold,reverse')
+call s:hl('Error',          s:magenta,   s:none, 'bold,reverse')
 "         *Error          any erroneous construct
 
-call s:hl('Todo',           'white',     'NONE', 'bold')
+call s:hl('Todo',           s:white,     s:none, 'bold')
 "         *Todo           anything that needs extra attention; mostly the
 "                         keywords TODO FIXME and XXX
 
 
 " Extended highlighting
-call s:hl('SpecialKey',   'orange',    'NONE')
-call s:hl('NonText',      'darkgray',  'NONE')
-call s:hl('StatusLine',   'white',     'darkgray',  'bold')
-call s:hl('StatusLineNC', 'black',     'lightgray')
-call s:hl('Visual',       'NONE',      'darkgray')
-call s:hl('Directory',    'purple',    'NONE')
-call s:hl('ErrorMsg',     'white',     'magenta',   'bold')
-call s:hl('IncSearch',    'NONE',      'NONE',      'underline')
+call s:hl('SpecialKey',   s:orange,    s:none)
+call s:hl('NonText',      s:darkgray,  s:none)
+call s:hl('StatusLine',   s:white,     s:darkgray,  'bold')
+call s:hl('StatusLineNC', s:black,     s:lightgray)
+call s:hl('Visual',       s:none,      s:darkgray)
+call s:hl('Directory',    s:purple,    s:none)
+call s:hl('ErrorMsg',     s:magenta,   s:blackbg,   'bold')
+call s:hl('IncSearch',    s:none,      s:none,      'underline')
 
 if g:rcabralc_colorscheme#prominent_search_highlight
-    call s:hl('Search',       'NONE',      'NONE',      'reverse')
+    call s:hl('Search',       s:none,      s:none,      'reverse')
 else
-    call s:hl('Search',       'NONE',      'darkgray',  'underline')
+    call s:hl('Search',       s:none,      s:darkgray,  'underline')
 endif
 
-call s:hl('MoreMsg',      'black',     'cyan')
-call s:hl('ModeMsg',      'lime',      'blackbg')
-call s:hl('LineNr',       'lightgray', 'blackbg')
-call s:hl('Question',     'cyan',      'NONE',      'bold')
-call s:hl('VertSplit',    'lightgray', 'darkgray')
-call s:hl('Title',        'white',     'NONE',      'bold')
-call s:hl('VisualNOS',    'black',     'white')
-call s:hl('WarningMsg',   'black',     'orange')
-call s:hl('WildMenu',     'cyan',      'blackbg')
-call s:hl('Folded',       'lightgray', 'blackbg')
-call s:hl('FoldColumn',   'lightgray', 'blackbg')
-call s:hl('DiffAdd',      'lime',      'NONE',      'bold')
-call s:hl('DiffChange',   'purple',    'NONE',      'bold')
-call s:hl('DiffDelete',   'magenta',   'NONE',      'bold')
-call s:hl('DiffText',     'yellow',    'NONE',      'bold')
-call s:hl('SignColumn',   'lime',      'blackbg')
-call s:hl('Conceal',      'darkgray',  'NONE')
-call s:hl('SpellBad',     'NONE',      'NONE',      'undercurl', 'NONE', 'magenta')
-call s:hl('SpellCap',     'NONE',      'NONE',      'undercurl', 'NONE', 'cyan')
-call s:hl('SpellRare',    'NONE',      'NONE',      'undercurl', 'NONE', 'white')
-call s:hl('SpellLocal',   'NONE',      'NONE',      'undercurl', 'NONE', 'orange')
-call s:hl('Pmenu',        'darkgray',  'white')
-call s:hl('PmenuSel',     'orange',    'darkgray',  'bold')
-call s:hl('PmenuSbar',    'NONE',      'lightgray')
-call s:hl('PmenuThumb',   'NONE',      'darkgray')
-call s:hl('TabLine',      'black',     'lightgray')
-call s:hl('TabLineFill',  'lightgray', 'lightgray')
-call s:hl('TabLineSel',   'white',     'darkgray',  'bold')
-call s:hl('CursorColumn', 'NONE',      'darkgray')
-call s:hl('CursorLine',   'NONE',      'darkgray')
-call s:hl('CursorLineNr', 'lime',      'blackbg')
-call s:hl('ColorColumn',  'NONE',      'darkgray')
-call s:hl('Cursor',       'black',     'white')
+call s:hl('MoreMsg',      s:cyan,      s:blackbg)
+call s:hl('ModeMsg',      s:lime,      s:blackbg)
+call s:hl('LineNr',       s:lightgray, s:blackbg)
+call s:hl('Question',     s:cyan,      s:none,      'bold')
+call s:hl('VertSplit',    s:lightgray, s:darkgray)
+call s:hl('Title',        s:white,     s:none,      'bold')
+call s:hl('VisualNOS',    s:black,     s:white)
+call s:hl('WarningMsg',   s:orange,    s:blackbg)
+call s:hl('WildMenu',     s:cyan,      s:blackbg)
+call s:hl('Folded',       s:lightgray, s:blackbg)
+call s:hl('FoldColumn',   s:lightgray, s:blackbg)
+call s:hl('DiffAdd',      s:lime,      s:none,      'bold')
+call s:hl('DiffChange',   s:purple,    s:none,      'bold')
+call s:hl('DiffDelete',   s:magenta,   s:none,      'bold')
+call s:hl('DiffText',     s:yellow,    s:none,      'bold')
+call s:hl('SignColumn',   s:lime,      s:blackbg)
+call s:hl('Conceal',      s:darkgray,  s:none)
+call s:hl('SpellBad',     s:none,      s:none,      'undercurl', 'NONE', s:magenta)
+call s:hl('SpellCap',     s:none,      s:none,      'undercurl', 'NONE', s:cyan)
+call s:hl('SpellRare',    s:none,      s:none,      'undercurl', 'NONE', s:white)
+call s:hl('SpellLocal',   s:none,      s:none,      'undercurl', 'NONE', s:orange)
+call s:hl('Pmenu',        s:darkgray,  s:white)
+call s:hl('PmenuSel',     s:orange,    s:darkgray,  'bold')
+call s:hl('PmenuSbar',    s:none,      s:lightgray)
+call s:hl('PmenuThumb',   s:none,      s:darkgray)
+call s:hl('TabLine',      s:black,     s:lightgray)
+call s:hl('TabLineFill',  s:lightgray, s:lightgray)
+call s:hl('TabLineSel',   s:white,     s:darkgray,  'bold')
+call s:hl('CursorColumn', s:none,      s:darkgray)
+call s:hl('CursorLine',   s:none,      s:darkgray)
+call s:hl('CursorLineNr', s:lime,      s:blackbg)
+call s:hl('ColorColumn',  s:none,      s:darkgray)
+call s:hl('Cursor',       s:black,     s:white)
 hi! link lCursor Cursor
-call s:hl('MatchParen',   'NONE',      'NONE',      'reverse,underline')
+call s:hl('MatchParen',   s:none,      s:none,      'reverse,underline')
 
-call s:hl_gui('DiffAdd',    'NONE',        'darklime')
-call s:hl_gui('DiffChange', 'NONE',        'darkpurple')
-call s:hl_gui('DiffDelete', 'darkmagenta', 'darkmagenta')
-call s:hl_gui('DiffText',   'white',       'darkyellow', 'bold')
+call s:hl_gui('DiffAdd',    s:none,        s:darklime)
+call s:hl_gui('DiffChange', s:none,        s:darkpurple)
+call s:hl_gui('DiffDelete', s:none,        s:darkmagenta)
+call s:hl_gui('DiffText',   s:white,       s:darkyellow, 'bold')
 
 " Must be at the end due to a bug in VIM trying to figuring out automagically
 " if the background set through Normal highlight group is dark or light.
@@ -275,7 +310,7 @@ call s:hl_gui('DiffText',   'white',       'darkyellow', 'bold')
 set background=dark
 
 " Additions for vim-gitgutter
-call s:hl('GitGutterAdd',          'lime',    'NONE')
-call s:hl('GitGutterChange',       'purple',  'NONE')
-call s:hl('GitGutterDelete',       'magenta', 'NONE')
-call s:hl('GitGutterChangeDelete', 'magenta', 'NONE')
+call s:hl('GitGutterAdd',          s:lime,    s:none)
+call s:hl('GitGutterChange',       s:purple,  s:none)
+call s:hl('GitGutterDelete',       s:magenta, s:none)
+call s:hl('GitGutterChangeDelete', s:magenta, s:none)
