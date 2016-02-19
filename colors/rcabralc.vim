@@ -85,6 +85,10 @@ if !exists("g:rcabralc_colorscheme#prominent_search_highlight")
     let g:rcabralc_colorscheme#prominent_search_highlight = 1
 endif
 
+if !exists("g:rcabralc_colorscheme#allow_italics")
+    let g:rcabralc_colorscheme#allow_italics = 0
+endif
+
 if g:rcabralc_colorscheme#transparent_background == 1
     let s:blackbg = { 'gui': 'NONE', 'term': 'NONE', 'term_default': 'NONE' }
 else
@@ -180,8 +184,13 @@ let g:colors_name = "rcabralc"
 
 call s:hl('Normal',         s:white,     s:blackbg)
 call s:hl('Comment',        s:lightgray, s:none)
-call s:hl_gui('Comment',    s:lightgray, s:none, 'italic')
-"         *Comment        any comment
+
+if g:rcabralc_colorscheme#allow_italics
+    "             *Comment        any comment
+    call s:hl_gui('Comment', s:lightgray, s:none, 'italic')
+else
+    call s:hl_gui('Comment', s:lightgray, s:none)
+endif
 
 call s:hl('Constant',       s:purple,    s:none, 'bold')
 "         *Constant       any constant
