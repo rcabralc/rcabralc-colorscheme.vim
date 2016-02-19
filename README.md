@@ -42,7 +42,7 @@ Color index    | Color value
 Then set this in your `vimrc` file (before setting the color scheme):
 
 ```
-let g:rcabralc_colorscheme#use_default_term_colors = 1
+let g:rcabralc#use_default_term_colors = 1
 ```
 
 Please note that if you skip the terminal palette customization, the results
@@ -59,7 +59,7 @@ inside Vim.  Set this in your `vimrc` file (before setting the color scheme):
 
 ```
 if !has('gui_running')
-  let g:rcabralc_colorscheme#transparent_background = 1
+  let g:rcabralc#transparent_background = 1
 endif
 ```
 

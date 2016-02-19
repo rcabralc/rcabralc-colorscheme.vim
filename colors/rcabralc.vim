@@ -48,6 +48,22 @@ function! s:to_hex_color(color)
 endfunction
 " }}}
 
+if !exists("g:rcabralc#transparent_background")
+    let g:rcabralc#transparent_background = 0
+endif
+
+if !exists("g:rcabralc#use_default_term_colors")
+    let g:rcabralc#use_default_term_colors = 0
+endif
+
+if !exists("g:rcabralc#prominent_search_highlight")
+    let g:rcabralc#prominent_search_highlight = 1
+endif
+
+if !exists("g:rcabralc#allow_italics")
+    let g:rcabralc#allow_italics = 0
+endif
+
 " Note: The "blue" color is not used in this colorscheme because there's no
 " equivalent in the original Monokai, and it's not needed anyway.  It is
 " defined here as a matter of standardization; since it's recommended to change
@@ -73,23 +89,7 @@ let s:darkpurple  = { 'gui': s:blend(s:purple.gui,  s:black.gui, 48) }
 let s:darkcyan    = { 'gui': s:blend(s:cyan.gui,    s:black.gui, 48) }
 let s:darkmagenta = { 'gui': s:blend(s:magenta.gui, s:black.gui, 48) }
 
-if !exists("g:rcabralc_colorscheme#transparent_background")
-    let g:rcabralc_colorscheme#transparent_background = 0
-endif
-
-if !exists("g:rcabralc_colorscheme#use_default_term_colors")
-    let g:rcabralc_colorscheme#use_default_term_colors = 0
-endif
-
-if !exists("g:rcabralc_colorscheme#prominent_search_highlight")
-    let g:rcabralc_colorscheme#prominent_search_highlight = 1
-endif
-
-if !exists("g:rcabralc_colorscheme#allow_italics")
-    let g:rcabralc_colorscheme#allow_italics = 0
-endif
-
-if g:rcabralc_colorscheme#transparent_background == 1
+if g:rcabralc#transparent_background == 1
     let s:blackbg = { 'gui': 'NONE', 'term': 'NONE', 'term_default': 'NONE' }
 else
     let s:blackbg = {
@@ -99,13 +99,13 @@ else
     \ }
 endif
 
-if g:rcabralc_colorscheme#use_default_term_colors == 1
+if g:rcabralc#use_default_term_colors == 1
     let s:term_key = 'term_default'
 else
     let s:term_key = 'term'
 endif
 
-function! s:hl(group, fg, bg, ...)
+function! rcabralc#hl(group, fg, bg, ...)
     let fg_color = a:fg
     let bg_color = a:bg
     let gui_fg = fg_color.gui
@@ -143,8 +143,9 @@ function! s:hl(group, fg, bg, ...)
         \ " gui="     . gui_mod .
         \ gui_sp
 endfunction
+let s:hl = function('rcabralc#hl')
 
-function! s:hl_gui(group, fg, bg, ...)
+function! rcabralc#hlgui(group, fg, bg, ...)
     let gui_fg = a:fg.gui
     let gui_bg = a:bg.gui
     let gui_sp = ''
@@ -165,6 +166,7 @@ function! s:hl_gui(group, fg, bg, ...)
         \ " gui="     . gui_mod .
         \ gui_sp
 endfunction
+let s:hlgui = function('rcabralc#hlgui')
 
 hi clear
 if exists("syntax on")
@@ -185,11 +187,11 @@ let g:colors_name = "rcabralc"
 call s:hl('Normal',         s:white,     s:blackbg)
 call s:hl('Comment',        s:lightgray, s:none)
 
-if g:rcabralc_colorscheme#allow_italics
-    "             *Comment        any comment
-    call s:hl_gui('Comment', s:lightgray, s:none, 'italic')
+if g:rcabralc#allow_italics
+    "            *Comment        any comment
+    call s:hlgui('Comment', s:lightgray, s:none, 'italic')
 else
-    call s:hl_gui('Comment', s:lightgray, s:none)
+    call s:hlgui('Comment', s:lightgray, s:none)
 endif
 
 call s:hl('Constant',       s:purple,    s:none, 'bold')
@@ -266,7 +268,7 @@ call s:hl('Directory',    s:purple,    s:none)
 call s:hl('ErrorMsg',     s:magenta,   s:blackbg,   'bold')
 call s:hl('IncSearch',    s:none,      s:none,      'underline')
 
-if g:rcabralc_colorscheme#prominent_search_highlight
+if g:rcabralc#prominent_search_highlight
     call s:hl('Search',       s:none,      s:none,      'reverse')
 else
     call s:hl('Search',       s:none,      s:darkgray,  'underline')
@@ -308,10 +310,10 @@ call s:hl('Cursor',       s:black,     s:white)
 hi! link lCursor Cursor
 call s:hl('MatchParen',   s:none,      s:none,      'reverse,underline')
 
-call s:hl_gui('DiffAdd',    s:none,        s:darklime)
-call s:hl_gui('DiffChange', s:none,        s:darkpurple)
-call s:hl_gui('DiffDelete', s:none,        s:darkmagenta)
-call s:hl_gui('DiffText',   s:white,       s:darkyellow, 'bold')
+call s:hlgui('DiffAdd',    s:none,        s:darklime)
+call s:hlgui('DiffChange', s:none,        s:darkpurple)
+call s:hlgui('DiffDelete', s:none,        s:darkmagenta)
+call s:hlgui('DiffText',   s:white,       s:darkyellow, 'bold')
 
 " Must be at the end due to a bug in VIM trying to figuring out automagically
 " if the background set through Normal highlight group is dark or light.
