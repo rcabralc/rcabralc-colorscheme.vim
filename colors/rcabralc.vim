@@ -325,3 +325,24 @@ call s:hl('GitGutterAdd',          s:lime,    s:none)
 call s:hl('GitGutterChange',       s:purple,  s:none)
 call s:hl('GitGutterDelete',       s:magenta, s:none)
 call s:hl('GitGutterChangeDelete', s:magenta, s:none)
+
+" Export palette
+let g:rcabralc#palette = {}
+let g:rcabralc#palette.none        = s:none
+let g:rcabralc#palette.black       = s:black
+let g:rcabralc#palette.darkgray    = s:darkgray
+let g:rcabralc#palette.lightgray   = s:lightgray
+let g:rcabralc#palette.white       = s:white
+let g:rcabralc#palette.lime        = s:lime
+let g:rcabralc#palette.yellow      = s:yellow
+let g:rcabralc#palette.blue        = s:blue
+let g:rcabralc#palette.purple      = s:purple
+let g:rcabralc#palette.cyan        = s:cyan
+let g:rcabralc#palette.orange      = s:orange
+let g:rcabralc#palette.magenta     = s:magenta
+let g:rcabralc#palette.darklime    = s:darklime
+let g:rcabralc#palette.darkyellow  = s:darkyellow
+let g:rcabralc#palette.darkpurple  = s:darkpurple
+let g:rcabralc#palette.darkcyan    = s:darkcyan
+let g:rcabralc#palette.darkmagenta = s:darkmagenta
+let g:rcabralc#palette.blackbg     = s:blackbg
