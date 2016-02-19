@@ -260,9 +260,9 @@ call s:hl('Todo',           s:white,     s:none, 'bold')
 
 " Extended highlighting
 call s:hl('SpecialKey',   s:orange,    s:none)
-call s:hl('NonText',      s:darkgray,  s:none)
+call s:hl('NonText',      s:lightgray, s:none)
 call s:hl('StatusLine',   s:white,     s:darkgray,  'bold')
-call s:hl('StatusLineNC', s:black,     s:lightgray)
+call s:hl('StatusLineNC', s:lightgray, s:darkgray)
 call s:hl('Visual',       s:none,      s:darkgray)
 call s:hl('Directory',    s:purple,    s:none)
 call s:hl('ErrorMsg',     s:magenta,   s:blackbg,   'bold')
