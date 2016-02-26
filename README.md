@@ -21,9 +21,8 @@ to their equivalent ones in the Xterm 256 colors palette (this approximation
 can be improved in further versions).  If that approximation is good enough
 for you (just test it and see), you don't need to configure anything else.
 
-However, for more fidelity to the GUI version, or for terminals which don't
-support the Xterm 256 colors palette but can render 16 colors, customize your
-default terminal colors as the following:
+However, for more fidelity to the GUI version, customize your default terminal
+colors as the following:
 
 Color index    | Color value
 -------------- | -----------
