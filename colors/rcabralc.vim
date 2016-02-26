@@ -249,10 +249,11 @@ endif
 "         Number         a number constant: 234, 0xff
 "         Boolean        a boolean constant: TRUE, false
 "         Float          a floating point constant: 2.3e10
-call g:rcabralc#hl('Constant', s:purple, s:none, 'bold')
-call g:rcabralc#hl('String',   s:yellow, s:none)
-call g:rcabralc#hl('Number',   s:purple, s:none)
-call g:rcabralc#hl('Boolean',  s:orange, s:none)
+call g:rcabralc#hl('Constant',  s:purple, s:none, 'bold')
+call g:rcabralc#hl('Character', s:purple, s:none)
+call g:rcabralc#hl('String',    s:yellow, s:none)
+call g:rcabralc#hl('Number',    s:purple, s:none)
+call g:rcabralc#hl('Boolean',   s:orange, s:none)
 
 "        *Identifier     any variable name
 "         Function       function name (also: methods for classes)
@@ -290,8 +291,9 @@ call g:rcabralc#hl('StorageClass', s:magenta, s:none, 'bold')
 "         SpecialComment special things inside a comment
 "         Debug          debugging statements
 call g:rcabralc#hl('Special',        s:orange,  s:none)
-call g:rcabralc#hl('Tag',            s:magenta, s:none, 'bold')
+call g:rcabralc#hl('Tag',            s:cyan,    s:none, 'bold')
 call g:rcabralc#hl('SpecialComment', s:white,   s:none, 'bold')
+call g:rcabralc#hl('Debug',          s:purple,  s:none)
 
 "        *Underlined     text that stands out, HTML links
 call g:rcabralc#hl('Underlined', s:none, s:none, 'underline')
