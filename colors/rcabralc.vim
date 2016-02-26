@@ -234,77 +234,77 @@ let g:colors_name = "rcabralc"
 " For testing:
 " :source $VIMRUNTIME/syntax/hitest.vim
 
-call g:rcabralc#hl('Normal',         s:white,     s:blackbg)
+call g:rcabralc#hl('Normal', s:white, s:blackbg)
 
+"        *Comment        any comment
 if g:rcabralc#allow_italics
-    "            *Comment        any comment
-call g:rcabralc#hl('Comment',        s:lightgray, s:none,   'italic')
+call g:rcabralc#hl('Comment', s:lightgray, s:none, 'italic')
 else
-call g:rcabralc#hl('Comment',        s:lightgray, s:none)
+call g:rcabralc#hl('Comment', s:lightgray, s:none)
 endif
 
-call g:rcabralc#hl('Constant',       s:purple,    s:none,   'bold')
-"         *Constant       any constant
-"          String         a string constant: "this is a string"
-"          Character      a character constant: 'c', '\n'
-"          Number         a number constant: 234, 0xff
-"          Boolean        a boolean constant: TRUE, false
-"          Float          a floating point constant: 2.3e10
-call g:rcabralc#hl('String',         s:yellow,    s:none)
-call g:rcabralc#hl('Number',         s:purple,    s:none)
-call g:rcabralc#hl('Boolean',        s:orange,    s:none)
+"        *Constant       any constant
+"         String         a string constant: "this is a string"
+"         Character      a character constant: 'c', '\n'
+"         Number         a number constant: 234, 0xff
+"         Boolean        a boolean constant: TRUE, false
+"         Float          a floating point constant: 2.3e10
+call g:rcabralc#hl('Constant', s:purple, s:none, 'bold')
+call g:rcabralc#hl('String',   s:yellow, s:none)
+call g:rcabralc#hl('Number',   s:purple, s:none)
+call g:rcabralc#hl('Boolean',  s:orange, s:none)
 
-call g:rcabralc#hl('Identifier',     s:lime,      s:none)
-"         *Identifier     any variable name
-"          Function       function name (also: methods for classes)
+"        *Identifier     any variable name
+"         Function       function name (also: methods for classes)
+call g:rcabralc#hl('Identifier', s:lime, s:none)
 
-call g:rcabralc#hl('Statement',      s:magenta,   s:none,   'bold')
-"         *Statement      any statement
-"          Conditional    if, then, else, endif, switch, etc.
-"          Repeat         for, do, while, etc.
-"          Label          case, default, etc.
-"          Operator       "sizeof", "+", "*", etc.
-"          Keyword        any other keyword
-"          Exception      try, catch, throw
-call g:rcabralc#hl('Operator',       s:magenta,   s:none)
-call g:rcabralc#hl('Exception',      s:lime,      s:none,   'bold')
+"        *Statement      any statement
+"         Conditional    if, then, else, endif, switch, etc.
+"         Repeat         for, do, while, etc.
+"         Label          case, default, etc.
+"         Operator       "sizeof", "+", "*", etc.
+"         Keyword        any other keyword
+"         Exception      try, catch, throw
+call g:rcabralc#hl('Statement', s:magenta, s:none, 'bold')
+call g:rcabralc#hl('Operator',  s:magenta, s:none)
+call g:rcabralc#hl('Exception', s:lime,    s:none, 'bold')
 
-call g:rcabralc#hl('PreProc',        s:magenta,   s:none,   'bold')
-"         *PreProc        generic Preprocessor
-"          Include        preprocessor #include
-"          Define         preprocessor #define
-"          Macro          same as Define
-"          PreCondit      preprocessor #if, #else, #endif, etc.
+"        *PreProc        generic Preprocessor
+"         Include        preprocessor #include
+"         Define         preprocessor #define
+"         Macro          same as Define
+"         PreCondit      preprocessor #if, #else, #endif, etc.
+call g:rcabralc#hl('PreProc', s:magenta, s:none, 'bold')
 
-call g:rcabralc#hl('Type',           s:cyan,      s:none,   'bold')
-"         *Type           int, long, char, etc.
-"          StorageClass   static, register, volatile, etc.
-"          Structure      struct, union, enum, etc.
-"          Typedef        A typedef
-call g:rcabralc#hl('StorageClass',   s:magenta,   s:none,   'bold')
+"        *Type           int, long, char, etc.
+"         StorageClass   static, register, volatile, etc.
+"         Structure      struct, union, enum, etc.
+"         Typedef        A typedef
+call g:rcabralc#hl('Type',         s:cyan,    s:none, 'bold')
+call g:rcabralc#hl('StorageClass', s:magenta, s:none, 'bold')
 
-call g:rcabralc#hl('Special',        s:orange,    s:none)
-"         *Special        any special symbol
-"          SpecialChar    special character in a constant
-"          Tag            you can use CTRL-] on this
-"          Delimiter      character that needs attention
-"          SpecialComment special things inside a comment
-"          Debug          debugging statements
-call g:rcabralc#hl('Tag',            s:magenta,   s:none,   'bold')
-call g:rcabralc#hl('SpecialComment', s:white,     s:none,   'bold')
+"        *Special        any special symbol
+"         SpecialChar    special character in a constant
+"         Tag            you can use CTRL-] on this
+"         Delimiter      character that needs attention
+"         SpecialComment special things inside a comment
+"         Debug          debugging statements
+call g:rcabralc#hl('Special',        s:orange,  s:none)
+call g:rcabralc#hl('Tag',            s:magenta, s:none, 'bold')
+call g:rcabralc#hl('SpecialComment', s:white,   s:none, 'bold')
 
-call g:rcabralc#hl('Underlined',     s:none,      s:none,   'underline')
-"         *Underlined     text that stands out, HTML links
+"        *Underlined     text that stands out, HTML links
+call g:rcabralc#hl('Underlined', s:none, s:none, 'underline')
 
-call g:rcabralc#hl('Ignore',         s:none,      s:none)
-"         *Ignore         left blank, hidden |hl-Ignore|
+"        *Ignore         left blank, hidden  |hl-Ignore|
+call g:rcabralc#hl('Ignore', s:none, s:none)
 
-call g:rcabralc#hl('Error',          s:magenta,   s:none,   'bold,reverse')
-"         *Error          any erroneous construct
+"        *Error          any erroneous construct
+call g:rcabralc#hl('Error', s:magenta, s:none, 'bold,reverse')
 
-call g:rcabralc#hl('Todo',           s:white,     s:none,   'bold')
-"         *Todo           anything that needs extra attention; mostly the
-"                         keywords TODO FIXME and XXX
+"        *Todo           anything that needs extra attention; mostly the
+"                        keywords TODO FIXME and XXX
+call g:rcabralc#hl('Todo', s:white, s:none, 'bold')
 
 
 " Extended highlighting
