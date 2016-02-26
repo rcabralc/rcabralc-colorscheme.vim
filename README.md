@@ -15,11 +15,12 @@ colorscheme rcabralc
 
 ## Terminal colors
 
-This color scheme was built for the GUI version.  For terminals which can
-render 256 colors, there is a palette which approximate the GUI version colors
-to their equivalent ones in the Xterm 256 colors palette (this approximation
-can be improved in further versions).  If that approximation is good enough
-for you (just test it and see), you don't need to configure anything else.
+This color scheme was built mainly for the GUI version.  For terminals which
+can render 256 colors, there is a palette which approximate the GUI version
+colors to their equivalent ones in the Xterm 256 colors palette (this
+approximation can be improved in further versions).  If that approximation is
+good enough for you (just test it and see), you don't need to configure
+anything else.  Just be sure to `set t_Co=256` in your `.vimrc`.
 
 However, for more fidelity to the GUI version, customize your default terminal
 colors as the following:
