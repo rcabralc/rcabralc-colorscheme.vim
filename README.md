@@ -27,17 +27,17 @@ colors as the following:
 
 Color index    | Color value
 -------------- | -----------
-0, Background  | `#24231d`
+0, Background  | `#25231d`
 1, 9           | `#ff0569`
 2, 10          | `#9fd304`
 3,             | `#f66d04`
 4, 12          | `#6f82d9`
 5, 13          | `#a773e2`
 6, 14          | `#60bda8`
-7              | `#6e6a57`
-8              | `#36342b`
+7              | `#696352`
+8              | `#36332a`
 11             | `#ebcc66`
-15, Foreground | `#fff6cd`
+15, Foreground | `#fff2c8`
 
 Then set this in your `vimrc` file (before setting the color scheme):
 

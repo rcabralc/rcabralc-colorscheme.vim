@@ -94,28 +94,6 @@ function! s:build_xterm_cube(defaults)
     return palette
 endfunction
 
-" These colors match the GUI colors, and are the recommended settings for
-" terminal emulators (see README.md).
-if g:rcabralc#use_default_term_colors == 1
-    let s:recommended_default_xterm_colors = {
-        \ 0 : s:from_hex_color('#24231d'),
-        \ 3 : s:from_hex_color('#f66d04'),
-        \ 7 : s:from_hex_color('#6e6a57'),
-        \ 8 : s:from_hex_color('#36342b'),
-        \ 9 : s:from_hex_color('#f60461'),
-        \ 10: s:from_hex_color('#9fd304'),
-        \ 11: s:from_hex_color('#ebcc66'),
-        \ 12: s:from_hex_color('#6f82d9'),
-        \ 13: s:from_hex_color('#a773e2'),
-        \ 14: s:from_hex_color('#60bda8'),
-        \ 15: s:from_hex_color('#fff6cd'),
-    \ }
-else
-    let s:recommended_default_xterm_colors = {}
-endif
-
-let s:xterm_palette = s:build_xterm_cube(s:recommended_default_xterm_colors)
-
 function! s:color_to_xterm(color)
     let best = { 'dist2': pow(255, 3) + 1 }
 
@@ -156,17 +134,52 @@ endfunction
 " the terminal colorscheme for better color fidelity, it's worth to specify a
 " blueish color to be used as a replacement for the 4th terminal color.
 let s:none      = { 'gui': 'NONE', 'term': 'NONE', }
-let s:black     = s:color_with_term(s:from_hex_color('#24231d'))
-let s:darkgray  = s:color_with_term(s:from_hex_color('#36342b'))
-let s:lightgray = s:color_with_term(s:from_hex_color('#6e6a57'))
-let s:white     = s:color_with_term(s:from_hex_color('#fff6cd'))
-let s:lime      = s:color_with_term(s:from_hex_color('#9fd304'))
-let s:yellow    = s:color_with_term(s:from_hex_color('#ebcc66'))
-let s:blue      = s:color_with_term(s:from_hex_color('#6f82d9'))
-let s:purple    = s:color_with_term(s:from_hex_color('#a773e2'))
-let s:cyan      = s:color_with_term(s:from_hex_color('#60bda8'))
-let s:orange    = s:color_with_term(s:from_hex_color('#f66d04'))
-let s:magenta   = s:color_with_term(s:from_hex_color('#f60461'))
+let s:black     = s:from_hex_color('#25231d')
+let s:darkgray  = s:from_hex_color('#36332a')
+let s:lightgray = s:from_hex_color('#696352')
+let s:white     = s:from_hex_color('#fff2c8')
+let s:lime      = s:from_hex_color('#9fd304')
+let s:yellow    = s:from_hex_color('#ebcc66')
+let s:blue      = s:from_hex_color('#6f82d9')
+let s:purple    = s:from_hex_color('#a773e2')
+let s:cyan      = s:from_hex_color('#60bda8')
+let s:orange    = s:from_hex_color('#f66d04')
+let s:magenta   = s:from_hex_color('#f60461')
+
+" These colors match the GUI colors, and are the recommended settings for
+" terminal emulators (see README.md).
+if g:rcabralc#use_default_term_colors == 1
+    let s:recommended_default_xterm_colors = {
+        \ 0 : s:black,
+        \ 3 : s:orange,
+        \ 7 : s:lightgray,
+        \ 8 : s:darkgray,
+        \ 9 : s:magenta,
+        \ 10: s:lime,
+        \ 11: s:yellow,
+        \ 12: s:blue,
+        \ 13: s:purple,
+        \ 14: s:cyan,
+        \ 15: s:white,
+    \ }
+else
+    let s:recommended_default_xterm_colors = {}
+endif
+
+let s:xterm_palette = s:build_xterm_cube(s:recommended_default_xterm_colors)
+
+" Redefine the colors, now with xterm approximations.
+let s:black     = s:color_with_term(s:black)
+let s:darkgray  = s:color_with_term(s:darkgray)
+let s:lightgray = s:color_with_term(s:lightgray)
+let s:white     = s:color_with_term(s:white)
+let s:lime      = s:color_with_term(s:lime)
+let s:yellow    = s:color_with_term(s:yellow)
+let s:blue      = s:color_with_term(s:blue)
+let s:purple    = s:color_with_term(s:purple)
+let s:cyan      = s:color_with_term(s:cyan)
+let s:orange    = s:color_with_term(s:orange)
+let s:magenta   = s:color_with_term(s:magenta)
 
 let s:darklime    = s:color_with_term(s:blend(s:lime,     s:black, 0.0625))
 let s:darkpurple  = s:color_with_term(s:blend(s:purple,   s:black, 0.0625))
