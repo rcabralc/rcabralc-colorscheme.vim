@@ -6,20 +6,24 @@
 "         contrast between colors and white.
 
 
-if !exists("g:rcabralc#transparent_background")
-    let g:rcabralc#transparent_background = 0
+if !exists('g:rcabralc')
+    let g:rcabralc = {}
 endif
 
-if !exists("g:rcabralc#use_default_term_colors")
-    let g:rcabralc#use_default_term_colors = 0
+if !exists("g:rcabralc.transparent_background")
+    let g:rcabralc.transparent_background = 0
 endif
 
-if !exists("g:rcabralc#prominent_search_highlight")
-    let g:rcabralc#prominent_search_highlight = 1
+if !exists("g:rcabralc.use_default_term_colors")
+    let g:rcabralc.use_default_term_colors = 0
 endif
 
-if !exists("g:rcabralc#allow_italics")
-    let g:rcabralc#allow_italics = 0
+if !exists("g:rcabralc.prominent_search_highlight")
+    let g:rcabralc.prominent_search_highlight = 1
+endif
+
+if !exists("g:rcabralc.allow_italics")
+    let g:rcabralc.allow_italics = 0
 endif
 
 " {{{
@@ -283,7 +287,7 @@ endfunction
 " defined here as a matter of standardization; since it's recommended to change
 " the terminal colorscheme for better color fidelity, it's worth to specify a
 " blueish color to be used as a replacement for the 4th terminal color.
-let s:def_term = g:rcabralc#use_default_term_colors
+let s:def_term = g:rcabralc.use_default_term_colors
 
 let s:none      = { 'gui': 'NONE', 'term': 'NONE', }
 let s:black     = s:build_color('#25231d', s:def_term ? { 'term': 0  } : {})
@@ -303,7 +307,7 @@ let s:darkpurple  = s:blend(s:purple,  s:black, 0.0625)
 let s:darkmagenta = s:blend(s:magenta, s:black, 0.0625)
 let s:darkergray  = s:blend(s:white,   s:black, 0.04)
 
-if g:rcabralc#transparent_background == 1
+if g:rcabralc.transparent_background == 1
     let s:blackbg = { 'gui': 'NONE', 'term': 'NONE' }
 else
     let s:blackbg = s:black
@@ -327,7 +331,7 @@ let g:colors_name = "rcabralc"
 call g:rcabralc#hl('Normal', s:white, s:blackbg)
 
 "        *Comment        any comment
-if g:rcabralc#allow_italics
+if g:rcabralc.allow_italics
 call g:rcabralc#hl('Comment', s:lightgray, s:none, 'italic')
 else
 call g:rcabralc#hl('Comment', s:lightgray, s:none)
@@ -409,7 +413,7 @@ call g:rcabralc#hl('Directory',    s:purple,    s:none)
 call g:rcabralc#hl('ErrorMsg',     s:magenta,   s:blackbg,     'bold')
 call g:rcabralc#hl('IncSearch',    s:none,      s:none,        'underline')
 
-if g:rcabralc#prominent_search_highlight
+if g:rcabralc.prominent_search_highlight
 call g:rcabralc#hl('Search',       s:none,      s:none,        'reverse')
 else
 call g:rcabralc#hl('Search',       s:none,      s:darkgray,    'underline')
