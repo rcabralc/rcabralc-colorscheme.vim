@@ -274,35 +274,34 @@ function! g:rcabralc#hl(group, fg, bg, ...)
 endfunction
 " }}}
 
-" Note: The "blue" color is not used in this colorscheme because there's no
+" Note: The "chetwode" color is not used in this colorscheme because there's no
 " equivalent in the original Monokai, and it's not needed anyway.  It is
 " defined here as a matter of standardization; since it's recommended to change
 " the terminal colorscheme for better color fidelity, it's worth to specify a
 " blueish color to be used as a replacement for the 4th terminal color.
 let s:def_term = g:rcabralc.use_default_term_colors
 
-let s:none      = { 'gui': 'NONE', 'term': 'NONE', }
-let s:black     = s:build_color('#25231d', s:def_term ? { 'term': 0  } : {})
-let s:darkgray  = s:build_color('#36332a', s:def_term ? { 'term': 8  } : {})
-let s:lightgray = s:build_color('#696352', s:def_term ? { 'term': 7  } : {})
-let s:white     = s:build_color('#fff2c8', s:def_term ? { 'term': 15 } : {})
-let s:lime      = s:build_color('#9fd304', s:def_term ? { 'term': 10 } : {})
-let s:yellow    = s:build_color('#ebcc66', s:def_term ? { 'term': 11 } : {})
-let s:blue      = s:build_color('#6f82d9', s:def_term ? { 'term': 12 } : {})
-let s:purple    = s:build_color('#a773e2', s:def_term ? { 'term': 13 } : {})
-let s:cyan      = s:build_color('#60bda8', s:def_term ? { 'term': 14 } : {})
-let s:orange    = s:build_color('#f66d04', s:def_term ? { 'term': 3  } : {})
-let s:magenta   = s:build_color('#f60461', s:def_term ? { 'term': 9  } : {})
-
-let s:darklime    = s:blend(s:lime,    s:black, 0.0625)
-let s:darkpurple  = s:blend(s:purple,  s:black, 0.0625)
-let s:darkmagenta = s:blend(s:magenta, s:black, 0.0625)
-let s:darkergray  = s:blend(s:white,   s:black, 0.04)
+let s:none       = { 'gui': 'NONE', 'term': 'NONE', }
+let s:zeus       = s:build_color('#25231d', s:def_term ? { 'term': 0  } : {})
+let s:armadillo  = s:build_color('#36332a', s:def_term ? { 'term': 8  } : {})
+let s:soyabean   = s:build_color('#696352', s:def_term ? { 'term': 7  } : {})
+let s:barley     = s:build_color('#fff2c8', s:def_term ? { 'term': 15 } : {})
+let s:citrus     = s:build_color('#9fd304', s:def_term ? { 'term': 10 } : {})
+let s:confetti   = s:build_color('#ebcc66', s:def_term ? { 'term': 11 } : {})
+let s:chetwode   = s:build_color('#6f82d9', s:def_term ? { 'term': 12 } : {})
+let s:purple     = s:build_color('#a773e2', s:def_term ? { 'term': 13 } : {})
+let s:tradewind  = s:build_color('#60bda8', s:def_term ? { 'term': 14 } : {})
+let s:fire       = s:build_color('#f66d04', s:def_term ? { 'term': 3  } : {})
+let s:razzmatazz = s:build_color('#f60461', s:def_term ? { 'term': 9  } : {})
+let s:birch      = s:blend(s:citrus,     s:zeus, 0.0625)
+let s:mineshaft  = s:blend(s:purple,     s:zeus, 0.0625)
+let s:cocoa      = s:blend(s:razzmatazz, s:zeus, 0.0625)
+let s:rangitoto  = s:blend(s:barley,     s:zeus, 0.04)
 
 if g:rcabralc.transparent_background == 1
-    let s:blackbg = { 'gui': 'NONE', 'term': 'NONE' }
+    let s:zeusbg = { 'gui': 'NONE', 'term': 'NONE' }
 else
-    let s:blackbg = s:black
+    let s:zeusbg = s:zeus
 endif
 
 hi clear
@@ -320,13 +319,13 @@ let g:colors_name = "rcabralc"
 " For testing:
 " :source $VIMRUNTIME/syntax/hitest.vim
 
-call g:rcabralc#hl('Normal', s:white, s:blackbg)
+call g:rcabralc#hl('Normal', s:barley, s:zeusbg)
 
 "        *Comment        any comment
 if g:rcabralc.allow_italics
-call g:rcabralc#hl('Comment', s:lightgray, s:none, 'italic')
+call g:rcabralc#hl('Comment', s:soyabean, s:none, 'italic')
 else
-call g:rcabralc#hl('Comment', s:lightgray, s:none)
+call g:rcabralc#hl('Comment', s:soyabean, s:none)
 endif
 
 "        *Constant       any constant
@@ -337,13 +336,13 @@ endif
 "         Float          a floating point constant: 2.3e10
 call g:rcabralc#hl('Constant',  s:purple, s:none, 'bold')
 call g:rcabralc#hl('Character', s:purple, s:none)
-call g:rcabralc#hl('String',    s:yellow, s:none)
+call g:rcabralc#hl('String',    s:confetti, s:none)
 call g:rcabralc#hl('Number',    s:purple, s:none)
-call g:rcabralc#hl('Boolean',   s:orange, s:none)
+call g:rcabralc#hl('Boolean',   s:fire, s:none)
 
 "        *Identifier     any variable name
 "         Function       function name (also: methods for classes)
-call g:rcabralc#hl('Identifier', s:lime, s:none)
+call g:rcabralc#hl('Identifier', s:citrus, s:none)
 
 "        *Statement      any statement
 "         Conditional    if, then, else, endif, switch, etc.
@@ -352,23 +351,23 @@ call g:rcabralc#hl('Identifier', s:lime, s:none)
 "         Operator       "sizeof", "+", "*", etc.
 "         Keyword        any other keyword
 "         Exception      try, catch, throw
-call g:rcabralc#hl('Statement', s:magenta, s:none, 'bold')
-call g:rcabralc#hl('Operator',  s:magenta, s:none)
-call g:rcabralc#hl('Exception', s:lime,    s:none, 'bold')
+call g:rcabralc#hl('Statement', s:razzmatazz, s:none, 'bold')
+call g:rcabralc#hl('Operator',  s:razzmatazz, s:none)
+call g:rcabralc#hl('Exception', s:citrus,     s:none, 'bold')
 
 "        *PreProc        generic Preprocessor
 "         Include        preprocessor #include
 "         Define         preprocessor #define
 "         Macro          same as Define
 "         PreCondit      preprocessor #if, #else, #endif, etc.
-call g:rcabralc#hl('PreProc', s:magenta, s:none, 'bold')
+call g:rcabralc#hl('PreProc', s:razzmatazz, s:none, 'bold')
 
 "        *Type           int, long, char, etc.
 "         StorageClass   static, register, volatile, etc.
 "         Structure      struct, union, enum, etc.
 "         Typedef        A typedef
-call g:rcabralc#hl('Type',         s:cyan,    s:none, 'bold')
-call g:rcabralc#hl('StorageClass', s:magenta, s:none, 'bold')
+call g:rcabralc#hl('Type',         s:tradewind,  s:none, 'bold')
+call g:rcabralc#hl('StorageClass', s:razzmatazz, s:none, 'bold')
 
 "        *Special        any special symbol
 "         SpecialChar    special character in a constant
@@ -376,10 +375,10 @@ call g:rcabralc#hl('StorageClass', s:magenta, s:none, 'bold')
 "         Delimiter      character that needs attention
 "         SpecialComment special things inside a comment
 "         Debug          debugging statements
-call g:rcabralc#hl('Special',        s:orange,  s:none)
-call g:rcabralc#hl('Tag',            s:cyan,    s:none, 'bold')
-call g:rcabralc#hl('SpecialComment', s:white,   s:none, 'bold')
-call g:rcabralc#hl('Debug',          s:purple,  s:none)
+call g:rcabralc#hl('Special',        s:fire,      s:none)
+call g:rcabralc#hl('Tag',            s:tradewind, s:none, 'bold')
+call g:rcabralc#hl('SpecialComment', s:barley,    s:none, 'bold')
+call g:rcabralc#hl('Debug',          s:purple,    s:none)
 
 "        *Underlined     text that stands out, HTML links
 call g:rcabralc#hl('Underlined', s:none, s:none, 'underline')
@@ -388,64 +387,64 @@ call g:rcabralc#hl('Underlined', s:none, s:none, 'underline')
 call g:rcabralc#hl('Ignore', s:none, s:none)
 
 "        *Error          any erroneous construct
-call g:rcabralc#hl('Error', s:magenta, s:none, 'bold,reverse')
+call g:rcabralc#hl('Error', s:razzmatazz, s:none, 'bold,reverse')
 
 "        *Todo           anything that needs extra attention; mostly the
 "                        keywords TODO FIXME and XXX
-call g:rcabralc#hl('Todo', s:white, s:none, 'bold')
+call g:rcabralc#hl('Todo', s:barley, s:none, 'bold')
 
 
 " Extended highlighting
-call g:rcabralc#hl('SpecialKey',   s:orange,    s:none)
-call g:rcabralc#hl('NonText',      s:lightgray, s:none)
-call g:rcabralc#hl('StatusLine',   s:white,     s:darkergray,  'bold')
-call g:rcabralc#hl('StatusLineNC', s:lightgray, s:darkergray)
-call g:rcabralc#hl('Visual',       s:none,      s:darkgray)
-call g:rcabralc#hl('Directory',    s:purple,    s:none)
-call g:rcabralc#hl('ErrorMsg',     s:magenta,   s:blackbg,     'bold')
-call g:rcabralc#hl('IncSearch',    s:none,      s:none,        'underline')
+call g:rcabralc#hl('SpecialKey',   s:fire,       s:none)
+call g:rcabralc#hl('NonText',      s:soyabean,   s:none)
+call g:rcabralc#hl('StatusLine',   s:barley,     s:rangitoto,  'bold')
+call g:rcabralc#hl('StatusLineNC', s:soyabean,   s:rangitoto)
+call g:rcabralc#hl('Visual',       s:none,       s:armadillo)
+call g:rcabralc#hl('Directory',    s:purple,     s:none)
+call g:rcabralc#hl('ErrorMsg',     s:razzmatazz, s:zeusbg,     'bold')
+call g:rcabralc#hl('IncSearch',    s:none,       s:none,       'underline')
 
 if g:rcabralc.prominent_search_highlight
-call g:rcabralc#hl('Search',       s:none,      s:none,        'reverse')
+call g:rcabralc#hl('Search',       s:none,       s:none,       'reverse')
 else
-call g:rcabralc#hl('Search',       s:none,      s:darkgray,    'underline')
+call g:rcabralc#hl('Search',       s:none,       s:armadillo,  'underline')
 endif
 
-call g:rcabralc#hl('MoreMsg',      s:cyan,      s:blackbg)
-call g:rcabralc#hl('ModeMsg',      s:lime,      s:blackbg)
-call g:rcabralc#hl('LineNr',       s:lightgray, s:blackbg)
-call g:rcabralc#hl('Question',     s:cyan,      s:none,        'bold')
-call g:rcabralc#hl('VertSplit',    s:lightgray, s:darkergray)
-call g:rcabralc#hl('Title',        s:white,     s:none,        'bold')
-call g:rcabralc#hl('VisualNOS',    s:black,     s:white)
-call g:rcabralc#hl('WarningMsg',   s:orange,    s:blackbg)
-call g:rcabralc#hl('WildMenu',     s:cyan,      s:blackbg)
-call g:rcabralc#hl('Folded',       s:lightgray, s:blackbg)
-call g:rcabralc#hl('FoldColumn',   s:lightgray, s:blackbg)
-call g:rcabralc#hl('DiffAdd',      s:none,      s:darklime)
-call g:rcabralc#hl('DiffChange',   s:none,      s:darkpurple)
-call g:rcabralc#hl('DiffDelete',   s:none,      s:darkmagenta)
-call g:rcabralc#hl('DiffText',     s:none,      s:darkpurple,  'underline')
-call g:rcabralc#hl('SignColumn',   s:lime,      s:blackbg)
-call g:rcabralc#hl('Conceal',      s:darkgray,  s:none)
-call g:rcabralc#hl('SpellBad',     s:none,      s:none,        'undercurl', 'NONE', s:magenta)
-call g:rcabralc#hl('SpellCap',     s:none,      s:none,        'undercurl', 'NONE', s:cyan)
-call g:rcabralc#hl('SpellRare',    s:none,      s:none,        'undercurl', 'NONE', s:white)
-call g:rcabralc#hl('SpellLocal',   s:none,      s:none,        'undercurl', 'NONE', s:orange)
-call g:rcabralc#hl('Pmenu',        s:darkgray,  s:white)
-call g:rcabralc#hl('PmenuSel',     s:orange,    s:darkgray,    'bold')
-call g:rcabralc#hl('PmenuSbar',    s:none,      s:lightgray)
-call g:rcabralc#hl('PmenuThumb',   s:none,      s:darkgray)
-call g:rcabralc#hl('TabLine',      s:black,     s:lightgray)
-call g:rcabralc#hl('TabLineFill',  s:lightgray, s:lightgray)
-call g:rcabralc#hl('TabLineSel',   s:white,     s:darkgray,    'bold')
-call g:rcabralc#hl('CursorColumn', s:none,      s:darkergray)
-call g:rcabralc#hl('CursorLine',   s:none,      s:darkergray)
-call g:rcabralc#hl('CursorLineNr', s:lime,      s:blackbg)
-call g:rcabralc#hl('ColorColumn',  s:none,      s:darkergray)
-call g:rcabralc#hl('Cursor',       s:black,     s:white)
+call g:rcabralc#hl('MoreMsg',      s:tradewind,  s:zeusbg)
+call g:rcabralc#hl('ModeMsg',      s:citrus,     s:zeusbg)
+call g:rcabralc#hl('LineNr',       s:soyabean,   s:zeusbg)
+call g:rcabralc#hl('Question',     s:tradewind,  s:none,       'bold')
+call g:rcabralc#hl('VertSplit',    s:soyabean,   s:rangitoto)
+call g:rcabralc#hl('Title',        s:barley,     s:none,       'bold')
+call g:rcabralc#hl('VisualNOS',    s:zeus,       s:barley)
+call g:rcabralc#hl('WarningMsg',   s:fire,       s:zeusbg)
+call g:rcabralc#hl('WildMenu',     s:tradewind,  s:zeusbg)
+call g:rcabralc#hl('Folded',       s:soyabean,   s:zeusbg)
+call g:rcabralc#hl('FoldColumn',   s:soyabean,   s:zeusbg)
+call g:rcabralc#hl('DiffAdd',      s:none,       s:birch)
+call g:rcabralc#hl('DiffChange',   s:none,       s:mineshaft)
+call g:rcabralc#hl('DiffDelete',   s:none,       s:cocoa)
+call g:rcabralc#hl('DiffText',     s:none,       s:mineshaft,  'underline')
+call g:rcabralc#hl('SignColumn',   s:citrus,     s:zeusbg)
+call g:rcabralc#hl('Conceal',      s:armadillo,  s:none)
+call g:rcabralc#hl('SpellBad',     s:none,       s:none,       'undercurl', 'NONE', s:razzmatazz)
+call g:rcabralc#hl('SpellCap',     s:none,       s:none,       'undercurl', 'NONE', s:tradewind)
+call g:rcabralc#hl('SpellRare',    s:none,       s:none,       'undercurl', 'NONE', s:barley)
+call g:rcabralc#hl('SpellLocal',   s:none,       s:none,       'undercurl', 'NONE', s:fire)
+call g:rcabralc#hl('Pmenu',        s:armadillo,  s:barley)
+call g:rcabralc#hl('PmenuSel',     s:fire,       s:armadillo,  'bold')
+call g:rcabralc#hl('PmenuSbar',    s:none,       s:soyabean)
+call g:rcabralc#hl('PmenuThumb',   s:none,       s:armadillo)
+call g:rcabralc#hl('TabLine',      s:zeus,       s:soyabean)
+call g:rcabralc#hl('TabLineFill',  s:soyabean,   s:soyabean)
+call g:rcabralc#hl('TabLineSel',   s:barley,     s:armadillo,  'bold')
+call g:rcabralc#hl('CursorColumn', s:none,       s:rangitoto)
+call g:rcabralc#hl('CursorLine',   s:none,       s:rangitoto)
+call g:rcabralc#hl('CursorLineNr', s:citrus,     s:zeusbg)
+call g:rcabralc#hl('ColorColumn',  s:none,       s:rangitoto)
+call g:rcabralc#hl('Cursor',       s:zeus,       s:barley)
 hi! link lCursor Cursor
-call g:rcabralc#hl('MatchParen',   s:none,      s:none,        'reverse,underline')
+call g:rcabralc#hl('MatchParen',   s:none,       s:none,       'reverse,underline')
 
 " Must be at the end due to a bug in VIM trying to figuring out automagically
 " if the background set through Normal highlight group is dark or light.
@@ -453,27 +452,27 @@ call g:rcabralc#hl('MatchParen',   s:none,      s:none,        'reverse,underlin
 set background=dark
 
 " Additions for vim-gitgutter
-call g:rcabralc#hl('GitGutterAdd',          s:lime,    s:none)
-call g:rcabralc#hl('GitGutterChange',       s:purple,  s:none)
-call g:rcabralc#hl('GitGutterDelete',       s:magenta, s:none)
-call g:rcabralc#hl('GitGutterChangeDelete', s:magenta, s:none)
+call g:rcabralc#hl('GitGutterAdd',          s:citrus,     s:none)
+call g:rcabralc#hl('GitGutterChange',       s:purple,     s:none)
+call g:rcabralc#hl('GitGutterDelete',       s:razzmatazz, s:none)
+call g:rcabralc#hl('GitGutterChangeDelete', s:razzmatazz, s:none)
 
 " Export palette
 let g:rcabralc#palette = {}
-let g:rcabralc#palette.none        = s:none
-let g:rcabralc#palette.black       = s:black
-let g:rcabralc#palette.darkgray    = s:darkgray
-let g:rcabralc#palette.lightgray   = s:lightgray
-let g:rcabralc#palette.white       = s:white
-let g:rcabralc#palette.lime        = s:lime
-let g:rcabralc#palette.yellow      = s:yellow
-let g:rcabralc#palette.blue        = s:blue
-let g:rcabralc#palette.purple      = s:purple
-let g:rcabralc#palette.cyan        = s:cyan
-let g:rcabralc#palette.orange      = s:orange
-let g:rcabralc#palette.magenta     = s:magenta
-let g:rcabralc#palette.darklime    = s:darklime
-let g:rcabralc#palette.darkpurple  = s:darkpurple
-let g:rcabralc#palette.darkmagenta = s:darkmagenta
-let g:rcabralc#palette.darkergray  = s:darkergray
-let g:rcabralc#palette.blackbg     = s:blackbg
+let g:rcabralc#palette.none       = s:none
+let g:rcabralc#palette.zeus       = s:zeus
+let g:rcabralc#palette.armadillo  = s:armadillo
+let g:rcabralc#palette.soyabean   = s:soyabean
+let g:rcabralc#palette.barley     = s:barley
+let g:rcabralc#palette.citrus     = s:citrus
+let g:rcabralc#palette.confetti   = s:confetti
+let g:rcabralc#palette.chetwode   = s:chetwode
+let g:rcabralc#palette.purple     = s:purple
+let g:rcabralc#palette.tradewind  = s:tradewind
+let g:rcabralc#palette.fire       = s:fire
+let g:rcabralc#palette.razzmatazz = s:razzmatazz
+let g:rcabralc#palette.birch      = s:birch
+let g:rcabralc#palette.mineshaft  = s:mineshaft
+let g:rcabralc#palette.cocoa      = s:cocoa
+let g:rcabralc#palette.rangitoto  = s:rangitoto
+let g:rcabralc#palette.zeusbg     = s:zeusbg
