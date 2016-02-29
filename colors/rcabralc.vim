@@ -27,10 +27,6 @@ if !exists("g:rcabralc.allow_italics")
 endif
 
 " {{{
-if exists('s:xterm_palette')
-    unlet s:xterm_palette
-endif
-
 function! rcabralc#blend(fg, bg, opacity)
     return s:build_color({
         \ 'r': a:fg.r * a:opacity + a:bg.r * (1 - a:opacity),
