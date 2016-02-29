@@ -23,21 +23,25 @@ if !exists("g:rcabralc#allow_italics")
 endif
 
 " {{{
+if exists('s:xterm_palette')
+    unlet s:xterm_palette
+endif
+
 function! rcabralc#blend(fg, bg, opacity)
-    return s:add_term(s:build_color({
+    return s:build_color({
         \ 'r': a:fg.r * a:opacity + a:bg.r * (1 - a:opacity),
         \ 'g': a:fg.g * a:opacity + a:bg.g * (1 - a:opacity),
         \ 'b': a:fg.b * a:opacity + a:bg.b * (1 - a:opacity),
-    \ }))
+    \ })
 endfunction
 let s:blend = function('rcabralc#blend')
 
-function! s:from_hex_color(color)
-    return s:build_color({
+function! s:rgb_from_hex_color(color)
+    return {
         \ 'r': str2nr(a:color[1:2], 16),
         \ 'g': str2nr(a:color[3:4], 16),
         \ 'b': str2nr(a:color[5:], 16),
-    \ })
+    \ }
 endfunction
 
 function! s:to_hex_color(color)
@@ -52,56 +56,17 @@ function! s:to_hex_color(color)
     return printf('#%02x%02x%02x', r, g, b)
 endfunction
 
-let s:xterm_color_components = [ 0x00, 0x5F, 0x87, 0xAF, 0xD7, 0xFF ]
-let s:xterm_gray_components  = [ 0x08, 0x12, 0x1C, 0x26, 0x30, 0x3A,
-                               \ 0x44, 0x4E, 0x58, 0x62, 0x6C, 0x76,
-                               \ 0x80, 0x8A, 0x94, 0x9E, 0xA8, 0xB2,
-                               \ 0xBC, 0xC6, 0xD0, 0xDA, 0xE4, 0xEE ]
-
-function! s:build_xterm_cube(defaults)
-    let palette = {}
-    let size = len(s:xterm_color_components)
-
-    for key in keys(a:defaults)
-        let palette[key] = s:add_lab(a:defaults[key])
-    endfor
-
-    for ir in range(size)
-        for ig in range(size)
-            for ib in range(size)
-                let index = 16 + size * size * ir + size * ig + ib
-                let palette[index] = s:build_color({
-                    \ 'r': s:xterm_color_components[ir],
-                    \ 'g': s:xterm_color_components[ig],
-                    \ 'b': s:xterm_color_components[ib],
-                \ })
-            endfor
-        endfor
-    endfor
-
-    let index = 16 + 6 * 6 * 6
-    for i in range(len(s:xterm_gray_components) - 1)
-        let palette[index + i] = s:build_color({
-            \ 'r': s:xterm_gray_components[i],
-            \ 'g': s:xterm_gray_components[i],
-            \ 'b': s:xterm_gray_components[i],
-        \ })
-    endfor
-
-    return palette
-endfunction
-
-function! s:build_color(color)
-    return s:add_lab(s:add_gui(a:color))
-endfunction
-
 function! s:add_gui(color)
-    let a:color.gui = s:to_hex_color(a:color)
+    if !exists('a:color.gui')
+        let a:color.gui = s:to_hex_color(a:color)
+    endif
     return a:color
 endfunction
 
 function! s:add_term(color)
-    let a:color.term = s:xterm_index(a:color)
+    if !exists('a:color.term')
+        let a:color.term = s:xterm_index(a:color)
+    endif
     return a:color
 endfunction
 
@@ -184,6 +149,41 @@ function! s:matrix_multiply(a, b)
     return result
 endfunction
 
+let s:xterm_color_components = [ 0x00, 0x5F, 0x87, 0xAF, 0xD7, 0xFF ]
+let s:xterm_gray_components  = [ 0x08, 0x12, 0x1C, 0x26, 0x30, 0x3A,
+                               \ 0x44, 0x4E, 0x58, 0x62, 0x6C, 0x76,
+                               \ 0x80, 0x8A, 0x94, 0x9E, 0xA8, 0xB2,
+                               \ 0xBC, 0xC6, 0xD0, 0xDA, 0xE4, 0xEE ]
+
+function! s:build_xterm_cube()
+    let palette = {}
+    let size = len(s:xterm_color_components)
+
+    for ir in range(size)
+        for ig in range(size)
+            for ib in range(size)
+                let index = 16 + size * size * ir + size * ig + ib
+                let palette[index] = s:build_color({
+                    \ 'r': s:xterm_color_components[ir],
+                    \ 'g': s:xterm_color_components[ig],
+                    \ 'b': s:xterm_color_components[ib],
+                \ }, { 'term': index })
+            endfor
+        endfor
+    endfor
+
+    let index = 16 + 6 * 6 * 6
+    for i in range(len(s:xterm_gray_components) - 1)
+        let palette[index + i] = s:build_color({
+            \ 'r': s:xterm_gray_components[i],
+            \ 'g': s:xterm_gray_components[i],
+            \ 'b': s:xterm_gray_components[i],
+        \ }, { 'term': index + i })
+    endfor
+
+    return palette
+endfunction
+
 function! s:xterm_index(color)
     let best = { 'dist2': pow(255, 3) + 1 }
 
@@ -207,71 +207,36 @@ function! s:distance2(color1, color2)
     return pow(a:color1.lab.l - a:color2.lab.l, 2) + pow(a:color1.lab.a - a:color2.lab.a, 2) + pow(a:color1.lab.b - a:color2.lab.b, 2)
 endfunction
 
-" Note: The "blue" color is not used in this colorscheme because there's no
-" equivalent in the original Monokai, and it's not needed anyway.  It is
-" defined here as a matter of standardization; since it's recommended to change
-" the terminal colorscheme for better color fidelity, it's worth to specify a
-" blueish color to be used as a replacement for the 4th terminal color.
-let s:none      = { 'gui': 'NONE', 'term': 'NONE', }
-let s:black     = s:from_hex_color('#25231d')
-let s:darkgray  = s:from_hex_color('#36332a')
-let s:lightgray = s:from_hex_color('#696352')
-let s:white     = s:from_hex_color('#fff2c8')
-let s:lime      = s:from_hex_color('#9fd304')
-let s:yellow    = s:from_hex_color('#ebcc66')
-let s:blue      = s:from_hex_color('#6f82d9')
-let s:purple    = s:from_hex_color('#a773e2')
-let s:cyan      = s:from_hex_color('#60bda8')
-let s:orange    = s:from_hex_color('#f66d04')
-let s:magenta   = s:from_hex_color('#f60461')
+function! s:build_color(color, ...)
+    if type(a:color) == type('')
+        let color = s:rgb_from_hex_color(a:color)
+        let color.gui = a:color
+    else
+        let color = a:color
+    endif
 
-" These colors match the GUI colors, and are the recommended settings for
-" terminal emulators (see README.md).
-if g:rcabralc#use_default_term_colors == 1
-    let s:recommended_default_xterm_colors = {
-        \ 0 : s:black,
-        \ 3 : s:orange,
-        \ 7 : s:lightgray,
-        \ 8 : s:darkgray,
-        \ 9 : s:magenta,
-        \ 10: s:lime,
-        \ 11: s:yellow,
-        \ 12: s:blue,
-        \ 13: s:purple,
-        \ 14: s:cyan,
-        \ 15: s:white,
-    \ }
-else
-    let s:recommended_default_xterm_colors = {}
-endif
+    let color = s:add_lab(s:add_gui(color))
 
-let s:xterm_palette = s:build_xterm_cube(s:recommended_default_xterm_colors)
+    if a:0 == 1
+        let options = a:1
+    else
+        let options = {}
+    endif
 
-" Redefine the colors, now with xterm approximations.
-" The term colors are obtained by minimizing distance between xterm colors
-" (xterm is assumed) and the desired colors using the Lab color space.
-let s:black     = s:add_term(s:black)
-let s:darkgray  = s:add_term(s:darkgray)
-let s:lightgray = s:add_term(s:lightgray)
-let s:white     = s:add_term(s:white)
-let s:lime      = s:add_term(s:lime)
-let s:yellow    = s:add_term(s:yellow)
-let s:blue      = s:add_term(s:blue)
-let s:purple    = s:add_term(s:purple)
-let s:cyan      = s:add_term(s:cyan)
-let s:orange    = s:add_term(s:orange)
-let s:magenta   = s:add_term(s:magenta)
+    if has_key(options, 'term')
+        let color.term = options.term
 
-let s:darklime    = s:blend(s:lime,    s:black, 0.0625)
-let s:darkpurple  = s:blend(s:purple,  s:black, 0.0625)
-let s:darkmagenta = s:blend(s:magenta, s:black, 0.0625)
-let s:darkergray  = s:blend(s:white,   s:black, 0.04)
+        if exists('s:xterm_palette') && !has_key(s:xterm_palette, color.term)
+            let s:xterm_palette[color.term] = color
+        endif
+    else
+        let color = s:add_term(color)
+    endif
 
-if g:rcabralc#transparent_background == 1
-    let s:blackbg = { 'gui': 'NONE', 'term': 'NONE' }
-else
-    let s:blackbg = s:black
-endif
+    return color
+endfunction
+
+let s:xterm_palette = s:build_xterm_cube()
 
 function! g:rcabralc#hl(group, fg, bg, ...)
     let fg_color = a:fg
@@ -311,6 +276,38 @@ function! g:rcabralc#hl(group, fg, bg, ...)
         \ " gui="     . gui_mod .
         \ gui_sp
 endfunction
+" }}}
+
+" Note: The "blue" color is not used in this colorscheme because there's no
+" equivalent in the original Monokai, and it's not needed anyway.  It is
+" defined here as a matter of standardization; since it's recommended to change
+" the terminal colorscheme for better color fidelity, it's worth to specify a
+" blueish color to be used as a replacement for the 4th terminal color.
+let s:def_term = g:rcabralc#use_default_term_colors
+
+let s:none      = { 'gui': 'NONE', 'term': 'NONE', }
+let s:black     = s:build_color('#25231d', s:def_term ? { 'term': 0  } : {})
+let s:darkgray  = s:build_color('#36332a', s:def_term ? { 'term': 8  } : {})
+let s:lightgray = s:build_color('#696352', s:def_term ? { 'term': 7  } : {})
+let s:white     = s:build_color('#fff2c8', s:def_term ? { 'term': 15 } : {})
+let s:lime      = s:build_color('#9fd304', s:def_term ? { 'term': 10 } : {})
+let s:yellow    = s:build_color('#ebcc66', s:def_term ? { 'term': 11 } : {})
+let s:blue      = s:build_color('#6f82d9', s:def_term ? { 'term': 12 } : {})
+let s:purple    = s:build_color('#a773e2', s:def_term ? { 'term': 13 } : {})
+let s:cyan      = s:build_color('#60bda8', s:def_term ? { 'term': 14 } : {})
+let s:orange    = s:build_color('#f66d04', s:def_term ? { 'term': 3  } : {})
+let s:magenta   = s:build_color('#f60461', s:def_term ? { 'term': 9  } : {})
+
+let s:darklime    = s:blend(s:lime,    s:black, 0.0625)
+let s:darkpurple  = s:blend(s:purple,  s:black, 0.0625)
+let s:darkmagenta = s:blend(s:magenta, s:black, 0.0625)
+let s:darkergray  = s:blend(s:white,   s:black, 0.04)
+
+if g:rcabralc#transparent_background == 1
+    let s:blackbg = { 'gui': 'NONE', 'term': 'NONE' }
+else
+    let s:blackbg = s:black
+endif
 
 hi clear
 if exists("syntax on")
