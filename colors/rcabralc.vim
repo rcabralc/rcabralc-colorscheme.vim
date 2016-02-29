@@ -185,7 +185,7 @@ function! s:build_xterm_cube()
 endfunction
 
 function! s:xterm_index(color)
-    let best = { 'dist2': pow(255, 3) + 1 }
+    let best = { 'dist2': 3 * pow(255, 2) + 1 }
 
     for index in sort(keys(s:xterm_palette))
         let xterm_color = s:xterm_palette[index]
