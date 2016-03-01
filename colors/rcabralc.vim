@@ -225,12 +225,31 @@ function! s:build_color(color, ...)
 
     if has_key(options, 'term')
         let color.term = options.term
+        let color.term_default = 1
 
         if exists('s:xterm_palette') && !has_key(s:xterm_palette, color.term)
             let s:xterm_palette[color.term] = color
         endif
     else
         let color = s:add_term(color)
+        let color.term_default = 0
+    endif
+
+    if has_key(options, 'terms')
+        let terms = options.terms
+        call add(terms, color.term)
+
+        let color.terms = uniq(sort(terms))
+    else
+        let color.terms = [color.term]
+    endif
+
+    if color.term_default
+        for term in color.terms
+            if term >= 0 && term <= 15
+                exe "let g:terminal_color_" . term . " = '" . color.gui . "'"
+            end
+        endfor
     endif
 
     return color
