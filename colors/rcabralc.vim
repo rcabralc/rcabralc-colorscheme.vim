@@ -479,15 +479,6 @@ call g:rcabralc#hl('MatchParen',   s:none,   s:none,       'reverse,underline')
 " https://groups.google.com/forum/#!msg/vim_dev/afPqwAFNdrU/nqh6tOM87QUJ
 set background=dark
 
-" Additions for vim-gitgutter
-call g:rcabralc#hl('GitGutterAdd',           s:lime,    s:none)
-call g:rcabralc#hl('GitGutterChange',        s:purple,  s:none)
-call g:rcabralc#hl('GitGutterDelete',        s:magenta, s:none)
-call g:rcabralc#hl('GitGutterChangeDelete',  s:magenta, s:none)
-call g:rcabralc#hl('GitGutterAddDefault',    s:lime,    s:none)
-call g:rcabralc#hl('GitGutterChangeDefault', s:yellow,  s:none)
-call g:rcabralc#hl('GitGutterDeleteDefault', s:magenta, s:none)
-
 " Export palette
 let g:rcabralc#palette = {}
 let g:rcabralc#palette.none         = s:none
