@@ -61,21 +61,10 @@ function! rcabralc#build_color(color, ...)
         let color.term_default = 0
     endif
 
-    if has_key(options, 'terms')
-        let terms = options.terms
-        call add(terms, color.term)
-
-        let color.terms = uniq(sort(terms))
-    else
-        let color.terms = [color.term]
-    endif
-
     if color.term_default
-        for term in color.terms
-            if term >= 0 && term <= 15
-                exe "let g:terminal_color_" . term . " = '" . color.gui . "'"
-            end
-        endfor
+        if color.term >= 0 && color.term <= 15
+            exe "let g:terminal_color_" . color.term . " = '" . color.gui . "'"
+        end
     endif
 
     return color
@@ -95,7 +84,7 @@ endfunction
 function! rcabralc#print_colors(palette)
     let sorted = sort(sort(values(filter(a:palette, "v:key != 'none'")), 's:sort_by_term_index'), 's:sort_by_term_default')
     for color in sorted
-        echo join(color.terms, ' ') . ' ' . color.gui
+        echo color.term . ' ' . color.gui
     endfor
 endfunction
 
