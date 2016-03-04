@@ -1,68 +1,172 @@
 # rcabralc's Colorscheme for Vim
 
-A vibrant, warmer variation of Monokai, with a litte bit more contrast between
-colors and white.
+A vibrant, warmer variation of Monokai, for GUI and terminals.  A light
+version is also provided.
 
 
 ## Configuration
 
-Just set the colorscheme in your `vimrc` file:
+Just set the background and color scheme in your `vimrc`/`init.vim` file:
 
-```
+```vim
+set background=dark " or light
 colorscheme rcabralc
 ```
 
 
 ## Terminal colors
 
-This color scheme was built mainly for the GUI version.  For terminals which
-can render 256 colors, there is a palette which approximate the GUI version
-colors to their equivalent ones in the Xterm 256 colors palette (this
-approximation can be improved in further versions).  If that approximation is
-good enough for you (just test it and see), you don't need to configure
-anything else.  Just be sure to `set t_Co=256` in your `.vimrc`.
+This color scheme was firstly built for the GUI version.  For terminals which
+can render 256 colors, the color scheme colors are approximated to the closest
+terminal color available (Xterm palette is assumed).  If this approximation is
+good enough for you (just test it in a `xterm-256color`-compatible terminal
+and see), you don't need to configure anything else.  Just be sure to `set
+t_Co=256` in your `.vimrc`/`init.vim`.
 
 However, for more fidelity to the GUI version, customize your default terminal
 colors as the following:
 
-Color index    | Color value
--------------- | -----------
-0, Background  | `#25231d`
-1, 9           | `#ff0569`
-2, 10          | `#9fd304`
-3,             | `#f66d04`
-4, 12          | `#6f82d9`
-5, 13          | `#a773e2`
-6, 14          | `#60bda8`
-7              | `#696352`
-8              | `#36332a`
-11             | `#ebcc66`
-15, Foreground | `#fff2c8`
+Color index    | Color value (dark version) | Color value (light version)
+-------------- | -------------------------- | ---------------------------
+0, Background  | `#26231d`                  | `#26231d`
+1              | `#c20c50`                  | `#dc0859`
+2              | `#81a70a`                  | `#444f17`
+3              | `#f66d04`                  | `#c25b0a`
+4              | `#6082b0`                  | `#6082b0`
+5              | `#916ac7`                  | `#916ac7`
+6              | `#60b28e`                  | `#395343`
+7              | `#6a6251`                  | `#6a6251`
+8              | `#37322a`                  | `#e4d3af`
+9              | `#f60461`                  | `#f60461`
+10             | `#9fd304`                  | `#637b11`
+11             | `#ebcc66`                  | `#a18d4b`
+12             | `#73a1e1`                  | `#73a1e1`
+13             | `#b482ff`                  | `#a276e3`
+14             | `#73e1b3`                  | `#4d8268`
+15, Foreground | `#f5e2bc`                  | `#f5e2bc`
 
-Then set this in your `vimrc` file (before setting the color scheme):
+Then set this in your `vimrc`/`init;vim` file (before setting the color
+scheme):
 
-```
+```vim
 let g:rcabralc = {}
 let g:rcabralc.use_default_term_colors = 1
 ```
 
-Please note that if you skip the terminal palette customization, the results
-will likely be very wrong.  Don't set the above variable if you don't want to
-customize your terminal's palette (and stick with the provided approximated
-colors).
+Then finally set the background and color scheme:
+
+```vim
+set background=dark " or light
+colorscheme rcabralc
+```
+
+The colors above are not the exhaustive list.  More colors are used, but
+usually the terminals only allow customization of the 16 first colors.
+Because of this, even with this customization some of the colors, specially
+those used for theme lightline and some shades of gray, will still be
+approximations to the 256 colors palette.  Therefore, a proper
+`xterm-256color`-compatible terminal is still recommended.
+
+Please note that if you skip the terminal palette customization but set
+`g:rcabralc.use_default_term_colors` to `1`, the results will likely be very
+wrong.  Don't set this variable if you don't want to customize your terminal's
+palette (and stick with the provided approximated colors).
 
 
-### Transparent background
+## Using terminal Neovim
+
+If you use Neovim in a terminal which supports true colors, the colors will
+just follow the GUI values if you tell it to use true colors:
+
+```bash
+$ NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim
+```
+
+You can set the variable above in `init.vim` if you use Neovim only in true
+color terminals:
+
+```vim
+let $NVIM_TUI_ENABLE_TRUE_COLOR = '1'
+```
+
+This setting will make Neovim use the GUI colors in the terminal.  If this
+setting is not done, it'll work just like Vim, and approximations to 256
+colors will be used instead.
+
+
+## Transparent background
 
 As a bonus, for terminals which are emulated under a compositing environment
 and have transparency enabled, it's possible to use a transparent background
-inside Vim.  Set this in your `vimrc` file (before setting the color scheme):
+inside Vim.  Set this in your `vimrc`/`init.vim` file (before setting the
+color scheme):
 
-```
+```vim
 let g:rcabralc = {}
-if !has('gui_running')
-  let g:rcabralc.transparent_background = 1
-endif
+let g:rcabralc.transparent_background = 1
 ```
 
-Note that this only works in terminals, not in GUI.
+This sets the `Normal` background to `NONE`, which makes Vim not to render a
+background, allowing you to see the terminal background color, which can have
+transparency.  Note that this only works in emulated terminals, not in GUI.
+
+
+## Highlight optimizations
+
+This color scheme does not include any hightlight group besides the default
+ones.  It's encouraged that users put this kind of configuration in
+`vimrc`/`init.vim`.  The palette and highlight function are exposed to allow
+these settings.
+
+Example:
+
+```vim
+function! s:improve_highlights(p)
+    hi! link cssClassName Type
+    hi! link cssFunctionName Function
+    hi! link cssIdentifier Identifier
+
+    hi! link markdownCode Function
+    hi! link markdownCodeBlock Function
+    hi! link markdownItalic Type
+    hi! link markdownBold Statement
+
+    hi! link javaScriptParens Delimiter
+
+    hi! link rubyPseudoVariable Special
+
+    " For things which cannot be configured through hi link, use the colors in
+    " the palette and the highlight function.  This function takes care of
+    " setting the approximate terminal color.
+    call rcabralc#hl('GitGutterAdd',           a:p.lime,    a:p.none)
+    call rcabralc#hl('GitGutterChange',        a:p.purple,  a:p.none)
+    call rcabralc#hl('GitGutterDelete',        a:p.magenta, a:p.none)
+    call rcabralc#hl('GitGutterChangeDelete',  a:p.magenta, a:p.none)
+
+    " An example for indent guides plugin.
+    if !exists('g:indent_guides_auto_colors')
+      let g:indent_guides_auto_colors = 0
+    endif
+    if g:indent_guides_auto_colors == 0
+      call rcabralc#hl('IndentGuidesOdd',  a:p.none, a:p.gray0)
+      call rcabralc#hl('IndentGuidesEven', a:p.none, a:p.gray1)
+    endif
+endfunction
+
+augroup Colors
+    autocmd!
+    autocmd ColorScheme rcabralc call s:improve_highlights(g:rcabralc#palette)
+augroup END
+```
+
+To view a comprehensive list of colors, their names, hex values, terminal
+codes, etc, inspect it in Vim:
+
+```vim
+:echo rcabralc#palette
+```
+
+This is a dictionary with color names as keys and their data as nested
+dictionaries.
+
+**TODO**: Provide a better way to show/inspect the palette.
