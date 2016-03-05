@@ -1,7 +1,8 @@
 # rcabralc's color scheme for Vim
 
 A vibrant, warmer variation of Monokai, for GUI and terminals.  A light
-version is also provided.
+version is also provided.  Some inspiration taken from
+[gruvbox](https://github.com/morhetz/gruvbox).
 
 
 ## Configuration
