@@ -141,10 +141,10 @@ if s:background == 'dark'
     let s:gray2 = s:blend(s:white, s:black, 0.12)
     let s:gray3 = s:blend(s:white, s:black, 0.16)
 else
-    let s:gray0 = s:blend(s:black, s:white, 0.04)
-    let s:gray1 = s:blend(s:black, s:white, 0.08, s:def_term ? { 'term': 8 } : {})
-    let s:gray2 = s:blend(s:black, s:white, 0.12)
-    let s:gray3 = s:blend(s:black, s:white, 0.16)
+    let s:gray0 = s:blend(s:black, s:white, 0.08)
+    let s:gray1 = s:blend(s:black, s:white, 0.16, s:def_term ? { 'term': 8 } : {})
+    let s:gray2 = s:blend(s:black, s:white, 0.20)
+    let s:gray3 = s:blend(s:black, s:white, 0.24)
 endif
 let s:gray4 = s:blend(s:white, s:black, 0.33, s:def_term ? { 'term': 7 } : {})
 
@@ -298,7 +298,11 @@ call s:hl('Todo', s:fg, s:none, 'bold')
 
 
 " Extended highlighting
-call s:hl('SpecialKey',   s:gray4,   s:none)
+if s:background == 'dark'
+    call s:hl('SpecialKey', s:gray4, s:none)
+else
+    call s:hl('SpecialKey', s:orange, s:none)
+endif
 call s:hl('NonText',      s:gray4,   s:none)
 call s:hl('StatusLine',   s:fg,      s:gray0, 'bold')
 call s:hl('StatusLineNC', s:gray4,   s:gray0)
