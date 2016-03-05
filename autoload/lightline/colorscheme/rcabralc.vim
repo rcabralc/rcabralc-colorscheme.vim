@@ -48,29 +48,29 @@ let s:cyan0 = g:rcabralc#palette.cyan0
 let s:cyan1 = g:rcabralc#palette.cyan1
 let s:cyan2 = g:rcabralc#palette.cyan2
 
-let s:p.normal.left =     [ s:e(s:white, s:purple2, 'bold'), s:e(s:white, s:purple1), s:e(s:white, s:purple0) ]
-let s:p.normal.middle =   [ s:e(s:purple, s:gray0) ]
+let s:p.normal.left =     [ s:e(s:white, s:purple2, 'bold'), s:e(s:white, s:purple1, 'bold'), s:e(s:white, s:purple0, 'bold') ]
+let s:p.normal.middle =   [ s:e(s:purple, s:gray1, 'bold') ]
 let s:p.normal.right =    [ s:e(s:white, s:purple2), s:e(s:white, s:purple1), s:e(s:white, s:purple0) ]
 
 let s:p.inactive.left =   [ s:e(s:gray4, s:gray0), s:e(s:gray4, s:gray0) ]
-let s:p.inactive.middle = [ s:e(s:gray4, s:gray0) ]
+let s:p.inactive.middle = [ s:e(s:gray4, s:gray0, 'bold') ]
 let s:p.inactive.right =  [ s:e(s:gray4, s:gray0), s:e(s:gray4, s:gray0) ]
 
-let s:p.insert.left =     [ s:e(s:white, s:lime2, 'bold'), s:e(s:white, s:lime1), s:e(s:white, s:lime0) ]
-let s:p.insert.middle =   [ s:e(s:lime, s:gray0) ]
+let s:p.insert.left =     [ s:e(s:white, s:lime2, 'bold'), s:e(s:white, s:lime1, 'bold'), s:e(s:white, s:lime0, 'bold') ]
+let s:p.insert.middle =   [ s:e(s:lime, s:gray1, 'bold') ]
 let s:p.insert.right =    [ s:e(s:white, s:lime2), s:e(s:white, s:lime1), s:e(s:white, s:lime0) ]
 
-let s:p.replace.left =    [ s:e(s:white, s:orange2, 'bold'), s:e(s:white, s:orange1), s:e(s:white, s:orange0) ]
-let s:p.replace.middle =  [ s:e(s:orange, s:gray0) ]
+let s:p.replace.left =    [ s:e(s:white, s:orange2, 'bold'), s:e(s:white, s:orange1, 'bold'), s:e(s:white, s:orange0, 'bold') ]
+let s:p.replace.middle =  [ s:e(s:orange, s:gray1, 'bold') ]
 let s:p.replace.right =   [ s:e(s:white, s:orange2), s:e(s:white, s:orange1), s:e(s:white, s:orange0) ]
 
-let s:p.visual.left =     [ s:e(s:white, s:cyan2, 'bold'), s:e(s:white, s:cyan1), s:e(s:white, s:cyan0) ]
-let s:p.visual.middle =   [ s:e(s:cyan, s:gray0) ]
+let s:p.visual.left =     [ s:e(s:white, s:cyan2, 'bold'), s:e(s:white, s:cyan1, 'bold'), s:e(s:white, s:cyan0, 'bold') ]
+let s:p.visual.middle =   [ s:e(s:cyan, s:gray1, 'bold') ]
 let s:p.visual.right =    [ s:e(s:white, s:cyan2), s:e(s:white, s:cyan1), s:e(s:white, s:cyan0) ]
 
 let s:p.tabline.left =    [ s:e(s:gray4, s:gray1) ]
 let s:p.tabline.tabsel =  [ s:e(s:black, s:purple) ]
-let s:p.tabline.middle =  [ s:e(s:gray4, s:gray0) ]
+let s:p.tabline.middle =  [ s:e(s:gray4, s:gray1, 'bold') ]
 let s:p.tabline.right =   [ s:e(s:black, s:orange) ]
 
 let s:p.normal.error =    [ s:e(s:black, s:magenta) ]
