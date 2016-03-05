@@ -221,9 +221,9 @@ call s:hl('Normal', s:fg, s:bg)
 
 "        *Comment        any comment
 if s:options.allow_italics
-call s:hl('Comment', s:gray4, s:none, 'italic')
+    call s:hl('Comment', s:gray4, s:none, 'italic')
 else
-call s:hl('Comment', s:gray4, s:none)
+    call s:hl('Comment', s:gray4, s:none)
 endif
 
 "        *Constant       any constant
@@ -233,7 +233,11 @@ endif
 "         Boolean        a boolean constant: TRUE, false
 "         Float          a floating point constant: 2.3e10
 call s:hl('Constant',  s:purple, s:none, 'bold')
-call s:hl('String',    s:yellow, s:none)
+if s:background == 'dark'
+    call s:hl('String', s:yellow, s:none)
+else
+    call s:hl('String', s:yellow, s:none, 'bold')
+endif
 call s:hl('Character', s:purple, s:none)
 call s:hl('Number',    s:purple, s:none)
 call s:hl('Boolean',   s:lime,   s:none)
@@ -304,9 +308,9 @@ call s:hl('ErrorMsg',     s:magenta, s:bg,    'bold')
 call s:hl('IncSearch',    s:none,    s:gray2)
 
 if s:options.prominent_search_highlight
-call s:hl('Search', s:none, s:none,  'reverse')
+    call s:hl('Search', s:none, s:none, 'reverse')
 else
-call s:hl('Search', s:none, s:gray2)
+    call s:hl('Search', s:none, s:gray2)
 endif
 
 call s:hl('MoreMsg',      s:cyan,    s:bg)
