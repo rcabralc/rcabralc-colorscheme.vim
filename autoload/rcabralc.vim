@@ -61,6 +61,10 @@ function! rcabralc#build_color(color, ...)
         let color.term_default = 0
     endif
 
+    if has_key(options, 'name')
+        let color.name = options.name
+    endif
+
     if color.term_default
         if color.term >= 0 && color.term <= 15
             exe "let g:terminal_color_" . color.term . " = '" . color.gui . "'"
@@ -86,6 +90,10 @@ function! rcabralc#print_colors(palette)
     for color in sorted
         echo color.term . ' ' . color.gui
     endfor
+endfunction
+
+function! s:sort_by_lab_light(color1, color2)
+    return a:color1.lab.l - a:color2.lab.l
 endfunction
 
 function! s:sort_by_term_default(color1, color2)
@@ -249,7 +257,7 @@ function! s:build_16_255_palette(color_components, gray_components)
                     \ 'r': a:color_components[ir],
                     \ 'g': a:color_components[ig],
                     \ 'b': a:color_components[ib],
-                \ }, { 'term': index })
+                \ }, { 'term': index, 'name': 'xterm' . index })
             endfor
         endfor
     endfor
@@ -260,7 +268,7 @@ function! s:build_16_255_palette(color_components, gray_components)
             \ 'r': a:gray_components[i],
             \ 'g': a:gray_components[i],
             \ 'b': a:gray_components[i],
-        \ }, { 'term': index + i })
+        \ }, { 'term': index + i, 'name': 'xterm' . (index + i) })
     endfor
 
     return palette
