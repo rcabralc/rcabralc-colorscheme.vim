@@ -63,9 +63,10 @@ colorscheme rcabralc
 The colors above are not the exhaustive list.  More of them are used, but
 normally terminals only allow customization of the sixteen first colors.
 Because of this, even with this customization, some of the colors, specially
-those used in the bundled lightline theme and some shades of gray, will still
-be approximations to the 256 colors palette.  Therefore, a proper
-`xterm-256color`-compatible terminal is still recommended.
+those used in the bundled
+[lightline](https://github.com/itchyny/lightline.vim) theme and some shades of
+gray, will still be approximations to the 256 colors palette.  Therefore, a
+proper `xterm-256color`-compatible terminal is still recommended.
 
 Please note that if you skip the terminal palette customization but set
 `g:rcabralc.use_default_term_colors` to `1`, the results will likely be very
