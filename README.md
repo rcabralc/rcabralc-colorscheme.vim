@@ -1,4 +1,4 @@
-# rcabralc's Colorscheme for Vim
+# rcabralc's color scheme for Vim
 
 A vibrant, warmer variation of Monokai, for GUI and terminals.  A light
 version is also provided.
@@ -6,7 +6,7 @@ version is also provided.
 
 ## Configuration
 
-Just set the background and color scheme in your `vimrc`/`init.vim` file:
+Set the background and color scheme in your `vimrc`/`init.vim` file:
 
 ```vim
 set background=dark " or light
@@ -16,12 +16,12 @@ colorscheme rcabralc
 
 ## Terminal colors
 
-This color scheme was firstly built for the GUI version.  For terminals which
-can render 256 colors, the color scheme colors are approximated to the closest
-terminal color available (Xterm palette is assumed).  If this approximation is
-good enough for you (just test it in a `xterm-256color`-compatible terminal
-and see), you don't need to configure anything else.  Just be sure to `set
-t_Co=256` in your `.vimrc`/`init.vim`.
+This color scheme was primarily built for the GUI version.  For terminals
+which can render 256 colors, the color scheme colors are approximated to the
+closest terminal color available (Xterm palette is assumed).  If this
+approximation is good enough for you (just test it in a
+`xterm-256color`-compatible terminal and see), you don't need to configure
+anything else.  Just be sure to `set t_Co=256` in your `vimrc`/`init.vim`.
 
 However, for more fidelity to the GUI version, customize your default terminal
 colors as the following:
@@ -45,7 +45,7 @@ Color index    | Color value (dark version) | Color value (light version)
 14             | `#73e1b3`                  | `#4d8268`
 15, Foreground | `#f5e2bc`                  | `#f5e2bc`
 
-Then set this in your `vimrc`/`init;vim` file (before setting the color
+Then set this in your `vimrc`/`init.vim` file (before setting the color
 scheme):
 
 ```vim
@@ -60,11 +60,11 @@ set background=dark " or light
 colorscheme rcabralc
 ```
 
-The colors above are not the exhaustive list.  More colors are used, but
-usually the terminals only allow customization of the 16 first colors.
-Because of this, even with this customization some of the colors, specially
-those used for theme lightline and some shades of gray, will still be
-approximations to the 256 colors palette.  Therefore, a proper
+The colors above are not the exhaustive list.  More of them are used, but
+normally terminals only allow customization of the sixteen first colors.
+Because of this, even with this customization, some of the colors, specially
+those used in the bundled lightline theme and some shades of gray, will still
+be approximations to the 256 colors palette.  Therefore, a proper
 `xterm-256color`-compatible terminal is still recommended.
 
 Please note that if you skip the terminal palette customization but set
@@ -75,8 +75,8 @@ palette (and stick with the provided approximated colors).
 
 ## Using terminal Neovim
 
-If you use Neovim in a terminal which supports true colors, the colors will
-just follow the GUI values if you tell it to use true colors:
+If you use Neovim in a terminal which supports true colors, the GUI values
+will be used if you configure it accordingly:
 
 ```bash
 $ NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim
@@ -89,9 +89,8 @@ color terminals:
 let $NVIM_TUI_ENABLE_TRUE_COLOR = '1'
 ```
 
-This setting will make Neovim use the GUI colors in the terminal.  If this
-setting is not done, it'll work just like Vim, and approximations to 256
-colors will be used instead.
+If this environment variable is not set, it'll work just like Vim, and the
+closest Xterm colors will be used instead.
 
 
 ## Transparent background
@@ -137,7 +136,7 @@ function! s:improve_highlights(p)
 
     " For things which cannot be configured through hi link, use the colors in
     " the palette and the highlight function.  This function takes care of
-    " setting the approximate terminal color.
+    " setting the closest Xterm color available.
     call rcabralc#hl('GitGutterAdd',           a:p.lime,    a:p.none)
     call rcabralc#hl('GitGutterChange',        a:p.purple,  a:p.none)
     call rcabralc#hl('GitGutterDelete',        a:p.magenta, a:p.none)
