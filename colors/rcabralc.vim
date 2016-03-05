@@ -117,7 +117,7 @@ else
     let s:purple2 = s:blend(s:black, s:purple, 0.375)
     let s:purple3 = s:blend(s:black, s:purple, 0.5)
     let s:purple4 = s:blend(s:black, s:purple, 0.75)
-    let s:purple  = s:blend(s:purple1, s:purple1, 1, s:def_term ? { 'term': 5 } : {})
+    let s:purple  = s:blend(s:purple3, s:purple3, 1, s:def_term ? { 'term': 5 } : {})
 endif
 
 if s:background == 'dark'

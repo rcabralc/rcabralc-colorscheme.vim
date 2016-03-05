@@ -33,7 +33,7 @@ Color index    | Color value (dark version) | Color value (light version)
 2              | `#81a70a`                  | `#444f17`
 3              | `#f66d04`                  | `#c25b0a`
 4              | `#6082b0`                  | `#6082b0`
-5              | `#916ac7`                  | `#916ac7`
+5              | `#916ac7`                  | `#6d538e`
 6              | `#60b28e`                  | `#395343`
 7              | `#6a6251`                  | `#6a6251`
 8              | `#37322a`                  | `#d4c3a3`
