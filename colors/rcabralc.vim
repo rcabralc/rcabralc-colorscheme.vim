@@ -100,11 +100,11 @@ call s:define_color_shades({
 delfunction s:define_color_shades
 
 if s:background != 'dark'
-    let s:lime   = s:blend(s:lime3,   s:lime3,   1,     s:merge_term({}, s:lime.term))
-    let s:orange = s:blend(s:orange1, s:orange1, 1,     s:merge_term({}, s:orange.term))
-    let s:purple = s:blend(s:purple3, s:purple3, 1,     s:merge_term({}, 5))
-    let s:cyan   = s:blend(s:cyan3,   s:cyan3,   1,     s:merge_term({}, s:cyan.term))
-    let s:yellow = s:blend(s:yellow,  s:black,   0.625, s:merge_term({}, 11))
+    let s:lime   = s:build_color(s:lime3.rgb,   s:merge_term({}, s:lime.term))
+    let s:orange = s:build_color(s:orange1.rgb, s:merge_term({}, s:orange.term))
+    let s:purple = s:build_color(s:purple3.rgb, s:merge_term({}, 5))
+    let s:cyan   = s:build_color(s:cyan3.rgb,   s:merge_term({}, s:cyan.term))
+    let s:yellow = s:blend(s:yellow, s:black, 0.625, s:merge_term({}, 11))
 endif
 
 if s:background == 'dark'

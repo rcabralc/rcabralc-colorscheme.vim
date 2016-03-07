@@ -42,6 +42,7 @@ function! rcabralc#build_color(color, ...)
     endif
 
     let color = s:add_lab(s:add_gui(color))
+    let color.rgb = { 'r': color.r, 'g': color.g, 'b': color.b }
 
     if a:0 == 1
         let options = a:1
