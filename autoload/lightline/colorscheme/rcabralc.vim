@@ -40,9 +40,9 @@ let s:lime0 = g:rcabralc#palette.lime0
 let s:lime1 = g:rcabralc#palette.lime1
 let s:lime2 = g:rcabralc#palette.lime2
 
-let s:orange0 = g:rcabralc#blend(s:orange, s:black, 0.125)
-let s:orange1 = g:rcabralc#blend(s:orange, s:black, 0.25)
-let s:orange2 = g:rcabralc#blend(s:orange, s:black, 0.375)
+let s:orange0 = g:rcabralc#palette.orange0
+let s:orange1 = g:rcabralc#palette.orange1
+let s:orange2 = g:rcabralc#palette.orange2
 
 let s:cyan0 = g:rcabralc#palette.cyan0
 let s:cyan1 = g:rcabralc#palette.cyan1
