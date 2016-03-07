@@ -61,95 +61,50 @@ if !has('gui_running') && s:options.transparent_background == 1
     let s:bg = { 'gui': 'NONE', 'term': 'NONE' }
 endif
 
-if s:background == 'dark'
-    let s:magenta0 = s:blend(s:magenta, s:black, 0.125)
-    let s:magenta1 = s:blend(s:magenta, s:black, 0.25)
-    let s:magenta2 = s:blend(s:magenta, s:black, 0.375)
-    let s:magenta3 = s:blend(s:magenta, s:black, 0.5)
-    let s:magenta4 = s:blend(s:magenta, s:black, 0.625)
-    let s:magenta5 = s:blend(s:magenta, s:black, 0.75, s:merge_term({}, 1))
-else
-    let s:magenta0 = s:blend(s:black, s:magenta, 0.125, s:merge_term({}, 1))
-    let s:magenta1 = s:blend(s:black, s:magenta, 0.25)
-    let s:magenta2 = s:blend(s:black, s:magenta, 0.375)
-    let s:magenta3 = s:blend(s:black, s:magenta, 0.5)
-    let s:magenta4 = s:blend(s:black, s:magenta, 0.625)
-    let s:magenta5 = s:blend(s:black, s:magenta, 0.75)
-endif
+let g:rcabralc#palette = {}
 
-if s:background == 'dark'
-    let s:lime0 = s:blend(s:lime, s:black, 0.125)
-    let s:lime1 = s:blend(s:lime, s:black, 0.25)
-    let s:lime2 = s:blend(s:lime, s:black, 0.375)
-    let s:lime3 = s:blend(s:lime, s:black, 0.5)
-    let s:lime4 = s:blend(s:lime, s:black, 0.625)
-    let s:lime5 = s:blend(s:lime, s:black, 0.75, s:merge_term({}, 2))
-else
-    let s:lime0 = s:blend(s:black, s:lime,  0.125)
-    let s:lime1 = s:blend(s:black, s:lime,  0.25)
-    let s:lime2 = s:blend(s:black, s:lime,  0.375)
-    let s:lime3 = s:blend(s:black, s:lime,  0.5)
-    let s:lime4 = s:blend(s:black, s:lime,  0.625)
-    let s:lime5 = s:blend(s:black, s:lime,  0.75, s:merge_term({}, 2))
-    let s:lime  = s:blend(s:lime3, s:lime3, 1, s:merge_term({}, s:lime.term))
-endif
+function! s:define_color_shades(term_codes)
+    let opacities = { 0: 0.125 , 1: 0.25, 2: 0.375, 3: 0.5, 4: 0.625, 5: 0.75 }
+    for name in ['magenta', 'lime', 'orange', 'blue', 'purple', 'cyan']
 
-if s:background == 'dark'
-    let s:orange0 = s:blend(s:orange, s:black, 0.125)
-    let s:orange1 = s:blend(s:orange, s:black, 0.25)
-    let s:orange2 = s:blend(s:orange, s:black, 0.375)
-    let s:orange3 = s:blend(s:orange, s:black, 0.5)
-    let s:orange4 = s:blend(s:orange, s:black, 0.625)
-    let s:orange5 = s:blend(s:orange, s:black, 0.75)
-else
-    let s:orange0 = s:blend(s:black,   s:orange,  0.125)
-    let s:orange1 = s:blend(s:black,   s:orange,  0.25)
-    let s:orange2 = s:blend(s:black,   s:orange,  0.375)
-    let s:orange3 = s:blend(s:black,   s:orange,  0.5)
-    let s:orange4 = s:blend(s:black,   s:orange,  0.625)
-    let s:orange5 = s:blend(s:black,   s:orange,  0.75)
-    let s:orange  = s:blend(s:orange1, s:orange1, 1, s:merge_term({}, s:orange.term))
-endif
+        if s:background == 'dark'
+            let color2 = s:black
+            exe 'let color1 = s:' . name
+        else
+            let color1 = s:black
+            exe 'let color2 = s:' . name
+        endif
 
-let s:blue0 = s:blend(s:blue, s:black, 0.125)
-let s:blue1 = s:blend(s:blue, s:black, 0.25)
-let s:blue2 = s:blend(s:blue, s:black, 0.375)
-let s:blue3 = s:blend(s:blue, s:black, 0.5)
-let s:blue4 = s:blend(s:blue, s:black, 0.625)
-let s:blue5 = s:blend(s:blue, s:black, 0.75, s:merge_term({}, 4))
+        for [index, opacity] in items(opacities)
+            let color_name = name . index
 
-if s:background == 'dark'
-    let s:purple0 = s:blend(s:purple, s:black, 0.125)
-    let s:purple1 = s:blend(s:purple, s:black, 0.25)
-    let s:purple2 = s:blend(s:purple, s:black, 0.375)
-    let s:purple3 = s:blend(s:purple, s:black, 0.5)
-    let s:purple4 = s:blend(s:purple, s:black, 0.625)
-    let s:purple5 = s:blend(s:purple, s:black, 0.75, s:merge_term({}, 5))
-else
-    let s:purple0 = s:blend(s:black,   s:purple, 0.125, s:merge_term({}, s:purple.term))
-    let s:purple1 = s:blend(s:black,   s:purple, 0.25)
-    let s:purple2 = s:blend(s:black,   s:purple, 0.375)
-    let s:purple3 = s:blend(s:black,   s:purple, 0.5)
-    let s:purple4 = s:blend(s:black,   s:purple, 0.625)
-    let s:purple5 = s:blend(s:black,   s:purple, 0.75)
-    let s:purple  = s:blend(s:purple3, s:purple3, 1, s:merge_term({}, 5))
-endif
+            if has_key(a:term_codes[s:background], color_name)
+                let options = s:merge_term({}, a:term_codes[s:background][color_name])
+            else
+                let options = {}
+            endif
 
-if s:background == 'dark'
-    let s:cyan0 = s:blend(s:cyan, s:black, 0.125)
-    let s:cyan1 = s:blend(s:cyan, s:black, 0.25)
-    let s:cyan2 = s:blend(s:cyan, s:black, 0.375)
-    let s:cyan3 = s:blend(s:cyan, s:black, 0.5)
-    let s:cyan4 = s:blend(s:cyan, s:black, 0.625)
-    let s:cyan5 = s:blend(s:cyan, s:black, 0.75, s:merge_term({}, 6))
-else
-    let s:cyan0 = s:blend(s:black, s:cyan,  0.125)
-    let s:cyan1 = s:blend(s:black, s:cyan,  0.25)
-    let s:cyan2 = s:blend(s:black, s:cyan,  0.375)
-    let s:cyan3 = s:blend(s:black, s:cyan,  0.5)
-    let s:cyan4 = s:blend(s:black, s:cyan,  0.625)
-    let s:cyan5 = s:blend(s:black, s:cyan,  0.75, s:merge_term({}, 6))
-    let s:cyan  = s:blend(s:cyan3, s:cyan3, 1,    s:merge_term({}, s:cyan.term))
+            let shade = s:blend(color1, color2, opacity, options)
+
+            exe 'let s:' . color_name . ' = shade'
+            exe 'let g:rcabralc#palette.' . color_name . ' = shade'
+        endfor
+    endfor
+endfunction
+
+call s:define_color_shades({
+    \ 'dark':  { 'magenta5': 1, 'lime5': 2, 'blue5': 4, 'purple5': 5, 'cyan5': 6 },
+    \ 'light': { 'magenta0': 1, 'lime5': 2, 'blue5': 4, 'purple0': s:purple.term, 'cyan5': 6 },
+\ })
+
+delfunction s:define_color_shades
+
+if s:background != 'dark'
+    let s:lime   = s:blend(s:lime3,   s:lime3,   1,     s:merge_term({}, s:lime.term))
+    let s:orange = s:blend(s:orange1, s:orange1, 1,     s:merge_term({}, s:orange.term))
+    let s:purple = s:blend(s:purple3, s:purple3, 1,     s:merge_term({}, 5))
+    let s:cyan   = s:blend(s:cyan3,   s:cyan3,   1,     s:merge_term({}, s:cyan.term))
+    let s:yellow = s:blend(s:yellow,  s:black,   0.625, s:merge_term({}, 11))
 endif
 
 if s:background == 'dark'
@@ -165,65 +120,24 @@ else
 endif
 let s:gray4 = s:blend(s:white, s:black, 0.33, s:merge_term({}, 7))
 
-if s:background == 'light'
-    let s:yellow = s:blend(s:yellow, s:black, 0.625, s:merge_term({}, 11))
-endif
-
 delfunction s:merge_term
 
-" Export palette
-let g:rcabralc#palette = {}
-let g:rcabralc#palette.none     = s:none
-let g:rcabralc#palette.black    = s:black
-let g:rcabralc#palette.gray0    = s:gray0
-let g:rcabralc#palette.gray1    = s:gray1
-let g:rcabralc#palette.gray2    = s:gray2
-let g:rcabralc#palette.gray3    = s:gray3
-let g:rcabralc#palette.gray4    = s:gray4
-let g:rcabralc#palette.white    = s:white
-let g:rcabralc#palette.lime0    = s:lime0
-let g:rcabralc#palette.lime1    = s:lime1
-let g:rcabralc#palette.lime2    = s:lime2
-let g:rcabralc#palette.lime3    = s:lime3
-let g:rcabralc#palette.lime4    = s:lime4
-let g:rcabralc#palette.lime5    = s:lime5
-let g:rcabralc#palette.lime     = s:lime
-let g:rcabralc#palette.yellow   = s:yellow
-let g:rcabralc#palette.blue0    = s:blue0
-let g:rcabralc#palette.blue1    = s:blue1
-let g:rcabralc#palette.blue2    = s:blue2
-let g:rcabralc#palette.blue3    = s:blue3
-let g:rcabralc#palette.blue4    = s:blue4
-let g:rcabralc#palette.blue5    = s:blue5
-let g:rcabralc#palette.blue     = s:blue
-let g:rcabralc#palette.purple0  = s:purple0
-let g:rcabralc#palette.purple1  = s:purple1
-let g:rcabralc#palette.purple2  = s:purple2
-let g:rcabralc#palette.purple3  = s:purple3
-let g:rcabralc#palette.purple4  = s:purple4
-let g:rcabralc#palette.purple5  = s:purple5
-let g:rcabralc#palette.purple   = s:purple
-let g:rcabralc#palette.cyan0    = s:cyan0
-let g:rcabralc#palette.cyan1    = s:cyan1
-let g:rcabralc#palette.cyan2    = s:cyan2
-let g:rcabralc#palette.cyan3    = s:cyan3
-let g:rcabralc#palette.cyan4    = s:cyan4
-let g:rcabralc#palette.cyan5    = s:cyan5
-let g:rcabralc#palette.cyan     = s:cyan
-let g:rcabralc#palette.orange0  = s:orange0
-let g:rcabralc#palette.orange1  = s:orange1
-let g:rcabralc#palette.orange2  = s:orange2
-let g:rcabralc#palette.orange3  = s:orange3
-let g:rcabralc#palette.orange4  = s:orange4
-let g:rcabralc#palette.orange5  = s:orange5
-let g:rcabralc#palette.orange   = s:orange
-let g:rcabralc#palette.magenta0 = s:magenta0
-let g:rcabralc#palette.magenta1 = s:magenta1
-let g:rcabralc#palette.magenta2 = s:magenta2
-let g:rcabralc#palette.magenta3 = s:magenta3
-let g:rcabralc#palette.magenta4 = s:magenta4
-let g:rcabralc#palette.magenta5 = s:magenta5
-let g:rcabralc#palette.magenta  = s:magenta
+" Export the rest of the palette
+let g:rcabralc#palette.none    = s:none
+let g:rcabralc#palette.black   = s:black
+let g:rcabralc#palette.gray0   = s:gray0
+let g:rcabralc#palette.gray1   = s:gray1
+let g:rcabralc#palette.gray2   = s:gray2
+let g:rcabralc#palette.gray3   = s:gray3
+let g:rcabralc#palette.gray4   = s:gray4
+let g:rcabralc#palette.white   = s:white
+let g:rcabralc#palette.lime    = s:lime
+let g:rcabralc#palette.yellow  = s:yellow
+let g:rcabralc#palette.blue    = s:blue
+let g:rcabralc#palette.purple  = s:purple
+let g:rcabralc#palette.cyan    = s:cyan
+let g:rcabralc#palette.orange  = s:orange
+let g:rcabralc#palette.magenta = s:magenta
 
 function! s:name_colors(palette)
     for [name, color] in items(a:palette)
