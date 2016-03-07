@@ -66,15 +66,17 @@ if s:background == 'dark'
     let s:magenta1 = s:blend(s:magenta, s:black, 0.25,  { 'name': 'magenta1' })
     let s:magenta2 = s:blend(s:magenta, s:black, 0.375, { 'name': 'magenta2' })
     let s:magenta3 = s:blend(s:magenta, s:black, 0.5,   { 'name': 'magenta3' })
-    let s:magenta4 = s:blend(s:magenta, s:black, 0.75,
-                           \ s:merge_term({ 'name': 'magenta4' }, 1))
+    let s:magenta4 = s:blend(s:magenta, s:black, 0.625, { 'name': 'magenta4' })
+    let s:magenta5 = s:blend(s:magenta, s:black, 0.75,
+                           \ s:merge_term({ 'name': 'magenta5' }, 1))
 else
     let s:magenta0 = s:blend(s:black, s:magenta, 0.125,
                            \ s:merge_term({ 'name': 'magenta0' }, 1))
     let s:magenta1 = s:blend(s:black, s:magenta, 0.25,  { 'name': 'magenta1' })
     let s:magenta2 = s:blend(s:black, s:magenta, 0.375, { 'name': 'magenta2' })
     let s:magenta3 = s:blend(s:black, s:magenta, 0.5,   { 'name': 'magenta3' })
-    let s:magenta4 = s:blend(s:black, s:magenta, 0.75,  { 'name': 'magenta4' })
+    let s:magenta4 = s:blend(s:black, s:magenta, 0.625, { 'name': 'magenta4' })
+    let s:magenta5 = s:blend(s:black, s:magenta, 0.75,  { 'name': 'magenta5' })
 endif
 
 if s:background == 'dark'
@@ -82,15 +84,17 @@ if s:background == 'dark'
     let s:lime1 = s:blend(s:lime, s:black, 0.25,  { 'name': 'lime1' })
     let s:lime2 = s:blend(s:lime, s:black, 0.375, { 'name': 'lime2' })
     let s:lime3 = s:blend(s:lime, s:black, 0.5,   { 'name': 'lime3' })
-    let s:lime4 = s:blend(s:lime, s:black, 0.75,
-                        \ s:merge_term({ 'name': 'lime4' }, 2))
+    let s:lime4 = s:blend(s:lime, s:black, 0.625, { 'name': 'lime4' })
+    let s:lime5 = s:blend(s:lime, s:black, 0.75,
+                        \ s:merge_term({ 'name': 'lime5' }, 2))
 else
     let s:lime0 = s:blend(s:black, s:lime,  0.125, { 'name': 'lime0' })
     let s:lime1 = s:blend(s:black, s:lime,  0.25,  { 'name': 'lime1' })
     let s:lime2 = s:blend(s:black, s:lime,  0.375, { 'name': 'lime2' })
     let s:lime3 = s:blend(s:black, s:lime,  0.5,   { 'name': 'lime3' })
-    let s:lime4 = s:blend(s:black, s:lime,  0.75,
-                        \ s:merge_term({ 'name': 'lime4' }, 2))
+    let s:lime4 = s:blend(s:black, s:lime,  0.625, { 'name': 'lime4' })
+    let s:lime5 = s:blend(s:black, s:lime,  0.75,
+                        \ s:merge_term({ 'name': 'lime5' }, 2))
     let s:lime  = s:blend(s:lime3, s:lime3, 1
                         \ s:merge_term({ 'name': 'lime' }, s:lime.term))
 endif
@@ -100,13 +104,15 @@ if s:background == 'dark'
     let s:orange1 = s:blend(s:orange, s:black, 0.25)
     let s:orange2 = s:blend(s:orange, s:black, 0.375)
     let s:orange3 = s:blend(s:orange, s:black, 0.5)
-    let s:orange4 = s:blend(s:orange, s:black, 0.75)
+    let s:orange4 = s:blend(s:orange, s:black, 0.625)
+    let s:orange5 = s:blend(s:orange, s:black, 0.75)
 else
     let s:orange0 = s:blend(s:black,   s:orange,  0.125)
     let s:orange1 = s:blend(s:black,   s:orange,  0.25)
     let s:orange2 = s:blend(s:black,   s:orange,  0.375)
     let s:orange3 = s:blend(s:black,   s:orange,  0.5)
-    let s:orange4 = s:blend(s:black,   s:orange,  0.75)
+    let s:orange4 = s:blend(s:black,   s:orange,  0.625)
+    let s:orange5 = s:blend(s:black,   s:orange,  0.75)
     let s:orange  = s:blend(s:orange1, s:orange1, 1, s:merge_term({ 'name': 'orange' }, s:orange.term))
 endif
 
@@ -114,20 +120,23 @@ let s:blue0 = s:blend(s:blue, s:black, 0.125)
 let s:blue1 = s:blend(s:blue, s:black, 0.25)
 let s:blue2 = s:blend(s:blue, s:black, 0.375)
 let s:blue3 = s:blend(s:blue, s:black, 0.5)
-let s:blue4 = s:blend(s:blue, s:black, 0.75, s:merge_term({ 'name': 'blue4' }, 4))
+let s:blue4 = s:blend(s:blue, s:black, 0.625)
+let s:blue5 = s:blend(s:blue, s:black, 0.75, s:merge_term({ 'name': 'blue4' }, 4))
 
 if s:background == 'dark'
     let s:purple0 = s:blend(s:purple, s:black, 0.125)
     let s:purple1 = s:blend(s:purple, s:black, 0.25)
     let s:purple2 = s:blend(s:purple, s:black, 0.375)
     let s:purple3 = s:blend(s:purple, s:black, 0.5)
-    let s:purple4 = s:blend(s:purple, s:black, 0.75, s:merge_term({ 'name': 'purple4' }, 5))
+    let s:purple4 = s:blend(s:purple, s:black, 0.625)
+    let s:purple5 = s:blend(s:purple, s:black, 0.75, s:merge_term({ 'name': 'purple5' }, 5))
 else
     let s:purple0 = s:blend(s:black,   s:purple, 0.125, s:merge_term({ 'name': 'purple0' }, s:purple.term))
     let s:purple1 = s:blend(s:black,   s:purple, 0.25)
     let s:purple2 = s:blend(s:black,   s:purple, 0.375)
     let s:purple3 = s:blend(s:black,   s:purple, 0.5)
-    let s:purple4 = s:blend(s:black,   s:purple, 0.75)
+    let s:purple4 = s:blend(s:black,   s:purple, 0.625)
+    let s:purple5 = s:blend(s:black,   s:purple, 0.75)
     let s:purple  = s:blend(s:purple3, s:purple3, 1, s:merge_term({ 'name': 'purple' }, 5))
 endif
 
@@ -136,13 +145,15 @@ if s:background == 'dark'
     let s:cyan1 = s:blend(s:cyan, s:black, 0.25)
     let s:cyan2 = s:blend(s:cyan, s:black, 0.375)
     let s:cyan3 = s:blend(s:cyan, s:black, 0.5)
-    let s:cyan4 = s:blend(s:cyan, s:black, 0.75, s:merge_term({ 'name': 'cyan4' }, 6))
+    let s:cyan4 = s:blend(s:cyan, s:black, 0.625)
+    let s:cyan5 = s:blend(s:cyan, s:black, 0.75, s:merge_term({ 'name': 'cyan5' }, 6))
 else
     let s:cyan0 = s:blend(s:black, s:cyan,  0.125)
     let s:cyan1 = s:blend(s:black, s:cyan,  0.25)
     let s:cyan2 = s:blend(s:black, s:cyan,  0.375)
     let s:cyan3 = s:blend(s:black, s:cyan,  0.5)
-    let s:cyan4 = s:blend(s:black, s:cyan,  0.75, s:merge_term({ 'name': 'cyan4' }, 6))
+    let s:cyan4 = s:blend(s:black, s:cyan,  0.625)
+    let s:cyan5 = s:blend(s:black, s:cyan,  0.75, s:merge_term({ 'name': 'cyan5' }, 6))
     let s:cyan  = s:blend(s:cyan3, s:cyan3, 1,    s:merge_term({ 'name': 'cyan' }, s:cyan.term))
 endif
 
@@ -180,6 +191,7 @@ let g:rcabralc#palette.lime1    = s:lime1
 let g:rcabralc#palette.lime2    = s:lime2
 let g:rcabralc#palette.lime3    = s:lime3
 let g:rcabralc#palette.lime4    = s:lime4
+let g:rcabralc#palette.lime5    = s:lime5
 let g:rcabralc#palette.lime     = s:lime
 let g:rcabralc#palette.yellow   = s:yellow
 let g:rcabralc#palette.blue0    = s:blue0
@@ -187,30 +199,35 @@ let g:rcabralc#palette.blue1    = s:blue1
 let g:rcabralc#palette.blue2    = s:blue2
 let g:rcabralc#palette.blue3    = s:blue3
 let g:rcabralc#palette.blue4    = s:blue4
+let g:rcabralc#palette.blue5    = s:blue5
 let g:rcabralc#palette.blue     = s:blue
 let g:rcabralc#palette.purple0  = s:purple0
 let g:rcabralc#palette.purple1  = s:purple1
 let g:rcabralc#palette.purple2  = s:purple2
 let g:rcabralc#palette.purple3  = s:purple3
 let g:rcabralc#palette.purple4  = s:purple4
+let g:rcabralc#palette.purple5  = s:purple5
 let g:rcabralc#palette.purple   = s:purple
 let g:rcabralc#palette.cyan0    = s:cyan0
 let g:rcabralc#palette.cyan1    = s:cyan1
 let g:rcabralc#palette.cyan2    = s:cyan2
 let g:rcabralc#palette.cyan3    = s:cyan3
 let g:rcabralc#palette.cyan4    = s:cyan4
+let g:rcabralc#palette.cyan5    = s:cyan5
 let g:rcabralc#palette.cyan     = s:cyan
 let g:rcabralc#palette.orange0  = s:orange0
 let g:rcabralc#palette.orange1  = s:orange1
 let g:rcabralc#palette.orange2  = s:orange2
 let g:rcabralc#palette.orange3  = s:orange3
 let g:rcabralc#palette.orange4  = s:orange4
+let g:rcabralc#palette.orange5  = s:orange5
 let g:rcabralc#palette.orange   = s:orange
 let g:rcabralc#palette.magenta0 = s:magenta0
 let g:rcabralc#palette.magenta1 = s:magenta1
 let g:rcabralc#palette.magenta2 = s:magenta2
 let g:rcabralc#palette.magenta3 = s:magenta3
 let g:rcabralc#palette.magenta4 = s:magenta4
+let g:rcabralc#palette.magenta5 = s:magenta5
 let g:rcabralc#palette.magenta  = s:magenta
 
 " Highlight definitions
