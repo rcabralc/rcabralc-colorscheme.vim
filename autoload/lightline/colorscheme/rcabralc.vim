@@ -80,5 +80,5 @@ let g:lightline#colorscheme#rcabralc#palette = s:p
 
 augroup RcabralcLightlineColorScheme
     autocmd!
-    autocmd ColorScheme rcabralc so % | call lightline#enable()
+    autocmd ColorScheme rcabralc so <sfile> | call lightline#enable()
 augroup END
