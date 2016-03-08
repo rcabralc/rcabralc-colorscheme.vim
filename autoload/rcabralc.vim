@@ -89,7 +89,7 @@ endfunction
 function! rcabralc#print_colors(palette)
     let sorted = sort(sort(values(filter(a:palette, "v:key != 'none'")), 's:sort_by_term_index'), 's:sort_by_term_default')
     for color in sorted
-        echo color.term . ' ' . color.gui
+        echo printf("%3d %s", color.term, color.gui)
     endfor
 endfunction
 
