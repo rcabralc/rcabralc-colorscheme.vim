@@ -77,3 +77,8 @@ let s:p.normal.error =    [ s:e(s:black, s:magenta) ]
 let s:p.normal.warning =  [ s:e(s:black, s:orange) ]
 
 let g:lightline#colorscheme#rcabralc#palette = s:p
+
+augroup RcabralcLightlineColorScheme
+    autocmd!
+    autocmd ColorScheme rcabralc so % | call lightline#enable()
+augroup END
