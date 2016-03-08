@@ -94,16 +94,16 @@ endfunction
 
 call s:define_color_shades({
     \ 'dark':  { 'magenta5': 1, 'lime5': 2, 'blue5': 4, 'purple5': 5, 'cyan5': 6 },
-    \ 'light': { 'magenta0': 1, 'lime5': 2, 'blue5': 4, 'purple0': s:purple.term, 'cyan5': 6 },
+    \ 'light': { 'magenta1': 1, 'lime3': 2, 'blue1': 4, 'purple1': s:purple.term, 'cyan3': 6 },
 \ })
 
 delfunction s:define_color_shades
 
 if s:background != 'dark'
-    let s:lime   = s:build_color(s:lime3.rgb,   s:merge_term({}, s:lime.term))
+    let s:lime   = s:build_color(s:lime2.rgb,   s:merge_term({}, s:lime.term))
     let s:orange = s:build_color(s:orange1.rgb, s:merge_term({}, s:orange.term))
     let s:purple = s:build_color(s:purple3.rgb, s:merge_term({}, 5))
-    let s:cyan   = s:build_color(s:cyan3.rgb,   s:merge_term({}, s:cyan.term))
+    let s:cyan   = s:build_color(s:cyan2.rgb,   s:merge_term({}, s:cyan.term))
     let s:yellow = s:blend(s:yellow, s:black, 0.625, s:merge_term({}, 11))
 endif
 

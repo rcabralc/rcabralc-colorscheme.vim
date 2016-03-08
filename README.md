@@ -30,20 +30,20 @@ colors as the following:
 Color index    | Color value (dark version) | Color value (light version)
 -------------- | -------------------------- | ---------------------------
 0, Background  | `#26231d`                  | `#26231d`
-1              | `#c20c50`                  | `#dc0859`
-2              | `#81a70a`                  | `#444f17`
+1              | `#c20c50`                  | `#c20c50`
+2              | `#81a70a`                  | `#637b11`
 3              | `#f66d04`                  | `#c25b0a`
 4              | `#6082b0`                  | `#6082b0`
 5              | `#916ac7`                  | `#6d538e`
-6              | `#60b28e`                  | `#395343`
+6              | `#60b28e`                  | `#4d8268`
 7              | `#6a6251`                  | `#6a6251`
 8              | `#37322a`                  | `#d4c3a3`
 9              | `#f60461`                  | `#f60461`
-10             | `#9fd304`                  | `#637b11`
+10             | `#9fd304`                  | `#72910d`
 11             | `#ebcc66`                  | `#a18d4b`
 12             | `#73a1e1`                  | `#73a1e1`
-13             | `#b482ff`                  | `#a276e3`
-14             | `#73e1b3`                  | `#4d8268`
+13             | `#b482ff`                  | `#916ac7`
+14             | `#73e1b3`                  | `#569a7b`
 15, Foreground | `#f5e2bc`                  | `#f5e2bc`
 
 Then set this in your `vimrc`/`init.vim` file (before setting the color
