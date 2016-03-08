@@ -69,7 +69,7 @@ let s:p.visual.middle =   [ s:e(s:cyan, s:gray1, 'bold') ]
 let s:p.visual.right =    [ s:e(s:white, s:cyan3), s:e(s:white, s:cyan2), s:e(s:white, s:cyan1) ]
 
 let s:p.tabline.left =    [ s:e(s:gray4, s:gray1) ]
-let s:p.tabline.tabsel =  [ s:e(s:black, s:purple) ]
+let s:p.tabline.tabsel =  [ s:e(s:white, s:purple) ]
 let s:p.tabline.middle =  [ s:e(s:gray4, s:gray1, 'bold') ]
 let s:p.tabline.right =   [ s:e(s:black, s:orange) ]
 
