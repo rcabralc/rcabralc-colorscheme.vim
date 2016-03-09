@@ -120,6 +120,10 @@ else
 endif
 let s:gray4 = s:blend(s:white, s:black, 0.33, s:merge_term({}, 7))
 
+let s:limebg    = s:blend(s:lime,    s:bg, 0.125)
+let s:cyanbg    = s:blend(s:cyan,    s:bg, 0.125)
+let s:magentabg = s:blend(s:magenta, s:bg, 0.125)
+
 delfunction s:merge_term
 
 " Export the rest of the palette
@@ -275,10 +279,10 @@ call s:hl('WarningMsg',   s:orange,  s:bg)
 call s:hl('WildMenu',     s:cyan,    s:bg)
 call s:hl('Folded',       s:gray4,   s:bg)
 call s:hl('FoldColumn',   s:gray4,   s:bg)
-call s:hl('DiffAdd',      s:none,    s:lime0)
-call s:hl('DiffChange',   s:none,    s:purple0)
-call s:hl('DiffDelete',   s:none,    s:magenta0)
-call s:hl('DiffText',     s:none,    s:purple0,  'underline')
+call s:hl('DiffAdd',      s:none,    s:limebg)
+call s:hl('DiffChange',   s:none,    s:cyanbg)
+call s:hl('DiffDelete',   s:none,    s:magentabg)
+call s:hl('DiffText',     s:none,    s:cyanbg,  'underline')
 call s:hl('SignColumn',   s:lime,    s:bg)
 call s:hl('Conceal',      s:gray1,   s:none)
 call s:hl('SpellBad',     s:none,    s:none,     'undercurl', 'NONE', s:magenta)
