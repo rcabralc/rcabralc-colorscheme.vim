@@ -21,8 +21,6 @@ let s:orange  = g:rcabralc#palette.orange
 let s:magenta = g:rcabralc#palette.magenta
 let s:gray0   = g:rcabralc#palette.gray0
 let s:gray1   = g:rcabralc#palette.gray1
-let s:gray2   = g:rcabralc#palette.gray2
-let s:gray3   = g:rcabralc#palette.gray3
 
 function! s:e(fg, bg, ...)
     if a:0 == 1
@@ -69,8 +67,8 @@ let s:p.visual.middle =   [ s:e(s:cyan, s:gray1, 'bold') ]
 let s:p.visual.right =    [ s:e(s:white, s:cyan3), s:e(s:white, s:cyan2), s:e(s:white, s:cyan1) ]
 
 let s:p.tabline.left =    [ s:e(s:gray4, s:gray1) ]
-let s:p.tabline.tabsel =  [ s:e(s:white, s:purple) ]
-let s:p.tabline.middle =  [ s:e(s:gray4, s:gray1, 'bold') ]
+let s:p.tabline.tabsel =  [ s:e(s:white, s:purple3, 'bold') ]
+let s:p.tabline.middle =  [ s:e(s:gray4, s:gray0) ]
 let s:p.tabline.right =   [ s:e(s:black, s:orange) ]
 
 let s:p.normal.error =    [ s:e(s:black, s:magenta) ]
