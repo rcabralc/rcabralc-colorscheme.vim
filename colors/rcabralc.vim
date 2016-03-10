@@ -118,6 +118,7 @@ let s:gray2 = s:blend(s:white, s:black, 0.33, s:merge_term({}, 7))
 
 let s:limebg    = s:blend(s:lime,    s:bg, 0.125)
 let s:cyanbg    = s:blend(s:cyan,    s:bg, 0.125)
+let s:purplebg  = s:blend(s:purple,  s:bg, 0.125)
 let s:magentabg = s:blend(s:magenta, s:bg, 0.125)
 
 delfunction s:merge_term
@@ -251,7 +252,7 @@ endif
 call s:hl('NonText',      s:gray2,   s:none)
 call s:hl('StatusLine',   s:fg,      s:gray0, 'bold')
 call s:hl('StatusLineNC', s:gray2,   s:gray0)
-call s:hl('Visual',       s:none,    s:gray1)
+call s:hl('Visual',       s:none,    s:purplebg)
 call s:hl('Directory',    s:purple,  s:none)
 call s:hl('ErrorMsg',     s:magenta, s:bg,    'bold')
 call s:hl('IncSearch',    s:none,    s:gray1)
