@@ -53,9 +53,17 @@ let s:orange  = s:build_color('#f66d04', s:merge_term({}, 3))
 let s:magenta = s:build_color('#f60461', s:merge_term({}, 9))
 
 let s:background = &bg
-let s:fg = s:background == 'dark' ? s:white : s:black
-let s:bg = s:background == 'dark' ? s:black : s:white
+let s:fg = s:build_color((s:background == 'dark' ? s:white : s:black).rgb)
+let s:bg = s:build_color((s:background == 'dark' ? s:black : s:white).rgb)
 let s:bgfg = s:bg
+
+if s:background != 'dark'
+    let s:lime   = s:blend(s:lime,   s:black, 0.625, s:merge_term({}, s:lime.term))
+    let s:orange = s:blend(s:orange, s:black, 0.75,  s:merge_term({}, s:orange.term))
+    let s:purple = s:blend(s:purple, s:black, 0.75,  s:merge_term({}, s:purple.term))
+    let s:cyan   = s:blend(s:cyan,   s:black, 0.625, s:merge_term({}, s:cyan.term))
+    let s:yellow = s:blend(s:yellow, s:black, 0.5,   s:merge_term({}, s:yellow.term))
+endif
 
 if !has('gui_running') && s:options.transparent_background == 1
     let s:bg = { 'gui': 'NONE', 'term': 'NONE' }
@@ -64,27 +72,28 @@ endif
 let g:rcabralc#palette = {}
 
 function! s:define_color_shades(term_codes)
-    let opacities = { 0: 0.125 , 1: 0.25, 2: 0.375, 3: 0.5, 4: 0.625, 5: 0.75 }
+    let opacities = { 0: -0.5, 1: -0.25, 3: 0.25, 4: 0.5 }
     for name in ['magenta', 'lime', 'orange', 'blue', 'purple', 'cyan']
-
-        if s:background == 'dark'
-            let color2 = s:black
-            exe 'let color1 = s:' . name
-        else
-            let color1 = s:black
-            exe 'let color2 = s:' . name
-        endif
+        exe 'let color = s:' . name
+        exe 'let g:rcabralc#palette.' . name . '2 = s:build_color(color.rgb)'
 
         for [index, opacity] in items(opacities)
             let color_name = name . index
 
-            if has_key(a:term_codes[s:background], color_name)
-                let options = s:merge_term({}, a:term_codes[s:background][color_name])
+            if opacity < 0
+                let from_color = s:black
+                let opacity = 1 + opacity
+            else
+                let from_color = s:white
+            end
+
+            if has_key(a:term_codes, color_name)
+                let options = s:merge_term({}, a:term_codes[color_name])
             else
                 let options = {}
             endif
 
-            let shade = s:blend(color1, color2, opacity, options)
+            let shade = s:blend(color, from_color, opacity, options)
 
             exe 'let s:' . color_name . ' = shade'
             exe 'let g:rcabralc#palette.' . color_name . ' = shade'
@@ -93,19 +102,10 @@ function! s:define_color_shades(term_codes)
 endfunction
 
 call s:define_color_shades({
-    \ 'dark':  { 'magenta5': 1, 'lime5': 2, 'blue5': 4, 'purple5': 5, 'cyan5': 6 },
-    \ 'light': { 'magenta1': 1, 'lime3': 2, 'blue1': 4, 'purple1': s:purple.term, 'cyan3': 6 },
+    \ 'magenta1': 1, 'lime1': 2, 'blue1': 4, 'purple1': 5, 'cyan1': 6,
 \ })
 
 delfunction s:define_color_shades
-
-if s:background != 'dark'
-    let s:lime   = s:build_color(s:lime2.rgb,   s:merge_term({}, s:lime.term))
-    let s:orange = s:build_color(s:orange1.rgb, s:merge_term({}, s:orange.term))
-    let s:purple = s:build_color(s:purple3.rgb, s:merge_term({}, 5))
-    let s:cyan   = s:build_color(s:cyan2.rgb,   s:merge_term({}, s:cyan.term))
-    let s:yellow = s:blend(s:yellow, s:black, 0.625, s:merge_term({}, 11))
-endif
 
 if s:background == 'dark'
     let s:gray0 = s:blend(s:white, s:black, 0.04)
@@ -116,27 +116,33 @@ else
 endif
 let s:gray2 = s:blend(s:white, s:black, 0.33, s:merge_term({}, 7))
 
-let s:limebg    = s:blend(s:lime,    s:bg, 0.125)
-let s:cyanbg    = s:blend(s:cyan,    s:bg, 0.125)
-let s:purplebg  = s:blend(s:purple,  s:bg, 0.125)
-let s:magentabg = s:blend(s:magenta, s:bg, 0.125)
+let s:limebg    = s:blend(s:lime,    s:bgfg, 0.125)
+let s:cyanbg    = s:blend(s:cyan,    s:bgfg, 0.125)
+let s:purplebg  = s:blend(s:purple,  s:bgfg, 0.125)
+let s:magentabg = s:blend(s:magenta, s:bgfg, 0.125)
 
 delfunction s:merge_term
 
 " Export the rest of the palette
-let g:rcabralc#palette.none    = s:none
-let g:rcabralc#palette.black   = s:black
-let g:rcabralc#palette.gray0   = s:gray0
-let g:rcabralc#palette.gray1   = s:gray1
-let g:rcabralc#palette.gray2   = s:gray2
-let g:rcabralc#palette.white   = s:white
-let g:rcabralc#palette.lime    = s:lime
-let g:rcabralc#palette.yellow  = s:yellow
-let g:rcabralc#palette.blue    = s:blue
-let g:rcabralc#palette.purple  = s:purple
-let g:rcabralc#palette.cyan    = s:cyan
-let g:rcabralc#palette.orange  = s:orange
-let g:rcabralc#palette.magenta = s:magenta
+let g:rcabralc#palette.none      = s:none
+let g:rcabralc#palette.bg        = s:bgfg
+let g:rcabralc#palette.fg        = s:fg
+let g:rcabralc#palette.black     = s:black
+let g:rcabralc#palette.gray0     = s:gray0
+let g:rcabralc#palette.gray1     = s:gray1
+let g:rcabralc#palette.gray2     = s:gray2
+let g:rcabralc#palette.white     = s:white
+let g:rcabralc#palette.lime      = s:lime
+let g:rcabralc#palette.yellow    = s:yellow
+let g:rcabralc#palette.blue      = s:blue
+let g:rcabralc#palette.purple    = s:purple
+let g:rcabralc#palette.cyan      = s:cyan
+let g:rcabralc#palette.orange    = s:orange
+let g:rcabralc#palette.magenta   = s:magenta
+let g:rcabralc#palette.limebg    = s:limebg
+let g:rcabralc#palette.cyanbg    = s:cyanbg
+let g:rcabralc#palette.purplebg  = s:purplebg
+let g:rcabralc#palette.magentabg = s:magentabg
 
 function! s:name_colors(palette)
     for [name, color] in items(a:palette)
@@ -179,11 +185,7 @@ endif
 "         Boolean        a boolean constant: TRUE, false
 "         Float          a floating point constant: 2.3e10
 call s:hl('Constant',  s:purple, s:none, 'bold')
-if s:background == 'dark'
-    call s:hl('String', s:yellow, s:none)
-else
-    call s:hl('String', s:yellow, s:none, 'bold')
-endif
+call s:hl('String', s:yellow, s:none)
 call s:hl('Character', s:purple, s:none)
 call s:hl('Number',    s:purple, s:none)
 call s:hl('Boolean',   s:lime,   s:none)
