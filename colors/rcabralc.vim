@@ -109,16 +109,12 @@ endif
 
 if s:background == 'dark'
     let s:gray0 = s:blend(s:white, s:black, 0.04)
-    let s:gray1 = s:blend(s:white, s:black, 0.08, s:merge_term({}, 8))
-    let s:gray2 = s:blend(s:white, s:black, 0.12)
-    let s:gray3 = s:blend(s:white, s:black, 0.16)
+    let s:gray1 = s:blend(s:white, s:black, 0.12, s:merge_term({}, 8))
 else
     let s:gray0 = s:blend(s:black, s:white, 0.08)
     let s:gray1 = s:blend(s:black, s:white, 0.16, s:merge_term({}, 8))
-    let s:gray2 = s:blend(s:black, s:white, 0.20)
-    let s:gray3 = s:blend(s:black, s:white, 0.24)
 endif
-let s:gray4 = s:blend(s:white, s:black, 0.33, s:merge_term({}, 7))
+let s:gray2 = s:blend(s:white, s:black, 0.33, s:merge_term({}, 7))
 
 let s:limebg    = s:blend(s:lime,    s:bg, 0.125)
 let s:cyanbg    = s:blend(s:cyan,    s:bg, 0.125)
@@ -132,8 +128,6 @@ let g:rcabralc#palette.black   = s:black
 let g:rcabralc#palette.gray0   = s:gray0
 let g:rcabralc#palette.gray1   = s:gray1
 let g:rcabralc#palette.gray2   = s:gray2
-let g:rcabralc#palette.gray3   = s:gray3
-let g:rcabralc#palette.gray4   = s:gray4
 let g:rcabralc#palette.white   = s:white
 let g:rcabralc#palette.lime    = s:lime
 let g:rcabralc#palette.yellow  = s:yellow
@@ -172,9 +166,9 @@ call s:hl('Normal', s:fg, s:bg)
 
 "        *Comment        any comment
 if s:options.allow_italics
-    call s:hl('Comment', s:gray4, s:none, 'italic')
+    call s:hl('Comment', s:gray2, s:none, 'italic')
 else
-    call s:hl('Comment', s:gray4, s:none)
+    call s:hl('Comment', s:gray2, s:none)
 endif
 
 "        *Constant       any constant
@@ -250,35 +244,35 @@ call s:hl('Todo', s:fg, s:none, 'bold')
 
 " Extended highlighting
 if s:background == 'dark'
-    call s:hl('SpecialKey', s:gray4, s:none)
+    call s:hl('SpecialKey', s:gray2, s:none)
 else
     call s:hl('SpecialKey', s:orange, s:none)
 endif
-call s:hl('NonText',      s:gray4,   s:none)
+call s:hl('NonText',      s:gray2,   s:none)
 call s:hl('StatusLine',   s:fg,      s:gray0, 'bold')
-call s:hl('StatusLineNC', s:gray4,   s:gray0)
+call s:hl('StatusLineNC', s:gray2,   s:gray0)
 call s:hl('Visual',       s:none,    s:gray1)
 call s:hl('Directory',    s:purple,  s:none)
 call s:hl('ErrorMsg',     s:magenta, s:bg,    'bold')
-call s:hl('IncSearch',    s:none,    s:gray2)
+call s:hl('IncSearch',    s:none,    s:gray1)
 
 if s:options.prominent_search_highlight
     call s:hl('Search', s:none, s:none, 'reverse')
 else
-    call s:hl('Search', s:none, s:gray2)
+    call s:hl('Search', s:none, s:gray1)
 endif
 
 call s:hl('MoreMsg',      s:cyan,    s:bg)
 call s:hl('ModeMsg',      s:lime,    s:bg)
-call s:hl('LineNr',       s:gray4,   s:bg)
+call s:hl('LineNr',       s:gray2,   s:bg)
 call s:hl('Question',     s:cyan,    s:none,     'bold')
-call s:hl('VertSplit',    s:gray4,   s:gray0)
+call s:hl('VertSplit',    s:gray2,   s:gray0)
 call s:hl('Title',        s:magenta, s:none,     'bold')
 call s:hl('VisualNOS',    s:bgfg,    s:fg)
 call s:hl('WarningMsg',   s:orange,  s:bg)
 call s:hl('WildMenu',     s:cyan,    s:bg)
-call s:hl('Folded',       s:gray4,   s:bg)
-call s:hl('FoldColumn',   s:gray4,   s:bg)
+call s:hl('Folded',       s:gray2,   s:bg)
+call s:hl('FoldColumn',   s:gray2,   s:bg)
 call s:hl('DiffAdd',      s:none,    s:limebg)
 call s:hl('DiffChange',   s:none,    s:cyanbg)
 call s:hl('DiffDelete',   s:none,    s:magentabg)
@@ -291,10 +285,10 @@ call s:hl('SpellRare',    s:none,    s:none,     'undercurl', 'NONE', s:white)
 call s:hl('SpellLocal',   s:none,    s:none,     'undercurl', 'NONE', s:orange)
 call s:hl('Pmenu',        s:gray1,   s:fg)
 call s:hl('PmenuSel',     s:orange,  s:gray1,    'bold')
-call s:hl('PmenuSbar',    s:none,    s:gray4)
+call s:hl('PmenuSbar',    s:none,    s:gray2)
 call s:hl('PmenuThumb',   s:none,    s:gray1)
-call s:hl('TabLine',      s:bgfg,    s:gray4)
-call s:hl('TabLineFill',  s:gray4,   s:gray4)
+call s:hl('TabLine',      s:bgfg,    s:gray2)
+call s:hl('TabLineFill',  s:gray2,   s:gray2)
 call s:hl('TabLineSel',   s:fg,      s:gray1,    'bold')
 call s:hl('CursorColumn', s:none,    s:gray0)
 call s:hl('CursorLine',   s:none,    s:gray0)

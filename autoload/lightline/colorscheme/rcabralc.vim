@@ -12,7 +12,6 @@ let s:p = {
 \ }
 
 let s:black   = g:rcabralc#palette.black
-let s:gray4   = g:rcabralc#palette.gray4
 let s:white   = g:rcabralc#palette.white
 let s:cyan    = g:rcabralc#palette.cyan
 let s:lime    = g:rcabralc#palette.lime
@@ -21,6 +20,7 @@ let s:orange  = g:rcabralc#palette.orange
 let s:magenta = g:rcabralc#palette.magenta
 let s:gray0   = g:rcabralc#palette.gray0
 let s:gray1   = g:rcabralc#palette.gray1
+let s:gray2   = g:rcabralc#palette.gray2
 
 function! s:e(fg, bg, ...)
     if a:0 == 1
@@ -50,9 +50,9 @@ let s:p.normal.left =     [ s:e(s:white, s:purple3, 'bold'), s:e(s:white, s:purp
 let s:p.normal.middle =   [ s:e(s:purple, s:gray1, 'bold') ]
 let s:p.normal.right =    [ s:e(s:white, s:purple3), s:e(s:white, s:purple2), s:e(s:white, s:purple1) ]
 
-let s:p.inactive.left =   [ s:e(s:gray4, s:gray0), s:e(s:gray4, s:gray0) ]
-let s:p.inactive.middle = [ s:e(s:gray4, s:gray0, 'bold') ]
-let s:p.inactive.right =  [ s:e(s:gray4, s:gray0), s:e(s:gray4, s:gray0) ]
+let s:p.inactive.left =   [ s:e(s:gray2, s:gray1), s:e(s:gray2, s:gray0) ]
+let s:p.inactive.middle = [ s:e(s:gray2, s:gray0, 'bold') ]
+let s:p.inactive.right =  [ s:e(s:gray2, s:gray0), s:e(s:gray2, s:gray0) ]
 
 let s:p.insert.left =     [ s:e(s:white, s:lime3, 'bold'), s:e(s:white, s:lime2, 'bold'), s:e(s:white, s:lime1, 'bold') ]
 let s:p.insert.middle =   [ s:e(s:lime, s:gray1, 'bold') ]
@@ -66,9 +66,9 @@ let s:p.visual.left =     [ s:e(s:white, s:cyan3, 'bold'), s:e(s:white, s:cyan2,
 let s:p.visual.middle =   [ s:e(s:cyan, s:gray1, 'bold') ]
 let s:p.visual.right =    [ s:e(s:white, s:cyan3), s:e(s:white, s:cyan2), s:e(s:white, s:cyan1) ]
 
-let s:p.tabline.left =    [ s:e(s:gray4, s:gray1) ]
+let s:p.tabline.left =    [ s:e(s:gray2, s:gray1) ]
 let s:p.tabline.tabsel =  [ s:e(s:white, s:purple3, 'bold') ]
-let s:p.tabline.middle =  [ s:e(s:gray4, s:gray0) ]
+let s:p.tabline.middle =  [ s:e(s:gray2, s:gray0) ]
 let s:p.tabline.right =   [ s:e(s:black, s:orange) ]
 
 let s:p.normal.error =    [ s:e(s:black, s:magenta) ]
