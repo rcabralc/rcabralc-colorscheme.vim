@@ -185,7 +185,7 @@ endif
 "         Boolean        a boolean constant: TRUE, false
 "         Float          a floating point constant: 2.3e10
 call s:hl('Constant',  s:purple, s:none, 'bold')
-call s:hl('String', s:yellow, s:none)
+call s:hl('String',    s:yellow, s:none)
 call s:hl('Character', s:purple, s:none)
 call s:hl('Number',    s:purple, s:none)
 call s:hl('Boolean',   s:lime,   s:none)
