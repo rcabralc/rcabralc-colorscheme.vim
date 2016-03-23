@@ -72,7 +72,7 @@ endif
 let g:rcabralc#palette = {}
 
 function! s:define_color_shades(term_codes)
-    let opacities = { 0: -0.5, 1: -0.25, 3: 0.25, 4: 0.5 }
+    let opacities = { 0: -0.6, 1: -0.3, 3: 0.3, 4: 0.6 }
     for name in ['magenta', 'lime', 'orange', 'blue', 'purple', 'cyan']
         exe 'let color = s:' . name
         exe 'let g:rcabralc#palette.' . name . '2 = s:build_color(color.rgb)'
