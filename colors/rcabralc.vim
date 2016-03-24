@@ -55,7 +55,6 @@ let s:magenta = s:build_color('#f60461', s:merge_term({}, 9))
 let s:background = &bg
 let s:fg = s:build_color((s:background == 'dark' ? s:white : s:black).rgb)
 let s:bg = s:build_color((s:background == 'dark' ? s:black : s:white).rgb)
-let s:bgfg = s:bg
 
 if s:background != 'dark'
     let s:lime   = s:blend(s:lime,   s:black, 0.5,   s:merge_term({}, s:lime.term))
@@ -66,13 +65,17 @@ if s:background != 'dark'
 endif
 
 if !has('gui_running') && s:options.transparent_background == 1
-    let s:bg = { 'gui': 'NONE', 'term': 'NONE' }
+    let s:finalbg = { 'gui': 'NONE', 'term': 'NONE' }
+else
+    let s:finalbg = s:bg
 endif
 
 let g:rcabralc#palette = {}
 
 function! s:define_color_shades(term_codes)
     let opacities = { 0: -0.6, 1: -0.3, 3: 0.3, 4: 0.6 }
+    let term_index = s:background == 'dark' ? 1 : 3
+
     for name in ['magenta', 'lime', 'orange', 'blue', 'purple', 'cyan']
         exe 'let color = s:' . name
         exe 'let g:rcabralc#palette.' . name . '2 = s:build_color(color.rgb)'
@@ -81,14 +84,15 @@ function! s:define_color_shades(term_codes)
             let color_name = name . index
 
             if opacity < 0
-                let from_color = s:black
+                let from_color = s:bg
                 let opacity = 1 + opacity
             else
-                let from_color = s:white
+                let from_color = s:fg
+                let opacity = 1 - opacity
             end
 
-            if has_key(a:term_codes, color_name)
-                let options = s:merge_term({}, a:term_codes[color_name])
+            if has_key(a:term_codes, name) && index == term_index
+                let options = s:merge_term({}, a:term_codes[name])
             else
                 let options = {}
             endif
@@ -102,7 +106,7 @@ function! s:define_color_shades(term_codes)
 endfunction
 
 call s:define_color_shades({
-    \ 'magenta1': 1, 'lime1': 2, 'blue1': 4, 'purple1': 5, 'cyan1': 6,
+    \ 'magenta': 1, 'lime': 2, 'blue': 4, 'purple': 5, 'cyan': 6,
 \ })
 
 delfunction s:define_color_shades
@@ -116,16 +120,16 @@ else
 endif
 let s:gray2 = s:blend(s:white, s:black, 0.33, s:merge_term({}, 7))
 
-let s:limebg    = s:blend(s:lime,    s:bgfg, 0.125)
-let s:cyanbg    = s:blend(s:cyan,    s:bgfg, 0.125)
-let s:purplebg  = s:blend(s:purple,  s:bgfg, 0.125)
-let s:magentabg = s:blend(s:magenta, s:bgfg, 0.125)
+let s:limebg    = s:blend(s:lime,    s:bg, 0.125)
+let s:cyanbg    = s:blend(s:cyan,    s:bg, 0.125)
+let s:purplebg  = s:blend(s:purple,  s:bg, 0.125)
+let s:magentabg = s:blend(s:magenta, s:bg, 0.125)
 
 delfunction s:merge_term
 
 " Export the rest of the palette
 let g:rcabralc#palette.none      = s:none
-let g:rcabralc#palette.bg        = s:bgfg
+let g:rcabralc#palette.bg        = s:bg
 let g:rcabralc#palette.fg        = s:fg
 let g:rcabralc#palette.black     = s:black
 let g:rcabralc#palette.gray0     = s:gray0
@@ -169,7 +173,7 @@ endif
 let s:hl = function('rcabralc#hl')
 let g:colors_name = "rcabralc"
 
-call s:hl('Normal', s:fg, s:bg)
+call s:hl('Normal', s:fg, s:finalbg)
 
 "        *Comment        any comment
 if s:options.allow_italics
@@ -256,7 +260,7 @@ call s:hl('StatusLine',   s:fg,      s:gray0, 'bold')
 call s:hl('StatusLineNC', s:gray2,   s:gray0)
 call s:hl('Visual',       s:none,    s:purplebg)
 call s:hl('Directory',    s:purple,  s:none)
-call s:hl('ErrorMsg',     s:magenta, s:bg,    'bold')
+call s:hl('ErrorMsg',     s:magenta, s:finalbg,    'bold')
 call s:hl('IncSearch',    s:none,    s:gray1)
 
 if s:options.prominent_search_highlight
@@ -265,22 +269,22 @@ else
     call s:hl('Search', s:none, s:gray1)
 endif
 
-call s:hl('MoreMsg',      s:cyan,    s:bg)
-call s:hl('ModeMsg',      s:lime,    s:bg)
-call s:hl('LineNr',       s:gray2,   s:bg)
+call s:hl('MoreMsg',      s:cyan,    s:finalbg)
+call s:hl('ModeMsg',      s:lime,    s:finalbg)
+call s:hl('LineNr',       s:gray2,   s:finalbg)
 call s:hl('Question',     s:cyan,    s:none,     'bold')
 call s:hl('VertSplit',    s:gray2,   s:gray0)
 call s:hl('Title',        s:magenta, s:none,     'bold')
-call s:hl('VisualNOS',    s:bgfg,    s:fg)
-call s:hl('WarningMsg',   s:orange,  s:bg)
-call s:hl('WildMenu',     s:cyan,    s:bg)
-call s:hl('Folded',       s:gray2,   s:bg)
-call s:hl('FoldColumn',   s:gray2,   s:bg)
+call s:hl('VisualNOS',    s:bg,      s:fg)
+call s:hl('WarningMsg',   s:orange,  s:finalbg)
+call s:hl('WildMenu',     s:cyan,    s:finalbg)
+call s:hl('Folded',       s:gray2,   s:finalbg)
+call s:hl('FoldColumn',   s:gray2,   s:finalbg)
 call s:hl('DiffAdd',      s:none,    s:limebg)
 call s:hl('DiffChange',   s:none,    s:cyanbg)
 call s:hl('DiffDelete',   s:none,    s:magentabg)
 call s:hl('DiffText',     s:none,    s:cyanbg,  'underline')
-call s:hl('SignColumn',   s:lime,    s:bg)
+call s:hl('SignColumn',   s:lime,    s:finalbg)
 call s:hl('Conceal',      s:gray1,   s:none)
 call s:hl('SpellBad',     s:none,    s:none,     'undercurl', 'NONE', s:magenta)
 call s:hl('SpellCap',     s:none,    s:none,     'undercurl', 'NONE', s:cyan)
@@ -295,9 +299,9 @@ call s:hl('TabLineFill',  s:gray1,   s:gray1)
 call s:hl('TabLineSel',   s:fg,      s:gray2,    'bold')
 call s:hl('CursorColumn', s:none,    s:gray0)
 call s:hl('CursorLine',   s:none,    s:gray0)
-call s:hl('CursorLineNr', s:lime,    s:bg)
+call s:hl('CursorLineNr', s:lime,    s:finalbg)
 call s:hl('ColorColumn',  s:none,    s:gray0)
-call s:hl('Cursor',       s:bgfg,    s:fg)
+call s:hl('Cursor',       s:bg,      s:fg)
 hi! link lCursor Cursor
 call s:hl('MatchParen',   s:none,    s:none,     'reverse,underline')
 

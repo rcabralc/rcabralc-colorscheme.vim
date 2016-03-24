@@ -285,3 +285,14 @@ let s:xterm_palette = s:build_16_255_palette(
     \ s:xterm_color_components,
     \ s:xterm_gray_components
 \ )
+
+function! rcabralc#palette_to_svg(palette)
+    let sorted = sort(values(filter(a:palette, "v:key != 'none'")), 's:sort_by_lab_light')
+    let rects = []
+
+    for color in sorted
+        call add(rects, '<rect style="fill: ' . color.gui . ';" width="1" height="1" x="0" y="" />')
+    endfor
+
+    echo rects
+endfunction
