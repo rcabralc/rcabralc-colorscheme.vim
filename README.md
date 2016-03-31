@@ -29,22 +29,22 @@ colors as the following:
 
 Color index    | Color value (dark version) | Color value (light version)
 -------------- | -------------------------- | ---------------------------
-0, Background  | `#26231d`                  | `#26231d`
-1              | `#b80d4d`                  | `#b80d4d`
-2              | `#7b9e0c`                  | `#506114`
-3              | `#f66d04`                  | `#c25b0a`
-4              | `#5c7ba6`                  | `#5c7ba6`
-5              | `#8966bb`                  | `#644d80`
-6              | `#5ca886`                  | `#48765f`
+0, Background  | `#26231d`                  | `#f5e2bc`
+1              | `#b80d4d`                  | `#f60461`
+2              | `#7b9e0c`                  | `#637b11`
+3              | `#f66d04`                  | `#897842`
+4              | `#5c7ba6`                  | `#73a1e1`
+5              | `#8966bb`                  | `#7f5eaa`
+6              | `#5ca886`                  | `#569a7b`
 7              | `#6a6251`                  | `#6a6251`
 8              | `#3f3a30`                  | `#d4c3a3`
-9              | `#f60461`                  | `#f60461`
-10             | `#9fd304`                  | `#637b11`
-11             | `#ebcc66`                  | `#897842`
-12             | `#73a1e1`                  | `#73a1e1`
-13             | `#b482ff`                  | `#7f5eaa`
-14             | `#73e1b3`                  | `#569a7b`
-15, Foreground | `#f5e2bc`                  | `#f5e2bc`
+9              | `#f60461`                  | `#b80d4d`
+10             | `#9fd304`                  | `#506114`
+11             | `#ebcc66`                  | `#c25b0a`
+12             | `#73a1e1`                  | `#5c7ba6`
+13             | `#b482ff`                  | `#644d80`
+14             | `#73e1b3`                  | `#48765f`
+15, Foreground | `#f5e2bc`                  | `#26231d`
 
 Then set this in your `vimrc`/`init.vim` file (before setting the color
 scheme):

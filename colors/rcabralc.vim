@@ -34,6 +34,10 @@ delfunction s:compute_options
 let s:blend = function('rcabralc#blend')
 let s:build_color = function('rcabralc#build_color')
 
+" Save background value: workaround for Vim bug, restored (enforced) at the
+" end.
+let s:background = &bg
+
 function! s:merge_term(options, term)
     if s:options.use_default_term_colors
         let a:options.term = a:term
@@ -41,18 +45,39 @@ function! s:merge_term(options, term)
     return a:options
 endfunction
 
-let s:none    = { 'gui': 'NONE', 'term': 'NONE', }
-let s:black   = s:build_color('#26231d', s:merge_term({}, 0))
-let s:white   = s:build_color('#f5e2bc', s:merge_term({}, 15))
-let s:lime    = s:build_color('#9fd304', s:merge_term({}, 10))
-let s:yellow  = s:build_color('#ebcc66', s:merge_term({}, 11))
-let s:blue    = s:build_color('#73a1e1', s:merge_term({}, 12))
-let s:purple  = s:build_color('#b482ff', s:merge_term({}, 13))
-let s:cyan    = s:build_color('#73e1b3', s:merge_term({}, 14))
-let s:orange  = s:build_color('#f66d04', s:merge_term({}, 3))
-let s:magenta = s:build_color('#f60461', s:merge_term({}, 9))
+function! s:swap_term(term_code)
+    " Default term indexes (0-15) are given as for dark background.  They must
+    " be swapped for light background.
+    if s:background != 'dark'
+        if a:term_code >=9 && a:term_code <= 14
+            return a:term_code - 8
+        elseif a:term_code >= 1 && a:term_code <= 6
+            return a:term_code + 8
+        elseif a:term_code == 0
+            return 15
+        elseif a:term_code == 7
+            return 8
+        elseif a:term_code == 8
+            return 7
+        elseif a:term_code == 15
+            return 0
+        endif
+    endif
 
-let s:background = &bg
+    return a:term_code
+endfunction
+
+let s:none    = { 'gui': 'NONE', 'term': 'NONE', }
+let s:black   = s:build_color('#26231d', s:merge_term({}, s:swap_term(0)))
+let s:white   = s:build_color('#f5e2bc', s:merge_term({}, s:swap_term(15)))
+let s:lime    = s:build_color('#9fd304', s:merge_term({}, s:swap_term(10)))
+let s:yellow  = s:build_color('#ebcc66', s:merge_term({}, s:swap_term(11)))
+let s:blue    = s:build_color('#73a1e1', s:merge_term({}, s:swap_term(12)))
+let s:purple  = s:build_color('#b482ff', s:merge_term({}, s:swap_term(13)))
+let s:cyan    = s:build_color('#73e1b3', s:merge_term({}, s:swap_term(14)))
+let s:orange  = s:build_color('#f66d04', s:merge_term({}, s:swap_term(3)))
+let s:magenta = s:build_color('#f60461', s:merge_term({}, s:swap_term(9)))
+
 let s:fg = s:build_color((s:background == 'dark' ? s:white : s:black).rgb)
 let s:bg = s:build_color((s:background == 'dark' ? s:black : s:white).rgb)
 
@@ -92,7 +117,7 @@ function! s:define_color_shades(term_codes)
             end
 
             if has_key(a:term_codes, name) && index == term_index
-                let options = s:merge_term({}, a:term_codes[name])
+                let options = s:merge_term({}, s:swap_term(a:term_codes[name]))
             else
                 let options = {}
             endif
@@ -126,6 +151,7 @@ let s:purplebg  = s:blend(s:purple,  s:bg, 0.125)
 let s:magentabg = s:blend(s:magenta, s:bg, 0.125)
 
 delfunction s:merge_term
+delfunction s:swap_term
 
 " Export the rest of the palette
 let g:rcabralc#palette.none      = s:none
@@ -305,7 +331,8 @@ call s:hl('Cursor',       s:bg,      s:fg)
 hi! link lCursor Cursor
 call s:hl('MatchParen',   s:none,    s:none,     'reverse,underline')
 
-" Must be at the end due to a bug in VIM trying to figuring out automagically
-" if the background set through Normal highlight group is dark or light.
+" Restore background saved.  Must be at the end due to a bug in VIM trying to
+" figuring out automagically if the background set through Normal highlight
+" group is dark or light.
 " https://groups.google.com/forum/#!msg/vim_dev/afPqwAFNdrU/nqh6tOM87QUJ
 exe "set background=" . s:background
