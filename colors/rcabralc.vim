@@ -85,7 +85,7 @@ if s:background != 'dark'
     let s:lime   = s:blend(s:lime,   s:black, 0.5,   s:merge_term({}, s:lime.term))
     let s:orange = s:blend(s:orange, s:black, 0.75,  s:merge_term({}, s:orange.term))
     let s:purple = s:blend(s:purple, s:black, 0.625, s:merge_term({}, s:purple.term))
-    let s:cyan   = s:blend(s:cyan,   s:black, 0.625, s:merge_term({}, s:cyan.term))
+    let s:cyan   = s:blend(s:cyan,   s:black, 0.5,   s:merge_term({}, s:cyan.term))
     let s:yellow = s:blend(s:yellow, s:black, 0.5,   s:merge_term({}, s:yellow.term))
 endif
 

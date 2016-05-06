@@ -35,7 +35,7 @@ Color index    | Color value (dark version) | Color value (light version)
 3              | `#f66d04`                  | `#897842`
 4              | `#5c7ba6`                  | `#73a1e1`
 5              | `#8966bb`                  | `#7f5eaa`
-6              | `#5ca886`                  | `#569a7b`
+6              | `#5ca886`                  | `#4d8268`
 7              | `#6a6251`                  | `#6a6251`
 8              | `#3f3a30`                  | `#d4c3a3`
 9              | `#f60461`                  | `#b80d4d`
@@ -43,7 +43,7 @@ Color index    | Color value (dark version) | Color value (light version)
 11             | `#ebcc66`                  | `#c25b0a`
 12             | `#73a1e1`                  | `#5c7ba6`
 13             | `#b482ff`                  | `#644d80`
-14             | `#73e1b3`                  | `#48765f`
+14             | `#73e1b3`                  | `#416652`
 15, Foreground | `#f5e2bc`                  | `#26231d`
 
 Then set this in your `vimrc`/`init.vim` file (before setting the color
