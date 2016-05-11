@@ -38,7 +38,7 @@ function! rcabralc#build_color(color, ...)
         let color = s:rgb_from_hex_color(a:color)
         let color.gui = a:color
     else
-        let color = a:color
+        let color = { 'r': a:color.r, 'g': a:color.g, 'b': a:color.b }
     endif
 
     let color = s:add_lab(s:add_gui(color))
