@@ -327,7 +327,7 @@ call s:hl('CursorColumn', s:none,    s:gray0)
 call s:hl('CursorLine',   s:none,    s:gray0)
 call s:hl('CursorLineNr', s:lime,    s:finalbg)
 call s:hl('ColorColumn',  s:none,    s:gray0)
-call s:hl('Cursor',       s:bg,      s:fg)
+call s:hl('Cursor',       s:none,    s:none,     'reverse')
 hi! link lCursor Cursor
 call s:hl('MatchParen',   s:none,    s:none,     'reverse,underline')
 
