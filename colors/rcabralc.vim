@@ -9,7 +9,6 @@
 let s:options = {
     \ 'transparent_background': 0,
     \ 'use_default_term_colors': 0,
-    \ 'prominent_search_highlight': 0,
     \ 'allow_italics': 0,
 \ }
 
@@ -147,8 +146,8 @@ let s:gray2 = s:blend(s:white, s:black, 0.33, s:merge_term({}, 7))
 
 let s:limebg    = s:blend(s:lime,    s:bg, 0.125)
 let s:cyanbg    = s:blend(s:cyan,    s:bg, 0.125)
-let s:purplebg  = s:blend(s:purple,  s:bg, 0.125)
 let s:magentabg = s:blend(s:magenta, s:bg, 0.125)
+let s:orangebg  = s:blend(s:orange,  s:bg, 0.25)
 
 delfunction s:merge_term
 delfunction s:swap_term
@@ -171,7 +170,7 @@ let g:rcabralc#palette.orange    = s:orange
 let g:rcabralc#palette.magenta   = s:magenta
 let g:rcabralc#palette.limebg    = s:limebg
 let g:rcabralc#palette.cyanbg    = s:cyanbg
-let g:rcabralc#palette.purplebg  = s:purplebg
+let g:rcabralc#palette.orangebg  = s:orangebg
 let g:rcabralc#palette.magentabg = s:magentabg
 
 function! s:name_colors(palette)
@@ -284,17 +283,11 @@ endif
 call s:hl('NonText',      s:gray2,   s:none)
 call s:hl('StatusLine',   s:fg,      s:gray0, 'bold')
 call s:hl('StatusLineNC', s:gray2,   s:gray0)
-call s:hl('Visual',       s:none,    s:purplebg)
+call s:hl('Visual',       s:none,    s:none,  'reverse')
 call s:hl('Directory',    s:purple,  s:none)
 call s:hl('ErrorMsg',     s:magenta, s:finalbg,    'bold')
-call s:hl('IncSearch',    s:none,    s:gray1)
-
-if s:options.prominent_search_highlight
-    call s:hl('Search', s:none, s:none, 'reverse')
-else
-    call s:hl('Search', s:none, s:gray1)
-endif
-
+call s:hl('IncSearch',    s:none,    s:orangebg)
+call s:hl('Search',       s:none,    s:orangebg)
 call s:hl('MoreMsg',      s:cyan,    s:finalbg)
 call s:hl('ModeMsg',      s:lime,    s:finalbg)
 call s:hl('LineNr',       s:gray2,   s:finalbg)
@@ -329,7 +322,7 @@ call s:hl('CursorLineNr', s:lime,    s:finalbg)
 call s:hl('ColorColumn',  s:none,    s:gray0)
 call s:hl('Cursor',       s:none,    s:none,     'reverse')
 hi! link lCursor Cursor
-call s:hl('MatchParen',   s:none,    s:gray1,    'bold')
+call s:hl('MatchParen',   s:none,    s:orangebg, 'bold')
 
 " Restore background saved.  Must be at the end due to a bug in VIM trying to
 " figuring out automagically if the background set through Normal highlight
