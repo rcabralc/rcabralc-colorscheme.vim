@@ -15,7 +15,7 @@ colorscheme rcabralc
 ```
 
 
-## Terminal colors
+## Colors in terminals
 
 This color scheme was primarily built for the GUI version.  For terminals
 which can render 256 colors, the color scheme colors are approximated to the
@@ -29,22 +29,22 @@ colors as the following:
 
 Color index    | Color value (dark version) | Color value (light version)
 -------------- | -------------------------- | ---------------------------
-0, Background  | `#26231d`                  | `#f5e2bc`
-1              | `#b80d4d`                  | `#f60461`
-2              | `#7b9e0c`                  | `#637b11`
-3              | `#f66d04`                  | `#897842`
-4              | `#5c7ba6`                  | `#73a1e1`
-5              | `#8966bb`                  | `#7f5eaa`
-6              | `#5ca886`                  | `#4d8268`
-7              | `#6a6251`                  | `#6a6251`
-8              | `#3f3a30`                  | `#d4c3a3`
-9              | `#f60461`                  | `#b80d4d`
-10             | `#9fd304`                  | `#506114`
-11             | `#ebcc66`                  | `#c25b0a`
-12             | `#73a1e1`                  | `#5c7ba6`
-13             | `#b482ff`                  | `#644d80`
-14             | `#73e1b3`                  | `#416652`
-15, Foreground | `#f5e2bc`                  | `#26231d`
+0, Background  | `#2c241d`                  | `#f5c9a2`
+1              | `#a7073e`                  | `#c60046`
+2              | `#76920f`                  | `#5a6915`
+3              | `#ff5f02`                  | `#966c0f`
+4              | `#587096`                  | `#6383b4`
+5              | `#8e4566`                  | `#a74d78`
+6              | `#93bab7`                  | `#606f6a`
+7              | `#866e59`                  | `#9b7f66`
+8              | `#504235`                  | `#d1ab8a`
+9              | `#c60046`                  | `#cf2858`
+10             | `#88ad0c`                  | `#797c31`
+11             | `#ffb300`                  | `#c04d0a`
+12             | `#6383b4`                  | `#8091b0`
+13             | `#a74d78`                  | `#b76680`
+14             | `#addfde`                  | `#7d8175`
+15, Foreground | `#f5c9a2`                  | `#2c241d`
 
 Then set this in your `vimrc`/`init.vim` file (before setting the color
 scheme):
@@ -73,26 +73,6 @@ Please note that if you skip the terminal palette customization but set
 `g:rcabralc.use_default_term_colors` to `1`, the results will likely be very
 wrong.  Don't set this variable if you don't want to customize your terminal's
 palette (and stick with the provided approximated colors).
-
-
-## Using terminal Neovim
-
-If you use Neovim in a terminal which supports true colors, the GUI values
-will be used if you configure it accordingly:
-
-```bash
-$ NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim
-```
-
-You can set the variable above in `init.vim` if you use Neovim only in true
-color terminals:
-
-```vim
-let $NVIM_TUI_ENABLE_TRUE_COLOR = '1'
-```
-
-If this environment variable is not set, it'll work just like Vim, and the
-closest Xterm colors will be used instead.
 
 
 ## Transparent background
@@ -137,7 +117,7 @@ function! s:improve_highlights(p)
     " For things which cannot be configured through hi link, use the colors in
     " the palette and the highlight function.  This function takes care of
     " setting the closest Xterm color available.
-    call rcabralc#hl('GitGutterAdd',           a:p.lime,    a:p.none)
+    call rcabralc#hl('GitGutterAdd',           a:p.yellow,  a:p.none)
     call rcabralc#hl('GitGutterChange',        a:p.cyan,    a:p.none)
     call rcabralc#hl('GitGutterDelete',        a:p.magenta, a:p.none)
     call rcabralc#hl('GitGutterChangeDelete',  a:p.magenta, a:p.none)

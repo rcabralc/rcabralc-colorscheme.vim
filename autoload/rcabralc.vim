@@ -39,9 +39,11 @@ function! rcabralc#build_color(color, ...)
         let color.gui = a:color
     else
         let color = { 'r': a:color.r, 'g': a:color.g, 'b': a:color.b }
+        let color.gui = s:to_hex_color(color)
     endif
 
-    let color = s:add_lab(s:add_gui(color))
+    let color.xyz = s:xyz(color)
+    let color.lab = s:lab(color.xyz)
     let color.rgb = { 'r': color.r, 'g': color.g, 'b': color.b }
 
     if a:0 == 1
@@ -50,26 +52,10 @@ function! rcabralc#build_color(color, ...)
         let options = {}
     endif
 
-    if has_key(options, 'term')
-        let color.term = options.term
-        let color.term_default = 1
-
-        if exists('s:xterm_palette') && !has_key(s:xterm_palette, color.term)
-            let s:xterm_palette[color.term] = color
-        endif
-    else
-        let color = s:add_term(color)
-        let color.term_default = 0
-    endif
+    let color.term = has_key(options, 'term') ? options.term : s:xterm_index(color)
 
     if has_key(options, 'name')
         let color.name = options.name
-    endif
-
-    if color.term_default
-        if color.term >= 0 && color.term <= 15
-            exe "let g:terminal_color_" . color.term . " = '" . color.gui . "'"
-        end
     endif
 
     return color
@@ -87,18 +73,17 @@ function! rcabralc#blend(fg, bg, opacity, ...)
 endfunction
 
 function! rcabralc#print_colors(palette)
-    let sorted = sort(sort(values(filter(a:palette, "v:key != 'none'")), 's:sort_by_term_index'), 's:sort_by_term_default')
+    let By_term_index = function('s:sort_by_term_index')
+    let sorted = sort(values(filter(copy(a:palette), "v:key != 'none'")), By_term_index)
+    let line = line('.')
     for color in sorted
-        echo printf("%3d %s", color.term, color.gui)
+        call append(line, printf("%3d %s", color.term, color.gui))
+        let line = line + 1
     endfor
 endfunction
 
 function! s:sort_by_lab_light(color1, color2)
     return a:color1.lab.l - a:color2.lab.l
-endfunction
-
-function! s:sort_by_term_default(color1, color2)
-    return a:color2.term_default - a:color1.term_default
 endfunction
 
 function! s:sort_by_term_index(color1, color2)
@@ -125,49 +110,23 @@ function! s:to_hex_color(color)
     return printf('#%02x%02x%02x', r, g, b)
 endfunction
 
-function! s:add_gui(color)
-    if !exists('a:color.gui')
-        let a:color.gui = s:to_hex_color(a:color)
-    endif
-    return a:color
-endfunction
-
-function! s:add_term(color)
-    if !exists('a:color.term')
-        let a:color.term = s:xterm_index(a:color)
-    endif
-    return a:color
-endfunction
-
-function! s:add_lab(color)
-    if exists('a:color.lab')
-        return a:color
-    endif
-
-    call s:add_xyz(a:color)
-
+function! s:lab(xyz)
     let xn = 0.95047
     let yn = 1.0
     let zn = 1.08883
 
-    let a:color.lab = {
-        \ 'l': 116 * s:lab_aux_f(a:color.xyz.y/yn) - 16,
-        \ 'a': 500 * (s:lab_aux_f(a:color.xyz.x/xn) - s:lab_aux_f(a:color.xyz.y/yn)),
-        \ 'b': 200 * (s:lab_aux_f(a:color.xyz.y/yn) - s:lab_aux_f(a:color.xyz.z/zn)),
+    return {
+        \ 'l': 116 * s:lab_aux_f(a:xyz.y/yn) - 16,
+        \ 'a': 500 * (s:lab_aux_f(a:xyz.x/xn) - s:lab_aux_f(a:xyz.y/yn)),
+        \ 'b': 200 * (s:lab_aux_f(a:xyz.y/yn) - s:lab_aux_f(a:xyz.z/zn)),
     \ }
-
-    return a:color
 endfunction
 
 function! s:lab_aux_f(t)
     return a:t > pow(6.0/29.0, 3) ? pow(a:t, 1.0/3.0) : ((1.0/3.0) * pow(29.0/6.0, 2) * a:t + (4.0/29.0))
 endfunction
 
-function! s:add_xyz(color)
-    if exists('a:color.xyz')
-        return a:color
-    endif
-
+function! s:xyz(rgb)
     let coefficients = [
         \ [ 0.4124, 0.3576, 0.1805 ],
         \ [ 0.2126, 0.7152, 0.0722 ],
@@ -175,18 +134,16 @@ function! s:add_xyz(color)
     \ ]
 
     let xyz = s:matrix_multiply(coefficients, [
-        \ [s:linear_rgb_component(a:color.r / 255.0)],
-        \ [s:linear_rgb_component(a:color.g / 255.0)],
-        \ [s:linear_rgb_component(a:color.b / 255.0)]
+        \ [s:linear_rgb_component(a:rgb.r / 255.0)],
+        \ [s:linear_rgb_component(a:rgb.g / 255.0)],
+        \ [s:linear_rgb_component(a:rgb.b / 255.0)]
     \ ])
 
-    let a:color.xyz = {
+    return {
         \ 'x': xyz[0][0],
         \ 'y': xyz[1][0],
         \ 'z': xyz[2][0],
     \ }
-
-    return a:color
 endfunction
 
 function! s:linear_rgb_component(c)
