@@ -68,7 +68,7 @@ else
     let s:bg = s:opaquebg
 endif
 
-let s:basemagenta = '#c60046'
+let s:basemagenta = '#da0050'
 let s:basegreen   = '#88ad0c'
 let s:baseorange  = '#ff5f02'
 let s:baseyellow  = '#ffb300'
@@ -117,8 +117,8 @@ let s:yellowbg  = s:blend(s:yellow,  s:opaquebg, 0.2)
 let s:bluebg    = s:blend(s:blue,    s:opaquebg, 0.15)
 let s:purplebg  = s:blend(s:purple,  s:opaquebg, 0.15)
 
-let s:gray0 = s:blend(s:fg, s:bg, 0.09)
-let s:gray1 = s:blend(s:fg, s:bg, 0.18, { 'term': 8 })
+let s:gray0 = s:blend(s:fg, s:bg, 0.05)
+let s:gray1 = s:blend(s:fg, s:bg, 0.20, { 'term': 8 })
 let s:gray2 = s:blend(s:fg, s:bg, 0.45, { 'term': 7 })
 
 " Export the palette
@@ -205,8 +205,8 @@ endif
 call s:hl('Constant', s:purple, s:none, 'bold')
 call s:hl('String', s:cyan, s:none)
 call s:hl('Character', s:purple, s:none)
-call s:hl('Number', s:purple, s:none)
-call s:hl('Boolean', s:green, s:none)
+call s:hl('Number', s:blue, s:none)
+call s:hl('Boolean', s:blue, s:none)
 
 "        *Identifier     any variable name
 "         Function       function name (also: methods for classes)
@@ -222,7 +222,7 @@ call s:hl('Function', s:yellow, s:none)
 "         Exception      try, catch, throw
 call s:hl('Statement', s:magenta, s:none, 'bold')
 call s:hl('Operator',  s:orange, s:none)
-call s:hl('Exception', s:cyan, s:none, 'bold')
+call s:hl('Exception', s:orange, s:none, 'bold')
 
 "        *PreProc        generic Preprocessor
 "         Include        preprocessor #include
@@ -235,7 +235,7 @@ call s:hl('PreProc', s:magenta, s:none, 'bold')
 "         StorageClass   static, register, volatile, etc.
 "         Structure      struct, union, enum, etc.
 "         Typedef        A typedef
-call s:hl('Type', s:green, s:none)
+call s:hl('Type', s:green, s:none, 'bold')
 call s:hl('StorageClass', s:magenta, s:none, 'bold')
 
 "        *Special        any special symbol

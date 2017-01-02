@@ -77,7 +77,7 @@ function! rcabralc#print_colors(palette)
     let sorted = sort(values(filter(copy(a:palette), "v:key != 'none'")), By_term_index)
     let line = line('.')
     for color in sorted
-        call append(line, printf("%3d %s", color.term, color.gui))
+        call append(line, printf("%12s %3d %s", color.name, color.term, color.gui))
         let line = line + 1
     endfor
 endfunction
