@@ -56,7 +56,7 @@ let s:is_dark = (&bg == 'dark')
 
 let s:none = { 'gui': 'NONE', 'term': 'NONE', }
 
-let s:black = s:color('#2c241d', { 'term': s:is_dark ? 0 : 15 })
+let s:black = s:color('#362c23', { 'term': s:is_dark ? 0 : 15 })
 let s:white = s:color('#f5c9a2', { 'term': s:is_dark ? 15 : 0 })
 
 let s:fg = s:color((s:is_dark ? s:white : s:black).rgb)
@@ -68,7 +68,7 @@ else
     let s:bg = s:opaquebg
 endif
 
-let s:basemagenta = '#da0050'
+let s:basemagenta = '#e30053'
 let s:basegreen   = '#88ad0c'
 let s:baseorange  = '#ff5f02'
 let s:baseyellow  = '#ffb300'
@@ -118,7 +118,7 @@ let s:bluebg    = s:blend(s:blue,    s:opaquebg, 0.15)
 let s:purplebg  = s:blend(s:purple,  s:opaquebg, 0.15)
 
 let s:gray0 = s:blend(s:fg, s:bg, 0.05)
-let s:gray1 = s:blend(s:fg, s:bg, 0.20, { 'term': 8 })
+let s:gray1 = s:blend(s:fg, s:bg, 0.15, { 'term': 8 })
 let s:gray2 = s:blend(s:fg, s:bg, 0.45, { 'term': 7 })
 
 " Export the palette
@@ -272,8 +272,9 @@ call s:hl('StatusLineNC', s:gray2, s:gray0)
 call s:hl('Visual', s:none, s:bluebg)
 call s:hl('Directory', s:purple, s:none)
 call s:hl('ErrorMsg', s:magenta, s:bg, 'bold')
-call s:hl('IncSearch', s:black, s:orange)
-call s:hl('Search', s:black, s:orange)
+call s:hl('IncSearch', s:none, s:orangebg)
+call s:hl('Search', s:none, s:orangebg)
+call s:hl('QuickFixLine', s:none, s:purplebg)
 call s:hl('MoreMsg', s:green, s:bg)
 call s:hl('ModeMsg', s:orange, s:bg)
 call s:hl('LineNr', s:gray2, s:bg)
