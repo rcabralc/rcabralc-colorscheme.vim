@@ -30,15 +30,15 @@ colors as the following:
 Color index    | Color value (dark version) | Color value (light version)
 -------------- | -------------------------- | ---------------------------
 0, Background  | `#2c241d`                  | `#f5c9a2`
-1              | `#a7073e`                  | `#c60046`
+1              | `#ae1a36`                  | `#ce173c`
 2              | `#76920f`                  | `#5a6915`
 3              | `#ff5f02`                  | `#966c0f`
 4              | `#587096`                  | `#6383b4`
 5              | `#8e4566`                  | `#a74d78`
 6              | `#93bab7`                  | `#606f6a`
 7              | `#866e59`                  | `#9b7f66`
-8              | `#504235`                  | `#d1ab8a`
-9              | `#c60046`                  | `#cf2858`
+8              | `#4a3d31`                  | `#d7b08e`
+9              | `#ce173c`                  | `#d63b50`
 10             | `#88ad0c`                  | `#797c31`
 11             | `#ffb300`                  | `#c04d0a`
 12             | `#6383b4`                  | `#8091b0`
@@ -117,10 +117,10 @@ function! s:improve_highlights(p)
     " For things which cannot be configured through hi link, use the colors in
     " the palette and the highlight function.  This function takes care of
     " setting the closest Xterm color available.
-    call rcabralc#hl('GitGutterAdd',           a:p.yellow,  a:p.none)
-    call rcabralc#hl('GitGutterChange',        a:p.cyan,    a:p.none)
-    call rcabralc#hl('GitGutterDelete',        a:p.magenta, a:p.none)
-    call rcabralc#hl('GitGutterChangeDelete',  a:p.magenta, a:p.none)
+    call rcabralc#hl('GitGutterAdd',           a:p.yellow, a:p.none)
+    call rcabralc#hl('GitGutterChange',        a:p.cyan,   a:p.none)
+    call rcabralc#hl('GitGutterDelete',        a:p.red,    a:p.none)
+    call rcabralc#hl('GitGutterChangeDelete',  a:p.red,    a:p.none)
 
     " An example for indent guides plugin.
     if !exists('g:indent_guides_auto_colors')
