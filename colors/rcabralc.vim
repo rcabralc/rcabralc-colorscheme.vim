@@ -56,7 +56,7 @@ let s:is_dark = (&bg == 'dark')
 
 let s:none = { 'gui': 'NONE', 'term': 'NONE', }
 
-let s:black = s:color('#362c23', { 'term': s:is_dark ? 0 : 15 })
+let s:black = s:color('#2c241d', { 'term': s:is_dark ? 0 : 15 })
 let s:white = s:color('#f5c9a2', { 'term': s:is_dark ? 15 : 0 })
 
 let s:fg = s:color((s:is_dark ? s:white : s:black).rgb)
