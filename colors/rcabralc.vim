@@ -56,8 +56,8 @@ let s:is_dark = (&bg == 'dark')
 
 let s:none = { 'gui': 'NONE', 'term': 'NONE', }
 
-let s:black = s:color('#2c241d', { 'term': s:is_dark ? 0 : 15 })
-let s:white = s:color('#f5c9a2', { 'term': s:is_dark ? 15 : 0 })
+let s:black = s:color('#302820', { 'term': s:is_dark ? 0 : 15 })
+let s:white = s:color('#e8be99', { 'term': s:is_dark ? 15 : 0 })
 
 let s:fg = s:color((s:is_dark ? s:white : s:black).rgb)
 let s:opaquebg = s:color((s:is_dark ? s:black : s:white).rgb)
@@ -68,7 +68,7 @@ else
     let s:bg = s:opaquebg
 endif
 
-let s:basered    = '#ce173c'
+let s:basered    = '#d11b39'
 let s:basegreen  = '#88ad0c'
 let s:baseorange = '#ff5f02'
 let s:baseyellow = '#ffb300'
@@ -272,8 +272,8 @@ call s:hl('StatusLineNC', s:gray2, s:gray0)
 call s:hl('Visual', s:none, s:bluebg)
 call s:hl('Directory', s:purple, s:none)
 call s:hl('ErrorMsg', s:red, s:bg, 'bold')
-call s:hl('IncSearch', s:none, s:orangebg)
-call s:hl('Search', s:none, s:orangebg)
+call s:hl('IncSearch', s:bg, s:yellow)
+call s:hl('Search', s:bg, s:yellow)
 call s:hl('QuickFixLine', s:none, s:purplebg)
 call s:hl('MoreMsg', s:green, s:bg)
 call s:hl('ModeMsg', s:orange, s:bg)
