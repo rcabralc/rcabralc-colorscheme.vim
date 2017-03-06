@@ -71,7 +71,7 @@ endif
 let s:basered    = '#d11b39'
 let s:basegreen  = '#88ad0c'
 let s:baseorange = '#ff5f02'
-let s:baseyellow = '#ffb300'
+let s:baseyellow = '#ff983d'
 let s:baseblue   = '#6383b4'
 let s:basepurple = '#a74d78'
 let s:basecyan   = '#addfde'
@@ -117,7 +117,7 @@ let s:yellowbg  = s:blend(s:yellow, s:opaquebg, 0.2)
 let s:bluebg    = s:blend(s:blue,   s:opaquebg, 0.15)
 let s:purplebg  = s:blend(s:purple, s:opaquebg, 0.15)
 
-let s:gray0 = s:blend(s:fg, s:bg, 0.05)
+let s:gray0 = s:blend(s:fg, s:bg, 0.10)
 let s:gray1 = s:blend(s:fg, s:bg, 0.15, { 'term': 8 })
 let s:gray2 = s:blend(s:fg, s:bg, 0.45, { 'term': 7 })
 
@@ -272,8 +272,8 @@ call s:hl('StatusLineNC', s:gray2, s:gray0)
 call s:hl('Visual', s:none, s:bluebg)
 call s:hl('Directory', s:purple, s:none)
 call s:hl('ErrorMsg', s:red, s:bg, 'bold')
-call s:hl('IncSearch', s:bg, s:yellow)
-call s:hl('Search', s:bg, s:yellow)
+call s:hl('IncSearch', s:opaquebg, s:yellow)
+call s:hl('Search', s:opaquebg, s:yellow)
 call s:hl('QuickFixLine', s:none, s:purplebg)
 call s:hl('MoreMsg', s:green, s:bg)
 call s:hl('ModeMsg', s:orange, s:bg)
@@ -292,10 +292,17 @@ call s:hl('DiffDelete', s:none, s:redbg)
 call s:hl('DiffText', s:none, s:greenbg, 'underline')
 call s:hl('SignColumn', s:orange, s:bg)
 call s:hl('Conceal', s:gray0, s:none)
-call s:hl('SpellBad', s:none, s:none, 'undercurl', 'NONE', s:red)
-call s:hl('SpellCap', s:none, s:none, 'undercurl', 'NONE', s:green)
-call s:hl('SpellRare', s:none, s:none, 'undercurl', 'NONE', s:white)
-call s:hl('SpellLocal', s:none, s:none, 'undercurl', 'NONE', s:orange)
+if has('gui_running')
+    call s:hl('SpellBad', s:none, s:none, 'undercurl', 'NONE', s:red)
+    call s:hl('SpellCap', s:none, s:none, 'undercurl', 'NONE', s:green)
+    call s:hl('SpellRare', s:none, s:none, 'undercurl', 'NONE', s:white)
+    call s:hl('SpellLocal', s:none, s:none, 'undercurl', 'NONE', s:orange)
+else
+    call s:hl('SpellBad', s:none, s:redbg, 'underline', 'NONE', s:red)
+    call s:hl('SpellCap', s:none, s:greenbg, 'underline', 'NONE', s:green)
+    call s:hl('SpellRare', s:none, s:none, 'underline', 'NONE', s:white)
+    call s:hl('SpellLocal', s:none, s:orangebg, 'underline', 'NONE', s:orange)
+endif
 call s:hl('Pmenu', s:gray1, s:fg)
 call s:hl('PmenuSel', s:orange, s:gray1, 'bold')
 call s:hl('PmenuSbar', s:none, s:gray2)
