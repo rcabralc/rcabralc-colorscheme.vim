@@ -56,8 +56,8 @@ let s:is_dark = (&bg == 'dark')
 
 let s:none = { 'gui': 'NONE', 'term': 'NONE', }
 
-let s:black = s:color('#342722', { 'term': s:is_dark ? 0 : 15 })
-let s:white = s:color('#edb29b', { 'term': s:is_dark ? 15 : 0 })
+let s:black = s:color('#332929', { 'term': s:is_dark ? 0 : 15 }) " hsv(0, 20, 20)
+let s:white = s:color('#e6b8b8', { 'term': s:is_dark ? 15 : 0 }) " hsv(0, 20, 90)
 
 let s:fg = s:color((s:is_dark ? s:white : s:black).rgb)
 let s:opaquebg = s:color((s:is_dark ? s:black : s:white).rgb)
@@ -68,13 +68,18 @@ else
     let s:bg = s:opaquebg
 endif
 
-let s:basered    = '#d11b39'
-let s:basegreen  = '#88ad0c'
-let s:baseorange = '#ff5f02'
-let s:baseyellow = '#ff983d'
-let s:baseblue   = '#6383b4'
-let s:basepurple = '#a74d78'
-let s:basecyan   = '#addfde'
+let s:basered      = '#e61717'    " hsv(  0, 90, 90)
+let s:basegreen    = '#67e567'    " hsv(120, 55, 90)
+let s:baseorange   = '#e65c17'    " hsv( 20, 90, 90)
+let s:baseyellow   = '#e59167'    " hsv( 20, 55, 90)
+let s:baseblue     = '#67a6e5'    " hsv(210, 55, 90)
+let s:basepurple   = '#bb67e6'    " hsv(280, 55, 90)
+let s:basecyan     = '#67e5d0'    " hsv(170, 55, 90)
+let s:basegreen_l  = '#3f8c3f'    " hsv(120, 55, 55)
+let s:baseyellow_l = '#8c593f'    " hsv( 20, 55, 55)
+let s:baseblue_l   = '#3f668c'    " hsv(210, 55, 55)
+let s:basepurple_l = '#733f8c'    " hsv(280, 55, 55)
+let s:basecyan_l   = '#3f8c7f'    " hsv(170, 55, 55)
 
 if s:is_dark
     let s:red    = s:color(s:basered,    { 'term': 9 })
@@ -85,13 +90,13 @@ if s:is_dark
     let s:purple = s:color(s:basepurple, { 'term': 13 })
     let s:cyan   = s:color(s:basecyan,   { 'term': 14 })
 else
-    let s:red    = s:blend(s:color(s:basered),    s:black, 1.0, { 'term': 1 })
-    let s:green  = s:blend(s:color(s:basegreen),  s:black, 0.5, { 'term': 2 })
-    let s:orange = s:blend(s:color(s:baseorange), s:black, 0.7, { 'term': 11 })
-    let s:yellow = s:blend(s:color(s:baseyellow), s:black, 0.5, { 'term': 3 })
-    let s:blue   = s:blend(s:color(s:baseblue),   s:black, 1.0, { 'term': 4 })
-    let s:purple = s:blend(s:color(s:basepurple), s:black, 1.0, { 'term': 5 })
-    let s:cyan   = s:blend(s:color(s:basecyan),   s:black, 0.4, { 'term': 6 })
+    let s:red    = s:color(s:basered,      { 'term': 1 })
+    let s:green  = s:color(s:basegreen_l,  { 'term': 2 })
+    let s:orange = s:color(s:baseorange,   { 'term': 11 })
+    let s:yellow = s:color(s:baseyellow_l, { 'term': 3 })
+    let s:blue   = s:color(s:baseblue_l,   { 'term': 4 })
+    let s:purple = s:color(s:basepurple_l, { 'term': 5 })
+    let s:cyan   = s:color(s:basecyan_l,   { 'term': 6 })
 endif
 
 let s:altred    = s:blend(s:red,    s:opaquebg, 0.8, { 'term': s:is_dark ? 1 : 9 })
@@ -110,7 +115,7 @@ let s:altblue2   = s:blend(s:blue,   s:opaquebg, 0.4)
 let s:altcyan2   = s:blend(s:cyan,   s:opaquebg, 0.4)
 let s:altpurple2 = s:blend(s:purple, s:opaquebg, 0.4)
 
-let s:redbg     = s:blend(s:red,    s:opaquebg, 0.15)
+let s:redbg     = s:blend(s:red,    s:opaquebg, 0.1)
 let s:greenbg   = s:blend(s:green,  s:opaquebg, 0.1)
 let s:orangebg  = s:blend(s:orange, s:opaquebg, 0.2)
 let s:yellowbg  = s:blend(s:yellow, s:opaquebg, 0.2)
@@ -203,15 +208,14 @@ endif
 "         Boolean        a boolean constant: TRUE, false
 "         Float          a floating point constant: 2.3e10
 call s:hl('Constant', s:purple, s:none, 'bold')
-call s:hl('String', s:cyan, s:none)
-call s:hl('Character', s:purple, s:none)
-call s:hl('Number', s:blue, s:none)
-call s:hl('Boolean', s:blue, s:none)
+call s:hl('String', s:yellow, s:none)
+call s:hl('Character', s:purple, s:none, 'bold')
+call s:hl('Number', s:purple, s:none)
+call s:hl('Boolean', s:purple, s:none)
 
 "        *Identifier     any variable name
 "         Function       function name (also: methods for classes)
-call s:hl('Identifier', s:cyan, s:none)
-call s:hl('Function', s:yellow, s:none)
+call s:hl('Identifier', s:blue, s:none)
 
 "        *Statement      any statement
 "         Conditional    if, then, else, endif, switch, etc.
@@ -222,7 +226,7 @@ call s:hl('Function', s:yellow, s:none)
 "         Exception      try, catch, throw
 call s:hl('Statement', s:red, s:none, 'bold')
 call s:hl('Operator',  s:orange, s:none)
-call s:hl('Exception', s:orange, s:none, 'bold')
+call s:hl('Exception', s:red, s:none, 'bold')
 
 "        *PreProc        generic Preprocessor
 "         Include        preprocessor #include
@@ -245,13 +249,13 @@ call s:hl('StorageClass', s:red, s:none, 'bold')
 "         SpecialComment special things inside a comment
 "         Debug          debugging statements
 call s:hl('Special', s:orange, s:none)
-call s:hl('Tag', s:green, s:none, 'bold')
+call s:hl('Tag', s:cyan, s:none, 'bold')
 call s:hl('Delimiter', s:orange, s:none)
-call s:hl('SpecialComment', s:fg, s:none, 'bold')
-call s:hl('Debug', s:purple, s:none)
+call s:hl('SpecialComment', s:cyan, s:none, 'bold')
+call s:hl('Debug', s:cyan, s:none)
 
 "        *Underlined     text that stands out, HTML links
-call s:hl('Underlined', s:none, s:none, 'underline')
+call s:hl('Underlined', s:cyan, s:none, 'underline')
 
 "        *Ignore         left blank, hidden  |hl-Ignore|
 call s:hl('Ignore', s:none, s:none)
@@ -261,7 +265,7 @@ call s:hl('Error', s:red, s:none, 'bold,reverse')
 
 "        *Todo           anything that needs extra attention; mostly the
 "                        keywords TODO FIXME and XXX
-call s:hl('Todo', s:fg, s:none, 'bold')
+call s:hl('Todo', s:cyan, s:none, 'bold')
 
 
 " Extended highlighting
@@ -269,12 +273,12 @@ call s:hl('SpecialKey', s:blue, s:none)
 call s:hl('NonText', s:gray2, s:none)
 call s:hl('StatusLine', s:fg, s:gray0, 'bold')
 call s:hl('StatusLineNC', s:gray2, s:gray0)
-call s:hl('Visual', s:none, s:bluebg)
+call s:hl('Visual', s:none, s:purplebg)
 call s:hl('Directory', s:purple, s:none)
 call s:hl('ErrorMsg', s:red, s:bg, 'bold')
 call s:hl('IncSearch', s:opaquebg, s:yellow)
 call s:hl('Search', s:opaquebg, s:yellow)
-call s:hl('QuickFixLine', s:none, s:purplebg)
+call s:hl('QuickFixLine', s:none, s:bluebg)
 call s:hl('MoreMsg', s:green, s:bg)
 call s:hl('ModeMsg', s:orange, s:bg)
 call s:hl('LineNr', s:gray2, s:bg)
@@ -287,7 +291,7 @@ call s:hl('WildMenu', s:green, s:bg)
 call s:hl('Folded', s:gray2, s:bg)
 call s:hl('FoldColumn', s:gray2, s:bg)
 call s:hl('DiffAdd', s:none, s:greenbg)
-call s:hl('DiffChange', s:none, s:purplebg)
+call s:hl('DiffChange', s:none, s:bluebg)
 call s:hl('DiffDelete', s:none, s:redbg)
 call s:hl('DiffText', s:none, s:greenbg, 'underline')
 call s:hl('SignColumn', s:orange, s:bg)
