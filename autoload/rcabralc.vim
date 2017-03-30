@@ -244,4 +244,46 @@ let s:xterm_palette = s:build_16_255_palette(
 \ )
 
 function! rcabralc#hsv(h, s, v)
+    let h = a:h >= 360 ? 0 : (a:h < 0 ? 0 : a:h)
+    let s = (a:s > 100 ? 100 : (a:s < 0 ? 0 : a:s))/100.0
+    let v = (a:v > 100 ? 100 : (a:v < 0 ? 0 : a:v))/100.0
+
+    if s == 0
+        return s:build_color({ 'r': v * 255, 'g': v * 255, 'b': v * 255 })
+    endif
+
+    let rgb = {}
+    let sector = h / 60
+    let remainder_portion = h/60.0 - sector
+    let p = v * (1 - s)
+    let q = v * (1 - (s * remainder_portion))
+    let t = v * (1 - (s * (1 - remainder_portion)))
+
+    if sector == 0
+        let rgb.r = v
+        let rgb.g = t
+        let rgb.b = p
+    elseif sector == 1
+        let rgb.r = q
+        let rgb.g = v
+        let rgb.b = p
+    elseif sector == 2
+        let rgb.r = p
+        let rgb.g = v
+        let rgb.b = t
+    elseif sector == 3
+        let rgb.r = p
+        let rgb.g = q
+        let rgb.b = v
+    elseif sector == 4
+        let rgb.r = t
+        let rgb.g = p
+        let rgb.b = v
+    else
+        let rgb.r = v
+        let rgb.g = p
+        let rgb.b = q
+    endif
+
+    return s:build_color({ 'r': rgb.r * 255, 'g': rgb.g * 255, 'b': rgb.b * 255 })
 endfunction

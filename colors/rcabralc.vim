@@ -56,8 +56,8 @@ let s:is_dark = (&bg == 'dark')
 
 let s:none = { 'gui': 'NONE', 'term': 'NONE', }
 
-let s:black = s:color('#332929', { 'term': s:is_dark ? 0 : 15 }) " hsv(0, 20, 20)
-let s:white = s:color('#e6b8b8', { 'term': s:is_dark ? 15 : 0 }) " hsv(0, 20, 90)
+let s:black = s:color(rcabralc#hsv(0, 25, 20).gui, { 'term': s:is_dark ? 0 : 15 })
+let s:white = s:color(rcabralc#hsv(0, 25, 95).gui, { 'term': s:is_dark ? 15 : 0 })
 
 let s:fg = s:color((s:is_dark ? s:white : s:black).rgb)
 let s:opaquebg = s:color((s:is_dark ? s:black : s:white).rgb)
@@ -68,34 +68,36 @@ else
     let s:bg = s:opaquebg
 endif
 
-let s:basered      = '#e61717'    " hsv(  0, 90, 90)
-let s:basegreen    = '#67e567'    " hsv(120, 55, 90)
-let s:baseorange   = '#e65c17'    " hsv( 20, 90, 90)
-let s:baseyellow   = '#e59167'    " hsv( 20, 55, 90)
-let s:baseblue     = '#67a6e5'    " hsv(210, 55, 90)
-let s:basepurple   = '#bb67e6'    " hsv(280, 55, 90)
-let s:basecyan     = '#67e5d0'    " hsv(170, 55, 90)
-let s:basegreen_l  = '#3f8c3f'    " hsv(120, 55, 55)
-let s:baseyellow_l = '#8c593f'    " hsv( 20, 55, 55)
-let s:baseblue_l   = '#3f668c'    " hsv(210, 55, 55)
-let s:basepurple_l = '#733f8c'    " hsv(280, 55, 55)
-let s:basecyan_l   = '#3f8c7f'    " hsv(170, 55, 55)
+let s:basered      = rcabralc#hsv(  0, 70, 90).gui
+let s:basered_l    = rcabralc#hsv(  0, 70, 55).gui
+let s:basegreen    = rcabralc#hsv( 90, 50, 95).gui
+let s:basegreen_l  = rcabralc#hsv( 90, 50, 55).gui
+let s:baseorange   = rcabralc#hsv( 15, 70, 95).gui
+let s:baseorange_l = rcabralc#hsv( 15, 70, 70).gui
+let s:baseyellow   = rcabralc#hsv( 15, 50, 95).gui
+let s:baseyellow_l = rcabralc#hsv( 15, 50, 50).gui
+let s:basepurple   = rcabralc#hsv(300, 35, 60).gui
+let s:basepurple_l = rcabralc#hsv(300, 35, 60).gui
+let s:basepink     = rcabralc#hsv(345, 50, 90).gui
+let s:basepink_l   = rcabralc#hsv(345, 50, 55).gui
+let s:basecyan     = rcabralc#hsv(180, 50, 95).gui
+let s:basecyan_l   = rcabralc#hsv(180, 50, 50).gui
 
 if s:is_dark
     let s:red    = s:color(s:basered,    { 'term': 9 })
     let s:green  = s:color(s:basegreen,  { 'term': 10 })
     let s:orange = s:color(s:baseorange, { 'term': 3 })
     let s:yellow = s:color(s:baseyellow, { 'term': 11 })
-    let s:blue   = s:color(s:baseblue,   { 'term': 12 })
-    let s:purple = s:color(s:basepurple, { 'term': 13 })
+    let s:purple = s:color(s:basepurple, { 'term': 12 })
+    let s:pink   = s:color(s:basepink,   { 'term': 13 })
     let s:cyan   = s:color(s:basecyan,   { 'term': 14 })
 else
-    let s:red    = s:color(s:basered,      { 'term': 1 })
+    let s:red    = s:color(s:basered_l,    { 'term': 1 })
     let s:green  = s:color(s:basegreen_l,  { 'term': 2 })
-    let s:orange = s:color(s:baseorange,   { 'term': 11 })
+    let s:orange = s:color(s:baseorange_l, { 'term': 11 })
     let s:yellow = s:color(s:baseyellow_l, { 'term': 3 })
-    let s:blue   = s:color(s:baseblue_l,   { 'term': 4 })
-    let s:purple = s:color(s:basepurple_l, { 'term': 5 })
+    let s:purple = s:color(s:basepurple_l, { 'term': 4 })
+    let s:pink   = s:color(s:basepink_l,   { 'term': 5 })
     let s:cyan   = s:color(s:basecyan_l,   { 'term': 6 })
 endif
 
@@ -103,24 +105,24 @@ let s:altred    = s:blend(s:red,    s:opaquebg, 0.8, { 'term': s:is_dark ? 1 : 9
 let s:altgreen  = s:blend(s:green,  s:opaquebg, 0.8, { 'term': s:is_dark ? 2 : 10 })
 let s:altorange = s:blend(s:orange, s:opaquebg, 0.8)
 let s:altyellow = s:blend(s:yellow, s:opaquebg, 0.8)
-let s:altblue   = s:blend(s:blue,   s:opaquebg, 0.8, { 'term': s:is_dark ? 4 : 12 })
-let s:altpurple = s:blend(s:purple, s:opaquebg, 0.8, { 'term': s:is_dark ? 5 : 13 })
+let s:altpurple = s:blend(s:purple, s:opaquebg, 0.8, { 'term': s:is_dark ? 4 : 12 })
+let s:altpink   = s:blend(s:pink,   s:opaquebg, 0.8, { 'term': s:is_dark ? 5 : 13 })
 let s:altcyan   = s:blend(s:cyan,   s:opaquebg, 0.8, { 'term': s:is_dark ? 6 : 14 })
 
 let s:altred2    = s:blend(s:red,    s:opaquebg, 0.4)
 let s:altgreen2  = s:blend(s:green,  s:opaquebg, 0.4)
 let s:altorange2 = s:blend(s:orange, s:opaquebg, 0.4)
 let s:altyellow2 = s:blend(s:yellow, s:opaquebg, 0.4)
-let s:altblue2   = s:blend(s:blue,   s:opaquebg, 0.4)
-let s:altcyan2   = s:blend(s:cyan,   s:opaquebg, 0.4)
 let s:altpurple2 = s:blend(s:purple, s:opaquebg, 0.4)
+let s:altcyan2   = s:blend(s:cyan,   s:opaquebg, 0.4)
+let s:altpink2   = s:blend(s:pink,   s:opaquebg, 0.4)
 
 let s:redbg     = s:blend(s:red,    s:opaquebg, 0.1)
 let s:greenbg   = s:blend(s:green,  s:opaquebg, 0.1)
 let s:orangebg  = s:blend(s:orange, s:opaquebg, 0.2)
 let s:yellowbg  = s:blend(s:yellow, s:opaquebg, 0.2)
-let s:bluebg    = s:blend(s:blue,   s:opaquebg, 0.15)
 let s:purplebg  = s:blend(s:purple, s:opaquebg, 0.15)
+let s:pinkbg    = s:blend(s:pink,   s:opaquebg, 0.15)
 
 let s:gray0 = s:blend(s:fg, s:bg, 0.10)
 let s:gray1 = s:blend(s:fg, s:bg, 0.15, { 'term': 8 })
@@ -140,29 +142,29 @@ let g:rcabralc#palette.red = s:red
 let g:rcabralc#palette.green = s:green
 let g:rcabralc#palette.orange = s:orange
 let g:rcabralc#palette.yellow = s:yellow
-let g:rcabralc#palette.blue = s:blue
 let g:rcabralc#palette.purple = s:purple
+let g:rcabralc#palette.pink = s:pink
 let g:rcabralc#palette.cyan = s:cyan
 let g:rcabralc#palette.altred = s:altred
 let g:rcabralc#palette.altgreen = s:altgreen
 let g:rcabralc#palette.altorange = s:altorange
 let g:rcabralc#palette.altyellow = s:altyellow
+let g:rcabralc#palette.altpink = s:altpink
 let g:rcabralc#palette.altpurple = s:altpurple
-let g:rcabralc#palette.altblue = s:altblue
 let g:rcabralc#palette.altcyan = s:altcyan
 let g:rcabralc#palette.altred2 = s:altred2
 let g:rcabralc#palette.altgreen2 = s:altgreen2
 let g:rcabralc#palette.altorange2 = s:altorange2
 let g:rcabralc#palette.altyellow2 = s:altyellow2
-let g:rcabralc#palette.altblue2 = s:altblue2
 let g:rcabralc#palette.altpurple2 = s:altpurple2
+let g:rcabralc#palette.altpink2 = s:altpink2
 let g:rcabralc#palette.altcyan2 = s:altcyan2
 let g:rcabralc#palette.redbg = s:redbg
 let g:rcabralc#palette.greenbg = s:greenbg
 let g:rcabralc#palette.orangebg = s:orangebg
 let g:rcabralc#palette.yellowbg = s:yellowbg
-let g:rcabralc#palette.bluebg = s:bluebg
 let g:rcabralc#palette.purplebg = s:purplebg
+let g:rcabralc#palette.pinkbg = s:pinkbg
 
 delfunction s:color
 delfunction s:blend
@@ -207,15 +209,15 @@ endif
 "         Number         a number constant: 234, 0xff
 "         Boolean        a boolean constant: TRUE, false
 "         Float          a floating point constant: 2.3e10
-call s:hl('Constant', s:purple, s:none, 'bold')
+call s:hl('Constant', s:pink, s:none, 'bold')
 call s:hl('String', s:yellow, s:none)
-call s:hl('Character', s:purple, s:none, 'bold')
 call s:hl('Number', s:purple, s:none)
 call s:hl('Boolean', s:purple, s:none)
 
 "        *Identifier     any variable name
 "         Function       function name (also: methods for classes)
-call s:hl('Identifier', s:blue, s:none)
+call s:hl('Identifier', s:pink, s:none)
+call s:hl('Function', s:red, s:none, 'bold')
 
 "        *Statement      any statement
 "         Conditional    if, then, else, endif, switch, etc.
@@ -224,8 +226,8 @@ call s:hl('Identifier', s:blue, s:none)
 "         Operator       "sizeof", "+", "*", etc.
 "         Keyword        any other keyword
 "         Exception      try, catch, throw
-call s:hl('Statement', s:red, s:none, 'bold')
-call s:hl('Operator',  s:orange, s:none)
+call s:hl('Statement', s:purple, s:none, 'bold')
+call s:hl('Operator', s:cyan, s:none)
 call s:hl('Exception', s:red, s:none, 'bold')
 
 "        *PreProc        generic Preprocessor
@@ -233,13 +235,13 @@ call s:hl('Exception', s:red, s:none, 'bold')
 "         Define         preprocessor #define
 "         Macro          same as Define
 "         PreCondit      preprocessor #if, #else, #endif, etc.
-call s:hl('PreProc', s:red, s:none, 'bold')
+call s:hl('PreProc', s:purple, s:none, 'bold')
 
 "        *Type           int, long, char, etc.
 "         StorageClass   static, register, volatile, etc.
 "         Structure      struct, union, enum, etc.
 "         Typedef        A typedef
-call s:hl('Type', s:green, s:none, 'bold')
+call s:hl('Type', s:green, s:none)
 call s:hl('StorageClass', s:red, s:none, 'bold')
 
 "        *Special        any special symbol
@@ -249,7 +251,7 @@ call s:hl('StorageClass', s:red, s:none, 'bold')
 "         SpecialComment special things inside a comment
 "         Debug          debugging statements
 call s:hl('Special', s:orange, s:none)
-call s:hl('Tag', s:cyan, s:none, 'bold')
+call s:hl('Tag', s:cyan, s:none)
 call s:hl('Delimiter', s:orange, s:none)
 call s:hl('SpecialComment', s:cyan, s:none, 'bold')
 call s:hl('Debug', s:cyan, s:none)
@@ -265,20 +267,20 @@ call s:hl('Error', s:red, s:none, 'bold,reverse')
 
 "        *Todo           anything that needs extra attention; mostly the
 "                        keywords TODO FIXME and XXX
-call s:hl('Todo', s:cyan, s:none, 'bold')
+call s:hl('Todo', s:orange, s:none, 'bold')
 
 
 " Extended highlighting
-call s:hl('SpecialKey', s:blue, s:none)
+call s:hl('SpecialKey', s:purple, s:none)
 call s:hl('NonText', s:gray2, s:none)
 call s:hl('StatusLine', s:fg, s:gray0, 'bold')
 call s:hl('StatusLineNC', s:gray2, s:gray0)
-call s:hl('Visual', s:none, s:purplebg)
-call s:hl('Directory', s:purple, s:none)
+call s:hl('Visual', s:none, s:pinkbg)
+call s:hl('Directory', s:pink, s:none)
 call s:hl('ErrorMsg', s:red, s:bg, 'bold')
 call s:hl('IncSearch', s:opaquebg, s:yellow)
 call s:hl('Search', s:opaquebg, s:yellow)
-call s:hl('QuickFixLine', s:none, s:bluebg)
+call s:hl('QuickFixLine', s:none, s:pinkbg)
 call s:hl('MoreMsg', s:green, s:bg)
 call s:hl('ModeMsg', s:orange, s:bg)
 call s:hl('LineNr', s:gray2, s:bg)
@@ -291,7 +293,7 @@ call s:hl('WildMenu', s:green, s:bg)
 call s:hl('Folded', s:gray2, s:bg)
 call s:hl('FoldColumn', s:gray2, s:bg)
 call s:hl('DiffAdd', s:none, s:greenbg)
-call s:hl('DiffChange', s:none, s:bluebg)
+call s:hl('DiffChange', s:none, s:purplebg)
 call s:hl('DiffDelete', s:none, s:redbg)
 call s:hl('DiffText', s:none, s:greenbg, 'underline')
 call s:hl('SignColumn', s:orange, s:bg)
@@ -308,7 +310,7 @@ else
     call s:hl('SpellLocal', s:none, s:orangebg, 'underline', 'NONE', s:orange)
 endif
 call s:hl('Pmenu', s:fg, s:gray1)
-call s:hl('PmenuSel', s:opaquebg, s:purple, 'bold')
+call s:hl('PmenuSel', s:opaquebg, s:pink, 'bold')
 call s:hl('PmenuSbar', s:none, s:gray1)
 call s:hl('PmenuThumb', s:none, s:gray2)
 call s:hl('TabLine', s:gray2, s:gray1)
@@ -320,7 +322,7 @@ call s:hl('CursorLineNr', s:orange, s:bg)
 call s:hl('ColorColumn', s:none, s:gray0)
 call s:hl('Cursor', s:none, s:none, 'reverse')
 hi! link lCursor Cursor
-call s:hl('MatchParen', s:yellow, s:bg, 'bold,underline')
+call s:hl('MatchParen', s:cyan, s:bg, 'bold,reverse')
 
 " Restore background saved.  Must be at the end due to a bug in VIM trying to
 " figuring out automagically if the background set through Normal highlight
