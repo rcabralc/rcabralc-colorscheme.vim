@@ -45,7 +45,7 @@ function! rcabralc#build_color(color, ...)
     let color.xyz = s:xyz(color)
     let color.lab = s:lab(color.xyz)
     let color.rgb = { 'r': color.r, 'g': color.g, 'b': color.b }
-    let color.term_aware = function('s:color_term_indexed')
+    let color.term_aware = function('s:color_term_aware')
     let color.blend = function('s:color_blend')
     let color.distance = function('s:color_distance')
 
@@ -67,14 +67,23 @@ function! rcabralc#build_color(color, ...)
 endfunction
 let s:build_color = function('rcabralc#build_color')
 
-function! s:color_term_indexed(...) dict
+function! s:color_term_aware(...) dict
     let new_color = copy(self)
+    let use_default_term_colors = exists('g:rcabralc') &&
+        \ has_key(g:rcabralc, 'use_default_term_colors') &&
+        \ g:rcabralc.use_default_term_colors
 
     if a:0 == 1
-        let new_color.term = a:1
+        if (a:1 >= 0 && a:1 <= 15 && !use_default_term_colors)
+            let new_color.term = s:xterm_index(self)
+        else
+            let new_color.term = a:1
+        endif
     else
         let new_color.term = s:xterm_index(self)
     endif
+
+    exe "let g:terminal_color_" . new_color.term . " = '" . new_color.gui . "'"
 
     return new_color
 endfunction

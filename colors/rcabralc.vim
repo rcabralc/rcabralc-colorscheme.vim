@@ -18,26 +18,7 @@ endfunction
 call s:merge_options()
 delfunction s:merge_options
 
-function! s:color(color, ...)
-    let options = a:0 >= 1 ? a:1 : {}
-    let term = -1
-
-    if has_key(options, 'term')
-        let term = options.term
-
-        if !s:options.use_default_term_colors
-            call remove(options, 'term')
-        endif
-    endif
-
-    let color = rcabralc#build_color(a:color, options)
-
-    if term >= 0
-        exe "let g:terminal_color_" . term . " = '" . color.gui . "'"
-    end
-
-    return color
-endfunction
+let s:color = function('rcabralc#build_color')
 
 " Save background value: workaround for Vim bug, restored (enforced) at the
 " end.
@@ -158,8 +139,6 @@ let g:rcabralc#palette.orangebg = s:orangebg
 let g:rcabralc#palette.yellowbg = s:yellowbg
 let g:rcabralc#palette.purplebg = s:purplebg
 let g:rcabralc#palette.pinkbg = s:pinkbg
-
-delfunction s:color
 
 function! s:name_colors()
     for [name, color] in items(g:rcabralc#palette)
