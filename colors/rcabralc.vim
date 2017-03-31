@@ -98,9 +98,9 @@ let s:yellowbg = s:yellow.blend(s:opaquebg, 0.2).term_aware()
 let s:purplebg = s:purple.blend(s:opaquebg, 0.2).term_aware()
 let s:pinkbg = s:pink.blend(s:opaquebg, 0.2).term_aware()
 
-let s:gray0 = s:fg.blend(s:bg, 0.10).term_aware()
-let s:gray1 = s:fg.blend(s:bg, 0.15).term_aware(8)
-let s:gray2 = s:fg.blend(s:bg, 0.45).term_aware(7)
+let s:gray0 = s:fg.blend(s:bg, 0.08).term_aware()
+let s:gray1 = s:fg.blend(s:bg, 0.16).term_aware(8)
+let s:gray2 = s:fg.blend(s:bg, 0.44).term_aware(7)
 
 " Export the palette
 let g:rcabralc#palette = {}
