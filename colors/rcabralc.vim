@@ -39,13 +39,6 @@ function! s:color(color, ...)
     return color
 endfunction
 
-function! s:blend(color1, color2, opacity, ...)
-    let options = a:0 >= 1 ? a:1 : {}
-    let blended = rcabralc#blend(a:color1, a:color2, a:opacity)
-
-    return s:color(blended, options)
-endfunction
-
 " Save background value: workaround for Vim bug, restored (enforced) at the
 " end.
 let s:is_dark = (&bg == 'dark')
@@ -59,8 +52,8 @@ let s:none = { 'gui': 'NONE', 'term': 'NONE', }
 let s:black = s:color(rcabralc#hsv(0, 25, 20).gui, { 'term': s:is_dark ? 0 : 15 })
 let s:white = s:color(rcabralc#hsv(0, 25, 95).gui, { 'term': s:is_dark ? 15 : 0 })
 
-let s:fg = s:color((s:is_dark ? s:white : s:black).rgb)
-let s:opaquebg = s:color((s:is_dark ? s:black : s:white).rgb)
+let s:fg = (s:is_dark ? s:white : s:black)
+let s:opaquebg = (s:is_dark ? s:black : s:white)
 
 if !has('gui_running') && s:options.transparent_background == 1
     let s:bg = { 'gui': 'NONE', 'term': 'NONE' }
@@ -101,32 +94,32 @@ else
     let s:cyan   = s:color(s:basecyan_l,   { 'term': 6 })
 endif
 
-let s:altred    = s:blend(s:red,    s:opaquebg, 0.8, { 'term': s:is_dark ? 1 : 9 })
-let s:altgreen  = s:blend(s:green,  s:opaquebg, 0.8, { 'term': s:is_dark ? 2 : 10 })
-let s:altorange = s:blend(s:orange, s:opaquebg, 0.8)
-let s:altyellow = s:blend(s:yellow, s:opaquebg, 0.8)
-let s:altpurple = s:blend(s:purple, s:opaquebg, 0.8, { 'term': s:is_dark ? 4 : 12 })
-let s:altpink   = s:blend(s:pink,   s:opaquebg, 0.8, { 'term': s:is_dark ? 5 : 13 })
-let s:altcyan   = s:blend(s:cyan,   s:opaquebg, 0.8, { 'term': s:is_dark ? 6 : 14 })
+let s:altred = s:red.blend(s:opaquebg, 0.8).term_aware(s:is_dark ? 1 : 9 )
+let s:altgreen = s:green.blend(s:opaquebg, 0.8).term_aware(s:is_dark ? 2 : 10)
+let s:altorange = s:orange.blend(s:opaquebg, 0.8).term_aware()
+let s:altyellow = s:yellow.blend(s:opaquebg, 0.8).term_aware()
+let s:altpurple = s:purple.blend(s:opaquebg, 0.8).term_aware(s:is_dark ? 4 : 12)
+let s:altpink = s:pink.blend(s:opaquebg, 0.8).term_aware(s:is_dark ? 5 : 13)
+let s:altcyan = s:cyan.blend(s:opaquebg, 0.8).term_aware(s:is_dark ? 6 : 14)
 
-let s:altred2    = s:blend(s:red,    s:opaquebg, 0.4)
-let s:altgreen2  = s:blend(s:green,  s:opaquebg, 0.4)
-let s:altorange2 = s:blend(s:orange, s:opaquebg, 0.4)
-let s:altyellow2 = s:blend(s:yellow, s:opaquebg, 0.4)
-let s:altpurple2 = s:blend(s:purple, s:opaquebg, 0.4)
-let s:altcyan2   = s:blend(s:cyan,   s:opaquebg, 0.4)
-let s:altpink2   = s:blend(s:pink,   s:opaquebg, 0.4)
+let s:altred2 = s:red.blend(s:opaquebg, 0.4).term_aware()
+let s:altgreen2 = s:green.blend(s:opaquebg, 0.4).term_aware()
+let s:altorange2 = s:orange.blend(s:opaquebg, 0.4).term_aware()
+let s:altyellow2 = s:yellow.blend(s:opaquebg, 0.4).term_aware()
+let s:altpurple2 = s:purple.blend(s:opaquebg, 0.4).term_aware()
+let s:altcyan2 = s:cyan.blend(s:opaquebg, 0.4).term_aware()
+let s:altpink2 = s:pink.blend(s:opaquebg, 0.4).term_aware()
 
-let s:redbg     = s:blend(s:red,    s:opaquebg, 0.1)
-let s:greenbg   = s:blend(s:green,  s:opaquebg, 0.1)
-let s:orangebg  = s:blend(s:orange, s:opaquebg, 0.2)
-let s:yellowbg  = s:blend(s:yellow, s:opaquebg, 0.2)
-let s:purplebg  = s:blend(s:purple, s:opaquebg, 0.15)
-let s:pinkbg    = s:blend(s:pink,   s:opaquebg, 0.15)
+let s:redbg = s:red.blend(s:opaquebg, 0.1).term_aware()
+let s:greenbg = s:green.blend(s:opaquebg, 0.1).term_aware()
+let s:orangebg = s:orange.blend(s:opaquebg, 0.2).term_aware()
+let s:yellowbg = s:yellow.blend(s:opaquebg, 0.2).term_aware()
+let s:purplebg = s:purple.blend(s:opaquebg, 0.15).term_aware()
+let s:pinkbg = s:pink.blend(s:opaquebg, 0.15).term_aware()
 
-let s:gray0 = s:blend(s:fg, s:bg, 0.10)
-let s:gray1 = s:blend(s:fg, s:bg, 0.15, { 'term': 8 })
-let s:gray2 = s:blend(s:fg, s:bg, 0.45, { 'term': 7 })
+let s:gray0 = s:fg.blend(s:bg, 0.10).term_aware()
+let s:gray1 = s:fg.blend(s:bg, 0.15).term_aware(8)
+let s:gray2 = s:fg.blend(s:bg, 0.45).term_aware(7)
 
 " Export the palette
 let g:rcabralc#palette = {}
@@ -167,7 +160,6 @@ let g:rcabralc#palette.purplebg = s:purplebg
 let g:rcabralc#palette.pinkbg = s:pinkbg
 
 delfunction s:color
-delfunction s:blend
 
 function! s:name_colors()
     for [name, color] in items(g:rcabralc#palette)

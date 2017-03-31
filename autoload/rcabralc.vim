@@ -45,6 +45,9 @@ function! rcabralc#build_color(color, ...)
     let color.xyz = s:xyz(color)
     let color.lab = s:lab(color.xyz)
     let color.rgb = { 'r': color.r, 'g': color.g, 'b': color.b }
+    let color.term_aware = function('s:color_term_indexed')
+    let color.blend = function('s:color_blend')
+    let color.distance = function('s:color_distance')
 
     if a:0 == 1
         let options = a:1
@@ -52,7 +55,9 @@ function! rcabralc#build_color(color, ...)
         let options = {}
     endif
 
-    let color.term = has_key(options, 'term') ? options.term : s:xterm_index(color)
+    if has_key(options, 'term')
+        let color.term = options.term
+    endif
 
     if has_key(options, 'name')
         let color.name = options.name
@@ -62,14 +67,30 @@ function! rcabralc#build_color(color, ...)
 endfunction
 let s:build_color = function('rcabralc#build_color')
 
-function! rcabralc#blend(fg, bg, opacity, ...)
+function! s:color_term_indexed(...) dict
+    let new_color = copy(self)
+
+    if a:0 == 1
+        let new_color.term = a:1
+    else
+        let new_color.term = s:xterm_index(self)
+    endif
+
+    return new_color
+endfunction
+
+function! s:color_blend(color, opacity, ...) dict
     let options = a:0 == 1 ? a:1 : {}
 
     return s:build_color({
-        \ 'r': a:fg.r * a:opacity + a:bg.r * (1 - a:opacity),
-        \ 'g': a:fg.g * a:opacity + a:bg.g * (1 - a:opacity),
-        \ 'b': a:fg.b * a:opacity + a:bg.b * (1 - a:opacity),
+        \ 'r': self.r * a:opacity + a:color.r * (1 - a:opacity),
+        \ 'g': self.g * a:opacity + a:color.g * (1 - a:opacity),
+        \ 'b': self.b * a:opacity + a:color.b * (1 - a:opacity),
     \ }, options)
+endfunction
+
+function! s:color_distance(color) dict
+    return pow(s:lab_distance2(self, color), 0.5)
 endfunction
 
 function! rcabralc#print_colors(palette)
@@ -176,16 +197,20 @@ function! s:matrix_multiply(a, b)
 endfunction
 
 function! s:xterm_index(color)
-    let best = { 'dist2': 3 * pow(255, 2) + 1 }
+    let best = {}
 
     for index in sort(keys(s:xterm_palette))
         let xterm_color = s:xterm_palette[index]
         let dist2 = s:lab_distance2(xterm_color, a:color)
-        " let dist2 = s:rgb_distance2(xterm_color, a:color)
 
         if dist2 == 0
             return index
         end
+
+        if !has_key(best, 'dist2')
+            let best.index = index
+            let best.dist2 = dist2
+        endif
 
         if dist2 < best.dist2
             let best = { 'index': index, 'dist2': dist2 }
