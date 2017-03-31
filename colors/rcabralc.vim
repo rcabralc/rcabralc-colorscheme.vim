@@ -33,8 +33,8 @@ let s:none = { 'gui': 'NONE', 'term': 'NONE', }
 let s:black = s:color(rcabralc#hsv(0, 25, 20).gui, { 'term': s:is_dark ? 0 : 15 })
 let s:white = s:color(rcabralc#hsv(0, 25, 95).gui, { 'term': s:is_dark ? 15 : 0 })
 
-let s:fg = (s:is_dark ? s:white : s:black)
-let s:opaquebg = (s:is_dark ? s:black : s:white)
+let s:fg = copy(s:is_dark ? s:white : s:black)
+let s:opaquebg = copy(s:is_dark ? s:black : s:white)
 
 if !has('gui_running') && s:options.transparent_background == 1
     let s:bg = { 'gui': 'NONE', 'term': 'NONE' }
