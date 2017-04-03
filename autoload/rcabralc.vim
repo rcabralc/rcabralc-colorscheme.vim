@@ -55,12 +55,12 @@ function! rcabralc#build_color(color, ...)
         let options = {}
     endif
 
-    if has_key(options, 'term')
-        let color.term = options.term
-    endif
-
     if has_key(options, 'name')
         let color.name = options.name
+    endif
+
+    if has_key(options, 'term')
+        return color.term_aware(options.term)
     endif
 
     return color
@@ -78,12 +78,14 @@ function! s:color_term_aware(...) dict
             let new_color.term = s:xterm_index(self)
         else
             let new_color.term = a:1
+
+            if a:1 >= 0 && a:1 <= 15
+                exe "let g:terminal_color_" . a:1 . " = '" . new_color.gui . "'"
+            endif
         endif
     else
         let new_color.term = s:xterm_index(self)
     endif
-
-    exe "let g:terminal_color_" . new_color.term . " = '" . new_color.gui . "'"
 
     return new_color
 endfunction
