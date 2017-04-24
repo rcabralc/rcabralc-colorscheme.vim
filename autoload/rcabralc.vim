@@ -55,10 +55,6 @@ function! rcabralc#build_color(color, ...)
         let options = {}
     endif
 
-    if has_key(options, 'name')
-        let color.name = options.name
-    endif
-
     if has_key(options, 'term')
         return color.term_aware(options.term)
     endif
@@ -73,16 +69,8 @@ function! s:color_term_aware(...) dict
         \ has_key(g:rcabralc, 'use_default_term_colors') &&
         \ g:rcabralc.use_default_term_colors
 
-    if a:0 == 1
-        if (a:1 >= 0 && a:1 <= 15 && !use_default_term_colors)
-            let new_color.term = s:xterm_index(self)
-        else
-            let new_color.term = a:1
-
-            if a:1 >= 0 && a:1 <= 15
-                exe "let g:terminal_color_" . a:1 . " = '" . new_color.gui . "'"
-            endif
-        endif
+    if use_default_term_colors && a:0 == 1
+        let new_color.term = a:1
     else
         let new_color.term = s:xterm_index(self)
     endif
@@ -106,10 +94,13 @@ endfunction
 
 function! rcabralc#print_colors(palette)
     let By_term_index = function('s:sort_by_term_index')
-    let sorted = sort(values(filter(copy(a:palette), "v:key != 'none'")), By_term_index)
+    let sorted = sort(items(filter(copy(a:palette), "v:key != 'none'")), By_term_index)
     let line = line('.')
-    for color in sorted
-        call append(line, printf("%12s %3d %s", color.name, color.term, color.gui))
+    for [name, color] in sorted
+        if has_key(color, 'actual')
+            let color = color.actual
+        endif
+        call append(line, printf("%12s %3d %s", name, color.term, color.gui))
         let line = line + 1
     endfor
 endfunction
@@ -118,8 +109,19 @@ function! s:sort_by_lab_light(color1, color2)
     return a:color1.lab.l - a:color2.lab.l
 endfunction
 
-function! s:sort_by_term_index(color1, color2)
-    return a:color1.term - a:color2.term
+function! s:sort_by_term_index(colorpair1, colorpair2)
+    let color1 = a:colorpair1[1]
+    let color2 = a:colorpair2[1]
+
+    if has_key(color1, 'actual')
+        let color1 = color1.actual
+    end
+
+    if has_key(color2, 'actual')
+        let color2 = color2.actual
+    end
+
+    return color1.term - color2.term
 endfunction
 
 function! s:rgb_from_hex_color(color)
@@ -251,7 +253,7 @@ function! s:build_16_255_palette(color_components, gray_components)
                     \ 'r': a:color_components[ir],
                     \ 'g': a:color_components[ig],
                     \ 'b': a:color_components[ib],
-                \ }, { 'term': index, 'name': 'xterm' . index })
+                \ }, { 'term': index })
             endfor
         endfor
     endfor
@@ -262,7 +264,7 @@ function! s:build_16_255_palette(color_components, gray_components)
             \ 'r': a:gray_components[i],
             \ 'g': a:gray_components[i],
             \ 'b': a:gray_components[i],
-        \ }, { 'term': index + i, 'name': 'xterm' . (index + i) })
+        \ }, { 'term': index + i })
     endfor
 
     return palette
