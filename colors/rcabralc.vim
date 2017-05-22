@@ -18,8 +18,6 @@ endfunction
 call s:merge_options()
 delfunction s:merge_options
 
-let s:color = function('rcabralc#build_color')
-
 " Save background value: workaround for Vim bug, restored (enforced) at the
 " end.
 let s:is_dark = (&bg == 'dark')
@@ -30,8 +28,8 @@ let s:is_dark = (&bg == 'dark')
 
 let s:none = { 'gui': 'NONE', 'term': 'NONE' }
 
-let s:black = { 'actual': rcabralc#hsv(0, 25, 20).term_aware(s:is_dark ? 0 : 15 ) }
-let s:white = { 'actual': rcabralc#hsv(0, 25, 95).term_aware(s:is_dark ? 15 : 0 ) }
+let s:black = { 'actual': rcabralc#hsv(0, 21, 17).term_aware(s:is_dark ? 0 : 15 ) }
+let s:white = { 'actual': rcabralc#hsv(0, 21, 83).term_aware(s:is_dark ? 15 : 0 ) }
 
 let s:fg = { 'actual': (s:is_dark ? s:white : s:black).actual }
 let s:opaquebg = s:is_dark ? s:black : s:white
@@ -47,12 +45,12 @@ else
 endif
 
 let s:red = {
-    \ 'dark':  rcabralc#hsv(  0, 70, 90).term_aware(9),
-    \ 'light': rcabralc#hsv(  0, 70, 55).term_aware(1)
+    \ 'dark':  rcabralc#hsv(  0, 60, 90).term_aware(9),
+    \ 'light': rcabralc#hsv(  0, 60, 55).term_aware(1)
 \ }
 let s:green = {
-    \ 'dark':  rcabralc#hsv( 90, 50, 95).term_aware(10),
-    \ 'light': rcabralc#hsv( 90, 50, 55).term_aware(2)
+    \ 'dark':  rcabralc#hsv( 45, 50, 90).term_aware(10),
+    \ 'light': rcabralc#hsv( 45, 50, 55).term_aware(2)
 \ }
 let s:orange = {
     \ 'dark':  rcabralc#hsv( 15, 70, 95).term_aware(3),
@@ -63,16 +61,16 @@ let s:yellow = {
     \ 'light': rcabralc#hsv( 15, 50, 50).term_aware(3)
 \ }
 let s:purple = {
-    \ 'dark':  rcabralc#hsv(300, 35, 60).term_aware(12),
-    \ 'light': rcabralc#hsv(300, 35, 60).term_aware(4)
+    \ 'dark':  rcabralc#hsv(330, 40, 60).term_aware(12),
+    \ 'light': rcabralc#hsv(330, 40, 60).term_aware(4)
 \ }
 let s:pink = {
-    \ 'dark':  rcabralc#hsv(345, 50, 90).term_aware(13),
-    \ 'light': rcabralc#hsv(345, 50, 55).term_aware(5)
+    \ 'dark':  rcabralc#hsv(350, 50, 90).term_aware(13),
+    \ 'light': rcabralc#hsv(350, 50, 55).term_aware(5)
 \ }
 let s:cyan = {
-    \ 'dark':  rcabralc#hsv(180, 50, 95).term_aware(14),
-    \ 'light': rcabralc#hsv(180, 50, 50).term_aware(6)
+    \ 'dark':  rcabralc#hsv(180, 30, 80).term_aware(14),
+    \ 'light': rcabralc#hsv(180, 30, 35).term_aware(6)
 \ }
 
 let s:altred = {
@@ -129,8 +127,8 @@ let s:altpink2 = {
     \ 'light': s:pink.light.blend(s:opaquebg.actual, 0.3).term_aware()
 \ }
 let s:altcyan2 = {
-    \ 'dark':  s:cyan.dark.blend(s:opaquebg.actual, 0.5).term_aware(),
-    \ 'light': s:cyan.light.blend(s:opaquebg.actual, 0.5).term_aware()
+    \ 'dark':  s:cyan.dark.blend(s:opaquebg.actual, 0.3).term_aware(),
+    \ 'light': s:cyan.light.blend(s:opaquebg.actual, 0.3).term_aware()
 \ }
 
 let s:redbg = {
@@ -259,7 +257,7 @@ endif
 "         Number         a number constant: 234, 0xff
 "         Boolean        a boolean constant: TRUE, false
 "         Float          a floating point constant: 2.3e10
-call s:hl('Constant', s:pink.actual, s:none, 'bold')
+call s:hl('Constant', s:pink.actual, s:none)
 call s:hl('String', s:yellow.actual, s:none)
 call s:hl('Number', s:purple.actual, s:none)
 call s:hl('Boolean', s:purple.actual, s:none)
@@ -267,7 +265,7 @@ call s:hl('Boolean', s:purple.actual, s:none)
 "        *Identifier     any variable name
 "         Function       function name (also: methods for classes)
 call s:hl('Identifier', s:pink.actual, s:none)
-call s:hl('Function', s:red.actual, s:none, 'bold')
+call s:hl('Function', s:red.actual, s:none)
 
 "        *Statement      any statement
 "         Conditional    if, then, else, endif, switch, etc.
@@ -390,3 +388,28 @@ function! s:define_term_colors(palette)
 endfunction
 call s:define_term_colors(g:rcabralc#palette)
 delfunction s:define_term_colors
+
+function! rcabralc#print_palette()
+    let named_colors = map(filter(copy(g:rcabralc#palette), "v:key != 'none'"), "v:val.actual")
+    let sorted = sort(items(copy(named_colors)), function('s:sort_by_term_index'))
+    let line = line('.')
+    for [name, color] in sorted
+        call append(line, printf(
+            \ "%12s  %3d  %s  rgb(%.0f,%.0f,%.0f)",
+            \ name,
+            \ color.term,
+            \ color.gui,
+            \ round(color.r),
+            \ round(color.g),
+            \ round(color.b)
+        \ ))
+        let line = line + 1
+    endfor
+endfunction
+
+function! s:sort_by_term_index(colorpair1, colorpair2)
+    let color1 = a:colorpair1[1]
+    let color2 = a:colorpair2[1]
+
+    return color1.term - color2.term
+endfunction

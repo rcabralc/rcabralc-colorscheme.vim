@@ -92,38 +92,6 @@ function! s:color_distance(color) dict
     return pow(s:lab_distance2(self, color), 0.5)
 endfunction
 
-function! rcabralc#print_colors(palette)
-    let By_term_index = function('s:sort_by_term_index')
-    let sorted = sort(items(filter(copy(a:palette), "v:key != 'none'")), By_term_index)
-    let line = line('.')
-    for [name, color] in sorted
-        if has_key(color, 'actual')
-            let color = color.actual
-        endif
-        call append(line, printf("%12s %3d %s", name, color.term, color.gui))
-        let line = line + 1
-    endfor
-endfunction
-
-function! s:sort_by_lab_light(color1, color2)
-    return a:color1.lab.l - a:color2.lab.l
-endfunction
-
-function! s:sort_by_term_index(colorpair1, colorpair2)
-    let color1 = a:colorpair1[1]
-    let color2 = a:colorpair2[1]
-
-    if has_key(color1, 'actual')
-        let color1 = color1.actual
-    end
-
-    if has_key(color2, 'actual')
-        let color2 = color2.actual
-    end
-
-    return color1.term - color2.term
-endfunction
-
 function! s:rgb_from_hex_color(color)
     return {
         \ 'r': str2nr(a:color[1:2], 16),
