@@ -29,7 +29,7 @@ let s:is_dark = (&bg == 'dark')
 let s:none = { 'gui': 'NONE', 'term': 'NONE' }
 
 let s:black = { 'actual': rcabralc#hsv(0, 21, 17).term_aware(s:is_dark ? 0 : 15 ) }
-let s:white = { 'actual': rcabralc#hsv(0, 21, 83).term_aware(s:is_dark ? 15 : 0 ) }
+let s:white = { 'actual': rcabralc#hsv(0, 21, 86).term_aware(s:is_dark ? 15 : 0 ) }
 
 let s:fg = { 'actual': (s:is_dark ? s:white : s:black).actual }
 let s:opaquebg = s:is_dark ? s:black : s:white
