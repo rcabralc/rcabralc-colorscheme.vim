@@ -385,8 +385,9 @@ endfunction
 call s:define_term_colors(g:rcabralc#palette)
 delfunction s:define_term_colors
 
-function! rcabralc#print_palette()
-    let named_colors = map(filter(copy(g:rcabralc#palette), "v:key != 'none'"), "v:val.actual")
+function! rcabralc#print_palette(...)
+    let color_tone = a:0 > 0 ? a:1 : 'actual'
+    let named_colors = map(filter(copy(g:rcabralc#palette), "v:key != 'none'"), "v:val.".color_tone)
     let sorted = sort(items(copy(named_colors)), function('s:sort_by_term_index'))
     let line = line('.')
     for [name, color] in sorted
