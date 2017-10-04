@@ -18,9 +18,27 @@ endfunction
 call s:merge_options()
 delfunction s:merge_options
 
-" Save background value: workaround for Vim bug, restored (enforced) at the
-" end.
-let s:is_dark = (&bg == 'dark')
+function! s:complete(color)
+    if has_key(a:color, 'actual')
+        return { 'actual': a:color.actual, 'dark': a:color.actual, 'light': a:color.actual }
+    endif
+
+    let dark = a:color.dark
+
+    if !has_key(a:color, 'light')
+        let term = dark.term
+        if term < 8
+            let term = term + 8
+        else
+            let term = term - 8
+        endif
+        let light = rcabralc#hsv(dark.hsv.h, dark.hsv.s, 100 - dark.hsv.v).term_aware(term)
+    else
+        let light = a:color.light
+    endif
+
+    return { 'actual': (&bg ==# 'dark') ? dark : light, 'dark': dark, 'light': light }
+endfunction
 
 
 " Palette definition
@@ -28,164 +46,139 @@ let s:is_dark = (&bg == 'dark')
 
 let s:none = { 'gui': 'NONE', 'term': 'NONE' }
 
-let s:black = { 'actual': rcabralc#hsv(0, 21, 17).term_aware(s:is_dark ? 0 : 15 ) }
-let s:white = { 'actual': rcabralc#hsv(0, 21, 86).term_aware(s:is_dark ? 15 : 0 ) }
+let s:black = s:complete({
+    \ 'dark':  rcabralc#hsv(0, 21, 17).term_aware(0),
+    \ 'light': rcabralc#hsv(0, 21, 17).term_aware(15)
+\ })
+let s:white = s:complete({
+    \ 'dark':  rcabralc#hsv(0, 21, 83).term_aware(15),
+    \ 'light': rcabralc#hsv(0, 21, 83).term_aware(0)
+\ })
 
-let s:fg = { 'actual': (s:is_dark ? s:white : s:black).actual }
-let s:opaquebg = s:is_dark ? s:black : s:white
+let s:fg = (&bg ==# 'dark') ? s:white : s:black
+let s:opaquebg = (&bg ==# 'dark') ? s:black : s:white
 
-let s:gray0 = { 'actual': s:fg.actual.blend(s:opaquebg.actual, 0.08).term_aware() }
-let s:gray1 = { 'actual': s:fg.actual.blend(s:opaquebg.actual, 0.16).term_aware(8) }
-let s:gray2 = { 'actual': s:fg.actual.blend(s:opaquebg.actual, 0.44).term_aware(7) }
+let s:gray0 = s:complete({ 'actual': s:fg.actual.blend(s:opaquebg.actual, 0.08).term_aware() })
+let s:gray1 = s:complete({ 'actual': s:fg.actual.blend(s:opaquebg.actual, 0.16).term_aware(8) })
+let s:gray2 = s:complete({ 'actual': s:fg.actual.blend(s:opaquebg.actual, 0.44).term_aware(7) })
 
 if !has('gui_running') && s:options.transparent_background == 1
-    let s:bg = { 'actual': s:none }
+    let s:bg = s:complete({ 'actual': s:none })
 else
     let s:bg = s:opaquebg
 endif
 
-let s:red = {
+let s:red = s:complete({
     \ 'dark':  rcabralc#hsv(  0, 60, 90).term_aware(9),
     \ 'light': rcabralc#hsv(  0, 60, 55).term_aware(1)
-\ }
-let s:green = {
+\ })
+let s:green = s:complete({
     \ 'dark':  rcabralc#hsv( 45, 50, 90).term_aware(10),
     \ 'light': rcabralc#hsv( 45, 50, 55).term_aware(2)
-\ }
-let s:orange = {
+\ })
+let s:orange = s:complete({
     \ 'dark':  rcabralc#hsv( 15, 70, 95).term_aware(3),
     \ 'light': rcabralc#hsv( 15, 70, 70).term_aware(11)
-\ }
-let s:yellow = {
+\ })
+let s:yellow = s:complete({
     \ 'dark':  rcabralc#hsv( 15, 50, 95).term_aware(11),
     \ 'light': rcabralc#hsv( 15, 50, 50).term_aware(3)
-\ }
-let s:purple = {
+\ })
+let s:purple = s:complete({
     \ 'dark':  rcabralc#hsv(330, 40, 60).term_aware(12),
     \ 'light': rcabralc#hsv(330, 40, 60).term_aware(4)
-\ }
-let s:pink = {
+\ })
+let s:pink = s:complete({
     \ 'dark':  rcabralc#hsv(350, 50, 90).term_aware(13),
     \ 'light': rcabralc#hsv(350, 50, 55).term_aware(5)
-\ }
-let s:cyan = {
-    \ 'dark':  rcabralc#hsv(180, 30, 80).term_aware(14),
-    \ 'light': rcabralc#hsv(180, 30, 35).term_aware(6)
-\ }
+\ })
+let s:cyan = s:complete({
+    \ 'dark':  rcabralc#hsv(210, 30, 80).term_aware(14),
+    \ 'light': rcabralc#hsv(210, 30, 35).term_aware(6)
+\ })
 
-let s:altred = {
-    \ 'dark':  s:red.dark.blend(s:opaquebg.actual, 0.8).term_aware(1),
-    \ 'light': s:red.light.blend(s:opaquebg.actual, 0.8).term_aware(9)
-\ }
-let s:altgreen = {
-    \ 'dark':  s:green.dark.blend(s:opaquebg.actual, 0.8).term_aware(2),
-    \ 'light': s:green.light.blend(s:opaquebg.actual, 0.8).term_aware(10)
-\ }
-let s:altorange = {
-    \ 'dark':  s:orange.dark.blend(s:opaquebg.actual, 0.8).term_aware(),
-    \ 'light': s:orange.light.blend(s:opaquebg.actual, 0.8).term_aware()
-\ }
-let s:altyellow = {
-    \ 'dark':  s:yellow.dark.blend(s:opaquebg.actual, 0.8).term_aware(),
-    \ 'light': s:yellow.light.blend(s:opaquebg.actual, 0.8).term_aware()
-\ }
-let s:altpurple = {
-    \ 'dark':  s:purple.dark.blend(s:opaquebg.actual, 0.8).term_aware(4),
-    \ 'light': s:purple.light.blend(s:opaquebg.actual, 0.8).term_aware(12)
-\ }
-let s:altpink = {
-    \ 'dark':  s:pink.dark.blend(s:opaquebg.actual, 0.8).term_aware(5),
-    \ 'light': s:pink.light.blend(s:opaquebg.actual, 0.8).term_aware(13)
-\ }
-let s:altcyan = {
-    \ 'dark':  s:cyan.dark.blend(s:opaquebg.actual, 0.8).term_aware(6),
-    \ 'light': s:cyan.light.blend(s:opaquebg.actual, 0.8).term_aware(14)
-\ }
+let s:altred = s:complete({
+    \ 'dark':  s:red.dark.blend(s:black.actual, 0.8).term_aware(1),
+    \ 'light': s:red.light.blend(s:white.actual, 0.8).term_aware(9)
+\ })
+let s:altgreen = s:complete({
+    \ 'dark':  s:green.dark.blend(s:black.actual, 0.8).term_aware(2),
+    \ 'light': s:green.light.blend(s:white.actual, 0.8).term_aware(10)
+\ })
+let s:altorange = s:complete({
+    \ 'dark':  s:orange.dark.blend(s:black.actual, 0.8).term_aware(),
+    \ 'light': s:orange.light.blend(s:white.actual, 0.8).term_aware()
+\ })
+let s:altyellow = s:complete({
+    \ 'dark':  s:yellow.dark.blend(s:black.actual, 0.8).term_aware(),
+    \ 'light': s:yellow.light.blend(s:white.actual, 0.8).term_aware()
+\ })
+let s:altpurple = s:complete({
+    \ 'dark':  s:purple.dark.blend(s:black.actual, 0.8).term_aware(4),
+    \ 'light': s:purple.light.blend(s:white.actual, 0.8).term_aware(12)
+\ })
+let s:altpink = s:complete({
+    \ 'dark':  s:pink.dark.blend(s:black.actual, 0.8).term_aware(5),
+    \ 'light': s:pink.light.blend(s:white.actual, 0.8).term_aware(13)
+\ })
+let s:altcyan = s:complete({
+    \ 'dark':  s:cyan.dark.blend(s:black.actual, 0.8).term_aware(6),
+    \ 'light': s:cyan.light.blend(s:white.actual, 0.8).term_aware(14)
+\ })
 
-let s:altred2 = {
-    \ 'dark':  s:red.dark.blend(s:opaquebg.actual, 0.5).term_aware(),
-    \ 'light': s:red.light.blend(s:opaquebg.actual, 0.5).term_aware()
-\ }
-let s:altgreen2 = {
-    \ 'dark':  s:green.dark.blend(s:opaquebg.actual, 0.3).term_aware(),
-    \ 'light': s:green.light.blend(s:opaquebg.actual, 0.3).term_aware()
-\ }
-let s:altorange2 = {
-    \ 'dark':  s:orange.dark.blend(s:opaquebg.actual, 0.4).term_aware(),
-    \ 'light': s:orange.light.blend(s:opaquebg.actual, 0.4).term_aware()
-\ }
-let s:altyellow2 = {
-    \ 'dark':  s:yellow.dark.blend(s:opaquebg.actual, 0.4).term_aware(),
-    \ 'light': s:yellow.light.blend(s:opaquebg.actual, 0.4).term_aware()
-\ }
-let s:altpurple2 = {
-    \ 'dark':  s:purple.dark.blend(s:opaquebg.actual, 0.4).term_aware(),
-    \ 'light': s:purple.light.blend(s:opaquebg.actual, 0.4).term_aware()
-\ }
-let s:altpink2 = {
-    \ 'dark':  s:pink.dark.blend(s:opaquebg.actual, 0.3).term_aware(),
-    \ 'light': s:pink.light.blend(s:opaquebg.actual, 0.3).term_aware()
-\ }
-let s:altcyan2 = {
-    \ 'dark':  s:cyan.dark.blend(s:opaquebg.actual, 0.3).term_aware(),
-    \ 'light': s:cyan.light.blend(s:opaquebg.actual, 0.3).term_aware()
-\ }
+let s:altred2 = s:complete({
+    \ 'dark':  s:red.dark.blend(s:black.actual, 0.5).term_aware(),
+    \ 'light': s:red.light.blend(s:white.actual, 0.5).term_aware()
+\ })
+let s:altgreen2 = s:complete({
+    \ 'dark':  s:green.dark.blend(s:black.actual, 0.3).term_aware(),
+    \ 'light': s:green.light.blend(s:white.actual, 0.3).term_aware()
+\ })
+let s:altorange2 = s:complete({
+    \ 'dark':  s:orange.dark.blend(s:black.actual, 0.4).term_aware(),
+    \ 'light': s:orange.light.blend(s:white.actual, 0.4).term_aware()
+\ })
+let s:altyellow2 = s:complete({
+    \ 'dark':  s:yellow.dark.blend(s:black.actual, 0.4).term_aware(),
+    \ 'light': s:yellow.light.blend(s:white.actual, 0.4).term_aware()
+\ })
+let s:altpurple2 = s:complete({
+    \ 'dark':  s:purple.dark.blend(s:black.actual, 0.4).term_aware(),
+    \ 'light': s:purple.light.blend(s:white.actual, 0.4).term_aware()
+\ })
+let s:altpink2 = s:complete({
+    \ 'dark':  s:pink.dark.blend(s:black.actual, 0.3).term_aware(),
+    \ 'light': s:pink.light.blend(s:white.actual, 0.3).term_aware()
+\ })
+let s:altcyan2 = s:complete({
+    \ 'dark':  s:cyan.dark.blend(s:black.actual, 0.3).term_aware(),
+    \ 'light': s:cyan.light.blend(s:white.actual, 0.3).term_aware()
+\ })
 
-let s:redbg = {
-    \ 'dark':  s:red.dark.blend(s:opaquebg.actual, 0.2).term_aware(),
-    \ 'light': s:red.light.blend(s:opaquebg.actual, 0.2).term_aware()
-\ }
-let s:greenbg = {
-    \ 'dark':  s:green.dark.blend(s:opaquebg.actual, 0.2).term_aware(),
-    \ 'light': s:green.light.blend(s:opaquebg.actual, 0.2).term_aware()
-\ }
-let s:orangebg = {
-    \ 'dark':  s:orange.dark.blend(s:opaquebg.actual, 0.2).term_aware(),
-    \ 'light': s:orange.light.blend(s:opaquebg.actual, 0.2).term_aware()
-\ }
-let s:yellowbg = {
-    \ 'dark':  s:yellow.dark.blend(s:opaquebg.actual, 0.2).term_aware(),
-    \ 'light': s:yellow.light.blend(s:opaquebg.actual, 0.2).term_aware()
-\ }
-let s:purplebg = {
-    \ 'dark':  s:purple.dark.blend(s:opaquebg.actual, 0.2).term_aware(),
-    \ 'light': s:purple.light.blend(s:opaquebg.actual, 0.2).term_aware()
-\ }
-let s:pinkbg = {
-    \ 'dark':  s:pink.dark.blend(s:opaquebg.actual, 0.2).term_aware(),
-    \ 'light': s:pink.light.blend(s:opaquebg.actual, 0.2).term_aware()
-\ }
-
-let s:red.actual = s:red[s:is_dark ? 'dark' : 'light']
-let s:green.actual = s:green[s:is_dark ? 'dark' : 'light']
-let s:orange.actual = s:orange[s:is_dark ? 'dark' : 'light']
-let s:yellow.actual = s:yellow[s:is_dark ? 'dark' : 'light']
-let s:purple.actual = s:purple[s:is_dark ? 'dark' : 'light']
-let s:pink.actual = s:pink[s:is_dark ? 'dark' : 'light']
-let s:cyan.actual = s:cyan[s:is_dark ? 'dark' : 'light']
-
-let s:altred.actual = s:altred[s:is_dark ? 'dark' : 'light']
-let s:altgreen.actual = s:altgreen[s:is_dark ? 'dark' : 'light']
-let s:altorange.actual = s:altorange[s:is_dark ? 'dark' : 'light']
-let s:altyellow.actual = s:altyellow[s:is_dark ? 'dark' : 'light']
-let s:altpurple.actual = s:altpurple[s:is_dark ? 'dark' : 'light']
-let s:altpink.actual = s:altpink[s:is_dark ? 'dark' : 'light']
-let s:altcyan.actual = s:altcyan[s:is_dark ? 'dark' : 'light']
-
-let s:altred2.actual = s:altred2[s:is_dark ? 'dark' : 'light']
-let s:altgreen2.actual = s:altgreen2[s:is_dark ? 'dark' : 'light']
-let s:altorange2.actual = s:altorange2[s:is_dark ? 'dark' : 'light']
-let s:altyellow2.actual = s:altyellow2[s:is_dark ? 'dark' : 'light']
-let s:altpurple2.actual = s:altpurple2[s:is_dark ? 'dark' : 'light']
-let s:altpink2.actual = s:altpink2[s:is_dark ? 'dark' : 'light']
-let s:altcyan2.actual = s:altcyan2[s:is_dark ? 'dark' : 'light']
-
-let s:redbg.actual = s:redbg[s:is_dark ? 'dark' : 'light']
-let s:greenbg.actual = s:greenbg[s:is_dark ? 'dark' : 'light']
-let s:orangebg.actual = s:orangebg[s:is_dark ? 'dark' : 'light']
-let s:yellowbg.actual = s:yellowbg[s:is_dark ? 'dark' : 'light']
-let s:purplebg.actual = s:purplebg[s:is_dark ? 'dark' : 'light']
-let s:pinkbg.actual = s:pinkbg[s:is_dark ? 'dark' : 'light']
+let s:redbg = s:complete({
+    \ 'dark':  s:red.dark.blend(s:black.actual, 0.2).term_aware(),
+    \ 'light': s:red.light.blend(s:white.actual, 0.2).term_aware()
+\ })
+let s:greenbg = s:complete({
+    \ 'dark':  s:green.dark.blend(s:black.actual, 0.2).term_aware(),
+    \ 'light': s:green.light.blend(s:white.actual, 0.2).term_aware()
+\ })
+let s:orangebg = s:complete({
+    \ 'dark':  s:orange.dark.blend(s:black.actual, 0.2).term_aware(),
+    \ 'light': s:orange.light.blend(s:white.actual, 0.2).term_aware()
+\ })
+let s:yellowbg = s:complete({
+    \ 'dark':  s:yellow.dark.blend(s:black.actual, 0.2).term_aware(),
+    \ 'light': s:yellow.light.blend(s:white.actual, 0.2).term_aware()
+\ })
+let s:purplebg = s:complete({
+    \ 'dark':  s:purple.dark.blend(s:black.actual, 0.2).term_aware(),
+    \ 'light': s:purple.light.blend(s:white.actual, 0.2).term_aware()
+\ })
+let s:pinkbg = s:complete({
+    \ 'dark':  s:pink.dark.blend(s:black.actual, 0.2).term_aware(),
+    \ 'light': s:pink.light.blend(s:white.actual, 0.2).term_aware()
+\ })
 
 " Export the palette
 let g:rcabralc#palette = {}
@@ -241,6 +234,9 @@ endif
 
 let s:hl = function('rcabralc#hl')
 let g:colors_name = "rcabralc"
+" Save background value: workaround for Vim bug, restored (enforced) at the
+" end.
+let s:is_dark = (&bg ==# 'dark')
 
 call s:hl('Normal', s:fg.actual, s:bg.actual)
 

@@ -1,3 +1,50 @@
+function! s:rgb2hsv(in)
+    let out = {}
+
+    let min = a:in.r < a:in.g ? a:in.r : a:in.g
+    let min = min  < a:in.b ? min  : a:in.b
+
+    let max = a:in.r > a:in.g ? a:in.r : a:in.g
+    let max = max  > a:in.b ? max  : a:in.b
+
+    let out.v = 100.0 * max / 255
+    let delta = max - min
+
+    if delta < 0.00001
+        let out.s = 0.0
+        let out.h = 0.0
+        return out
+    endif
+
+    if max > 0.0
+        let out.s = 100.0 * delta / max
+    else
+        " if max is 0, then r = g = b = 0              
+        " s = 0, h is undefined but we'll let it zero
+        let out.s = 0.0
+        let out.h = 0.0
+        return out
+    endif
+
+    if a:in.r == max
+        let out.h = (a:in.g - a:in.b) / delta
+    else
+        if a:in.g == max
+            let out.h = 2.0 + (a:in.b - a:in.r) / delta
+        else
+            let out.h = 4.0 + (a:in.r - a:in.g) / delta
+        endif
+    endif
+
+    let out.h = out.h * 60.0
+
+    if out.h < 0.0
+        let out.h = out.h + 360.0
+    endif
+
+    return out
+endfunction
+
 function! rcabralc#hl(group, fg, bg, ...)
     let fg_color = a:fg
     let bg_color = a:bg
@@ -45,6 +92,7 @@ function! rcabralc#build_color(color, ...)
     let color.xyz = s:xyz(color)
     let color.lab = s:lab(color.xyz)
     let color.rgb = { 'r': color.r, 'g': color.g, 'b': color.b }
+    let color.hsv = s:rgb2hsv(color.rgb)
     let color.term_aware = function('s:color_term_aware')
     let color.blend = function('s:color_blend')
     let color.distance = function('s:color_distance')
