@@ -364,7 +364,7 @@ call s:hl('CursorColumn', s:none, s:gray1.actual)
 call s:hl('CursorLine', s:none, s:gray1.actual)
 call s:hl('CursorLineNr', s:orange.actual, s:bg.actual)
 call s:hl('ColorColumn', s:none, s:gray0.actual)
-call s:hl('Cursor', s:fg.actual, s:bg.actual, 'reverse')
+call s:hl('Cursor', s:none, s:none, 'reverse')
 hi! link lCursor Cursor
 call s:hl('MatchParen', s:cyan.actual, s:bg.actual, 'bold,reverse')
 
