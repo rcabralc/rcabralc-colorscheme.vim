@@ -25,9 +25,9 @@ let s:visual0  = g:rcabralc#palette.altpink2.actual
 let s:visual   = g:rcabralc#palette.pink.actual
 let s:error    = g:rcabralc#palette.red.actual
 let s:warning  = g:rcabralc#palette.orange.actual
-let s:gray0    = g:rcabralc#palette.gray0.actual
 let s:gray1    = g:rcabralc#palette.gray1.actual
 let s:gray2    = g:rcabralc#palette.gray2.actual
+let s:gray3    = g:rcabralc#palette.gray3.actual
 let s:tabsel   = g:rcabralc#palette.purple.actual
 let s:tabright = g:rcabralc#palette.purple.actual
 
@@ -41,28 +41,28 @@ function! s:e(fg, bg, ...)
 endfunction
 
 let s:p.normal.left =     [s:e(s:bg, s:normal), s:e(s:fg, s:normal0)]
-let s:p.normal.middle =   [s:e(s:fg, s:gray1)]
+let s:p.normal.middle =   [s:e(s:fg, s:gray2)]
 let s:p.normal.right =    [s:e(s:bg, s:normal), s:e(s:fg, s:normal0)]
 
 let s:p.insert.left =     [s:e(s:bg, s:insert), s:e(s:fg, s:insert0)]
-let s:p.insert.middle =   [s:e(s:fg, s:gray1)]
+let s:p.insert.middle =   [s:e(s:fg, s:gray2)]
 let s:p.insert.right =    [s:e(s:bg, s:insert), s:e(s:fg, s:insert0)]
 
 let s:p.replace.left =    [s:e(s:bg, s:replace), s:e(s:fg, s:replace0)]
-let s:p.replace.middle =  [s:e(s:fg, s:gray1)]
+let s:p.replace.middle =  [s:e(s:fg, s:gray2)]
 let s:p.replace.right =   [s:e(s:bg, s:replace), s:e(s:fg, s:replace0)]
 
 let s:p.visual.left =     [s:e(s:bg, s:visual), s:e(s:fg, s:visual0)]
-let s:p.visual.middle =   [s:e(s:fg, s:gray1)]
+let s:p.visual.middle =   [s:e(s:fg, s:gray2)]
 let s:p.visual.right =    [s:e(s:bg, s:visual), s:e(s:fg, s:visual0)]
 
-let s:p.inactive.left =   [s:e(s:gray2, s:gray0), s:e(s:gray2, s:gray0)]
-let s:p.inactive.middle = [s:e(s:gray2, s:gray0)]
-let s:p.inactive.right =  [s:e(s:gray2, s:gray0), s:e(s:gray2, s:gray0)]
+let s:p.inactive.left =   [s:e(s:gray3, s:gray1), s:e(s:gray3, s:gray1)]
+let s:p.inactive.middle = [s:e(s:gray3, s:gray1)]
+let s:p.inactive.right =  [s:e(s:gray3, s:gray1), s:e(s:gray3, s:gray1)]
 
-let s:p.tabline.left =    [s:e(s:gray2, s:gray1)]
+let s:p.tabline.left =    [s:e(s:gray3, s:gray2)]
 let s:p.tabline.tabsel =  [s:e(s:bg,    s:tabsel)]
-let s:p.tabline.middle =  [s:e(s:gray2, s:gray0)]
+let s:p.tabline.middle =  [s:e(s:gray3, s:gray1)]
 let s:p.tabline.right =   [s:e(s:bg,    s:tabright)]
 
 let s:p.normal.error =    [s:e(s:black, s:error)]
