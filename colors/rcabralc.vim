@@ -72,12 +72,12 @@ endfunction
 let s:none = { 'gui': 'NONE', 'term': 'NONE' }
 
 let s:black = s:complete({
-    \ 'dark':  rcabralc#hsv(0, 21, 17).term_aware(0),
-    \ 'light': rcabralc#hsv(0, 21, 17).term_aware(15)
+    \ 'dark':  rcabralc#hsv(0, 15, 17).term_aware(0),
+    \ 'light': rcabralc#hsv(0, 15, 17).term_aware(15)
 \ })
 let s:white = s:complete({
-    \ 'dark':  rcabralc#hsv(0, 21, 83).term_aware(15),
-    \ 'light': rcabralc#hsv(0, 21, 83).term_aware(0)
+    \ 'dark':  rcabralc#hsv(0, 15, 83).term_aware(15),
+    \ 'light': rcabralc#hsv(0, 15, 83).term_aware(0)
 \ })
 
 let s:fg = (&bg ==# 'dark') ? s:white : s:black
