@@ -366,7 +366,7 @@ call s:hl('CursorLineNr', s:orange.actual, s:bg.actual)
 call s:hl('ColorColumn', s:none, s:gray0.actual)
 call s:hl('Cursor', s:none, s:none, 'reverse')
 hi! link lCursor Cursor
-call s:hl('MatchParen', s:cyan.actual, s:bg.actual, 'bold,reverse')
+call s:hl('MatchParen', s:bg.actual, s:pink.actual, 'bold,underline')
 
 " Restore background saved.  Must be at the end due to a bug in VIM trying to
 " figuring out automagically if the background set through Normal highlight
