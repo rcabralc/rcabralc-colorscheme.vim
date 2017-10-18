@@ -7,42 +7,38 @@ function! s:rgb2hsv(in)
     let max = a:in.r > a:in.g ? a:in.r : a:in.g
     let max = max  > a:in.b ? max  : a:in.b
 
-    let out.v = 100.0 * max / 255
+    let v = 100.0 * max / 255
     let delta = max - min
 
-    if delta < 0.00001
-        let out.s = 0.0
-        let out.h = 0.0
-        return out
-    endif
-
+    " if delta < 0.00001
+    "     return { 'h': 0.0, 's': 0.0, 'v': v }
+    " endif
+    "
     if max > 0.0
-        let out.s = 100.0 * delta / max
+        let s = 100.0 * delta / max
     else
         " if max is 0, then r = g = b = 0              
         " s = 0, h is undefined but we'll let it zero
-        let out.s = 0.0
-        let out.h = 0.0
-        return out
+        return { 'h': 0.0, 's': 0.0, 'v': 0.0 }
     endif
 
     if a:in.r == max
-        let out.h = (a:in.g - a:in.b) / delta
+        let h = (a:in.g - a:in.b) / delta
     else
         if a:in.g == max
-            let out.h = 2.0 + (a:in.b - a:in.r) / delta
+            let h = 2.0 + (a:in.b - a:in.r) / delta
         else
-            let out.h = 4.0 + (a:in.r - a:in.g) / delta
+            let h = 4.0 + (a:in.r - a:in.g) / delta
         endif
     endif
 
-    let out.h = out.h * 60.0
+    let h = h * 60.0
 
-    if out.h < 0.0
-        let out.h = out.h + 360.0
+    if h < 0.0
+        let h = h + 360.0
     endif
 
-    return out
+    return { 'h': h, 's': s , 'v': v }
 endfunction
 
 function! rcabralc#hl(group, fg, bg, ...)
@@ -93,9 +89,17 @@ function! rcabralc#build_color(color, ...)
     let color.lab = s:lab(color.xyz)
     let color.rgb = { 'r': color.r, 'g': color.g, 'b': color.b }
     let color.hsv = s:rgb2hsv(color.rgb)
+    let rgb = { 'r': color.r / 255.0, 'g': color.g / 255.0, 'b': color.b / 255.0 }
+    let RGB = {
+        \ 'R': rgb.r <= 0.03928 ? rgb.r / 12.92 : pow((rgb.r + 0.055)/1.055, 2.4),
+        \ 'G': rgb.g <= 0.03928 ? rgb.g / 12.92 : pow((rgb.g + 0.055)/1.055, 2.4),
+        \ 'B': rgb.b <= 0.03928 ? rgb.b / 12.92 : pow((rgb.b + 0.055)/1.055, 2.4)
+    \ }
+    let color.relative_luminance = 0.2126 * RGB.R + 0.7152 * RGB.G + 0.0722 * RGB.B
     let color.term_aware = function('s:color_term_aware')
     let color.blend = function('s:color_blend')
     let color.distance = function('s:color_distance')
+    let color.contrast_to = function('s:color_contrast_to')
 
     if a:0 == 1
         let options = a:1
@@ -124,6 +128,12 @@ function! s:color_term_aware(...) dict
     endif
 
     return new_color
+endfunction
+
+function! s:color_contrast_to(other) dict
+    let l1 = self.relative_luminance > a:other.relative_luminance ? self.relative_luminance : a:other.relative_luminance
+    let l2 = self.relative_luminance < a:other.relative_luminance ? self.relative_luminance : a:other.relative_luminance
+    return (l1 + 0.05) / (l2 + 0.05)
 endfunction
 
 function! s:color_blend(color, opacity, ...) dict
@@ -298,7 +308,7 @@ let s:xterm_palette = s:build_16_255_palette(
 \ )
 
 function! rcabralc#hsv(h, s, v)
-    let h = a:h >= 360 ? 0 : (a:h < 0 ? 0 : a:h)
+    let h = (a:h >= 360 ? 0 : (a:h < 0 ? 0 : a:h)) * 1.0
     let s = (a:s > 100 ? 100 : (a:s < 0 ? 0 : a:s))/100.0
     let v = (a:v > 100 ? 100 : (a:v < 0 ? 0 : a:v))/100.0
 
@@ -306,38 +316,38 @@ function! rcabralc#hsv(h, s, v)
         return s:build_color({ 'r': v * 255, 'g': v * 255, 'b': v * 255 })
     endif
 
-    let rgb = {}
-    let sector = h / 60
-    let remainder_portion = h/60.0 - sector
-    let p = v * (1 - s)
-    let q = v * (1 - (s * remainder_portion))
-    let t = v * (1 - (s * (1 - remainder_portion)))
+    let c = v * s
+    let sector = float2nr(h / 60.0)
+    let h1 = h / 60.0
+    let x = c * (1 - abs(h1-(2*(float2nr(h1)/2)) - 1))
 
     if sector == 0
-        let rgb.r = v
-        let rgb.g = t
-        let rgb.b = p
+        let r1 = c
+        let g1 = x
+        let b1 = 0
     elseif sector == 1
-        let rgb.r = q
-        let rgb.g = v
-        let rgb.b = p
+        let r1 = x
+        let g1 = c
+        let b1 = 0
     elseif sector == 2
-        let rgb.r = p
-        let rgb.g = v
-        let rgb.b = t
+        let r1 = 0
+        let g1 = c
+        let b1 = x
     elseif sector == 3
-        let rgb.r = p
-        let rgb.g = q
-        let rgb.b = v
+        let r1 = 0
+        let g1 = x
+        let b1 = c
     elseif sector == 4
-        let rgb.r = t
-        let rgb.g = p
-        let rgb.b = v
+        let r1 = x
+        let g1 = 0
+        let b1 = c
     else
-        let rgb.r = v
-        let rgb.g = p
-        let rgb.b = q
+        let r1 = c
+        let g1 = 0
+        let b1 = x
     endif
 
-    return s:build_color({ 'r': rgb.r * 255, 'g': rgb.g * 255, 'b': rgb.b * 255 })
+    let m = v - c
+
+    return s:build_color({ 'r': 255.0 * (r1 + m), 'g': 255.0 * (g1 + m), 'b': 255.0 * (b1 + m) })
 endfunction

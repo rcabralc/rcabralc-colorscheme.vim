@@ -26,13 +26,38 @@ function! s:complete(color)
     let dark = a:color.dark
 
     if !has_key(a:color, 'light')
-        let term = dark.term
-        if term < 8
-            let term = term + 8
-        else
-            let term = term - 8
+        let target_contrast = s:black.actual.contrast_to(dark)
+        if target_contrast > 3.5
+            let target_contrast = 3.5
         endif
-        let light = rcabralc#hsv(dark.hsv.h, dark.hsv.s, 100 - dark.hsv.v).term_aware(term)
+        let min_v = 0.0
+        let max_v = 100.0
+        let v = (min_v + max_v) / 2.0
+        let light = rcabralc#hsv(dark.hsv.h, dark.hsv.s, v)
+        let current_contrast = s:white.actual.contrast_to(light)
+        while abs(current_contrast - target_contrast) >= 0.25 && (max_v - min_v) > 1
+            if target_contrast > current_contrast
+                let max_v = v
+            else
+                let min_v = v
+            endif
+            let v = (min_v + max_v) / 2.0
+            let light = rcabralc#hsv(dark.hsv.h, dark.hsv.s, v)
+            let current_contrast = s:white.actual.contrast_to(light)
+        endwhile
+
+        let term = dark.term
+        if term < 7
+            let light = light.term_aware(term + 8)
+        elseif term > 8 && term <= 15
+            let light = light.term_aware(term - 8)
+        elseif term == 7
+            let light = light.term_aware(8)
+        elseif term == 8
+            let light = light.term_aware(7)
+        else
+            let light = light.term_aware()
+        endif
     else
         let light = a:color.light
     endif
@@ -69,115 +94,88 @@ else
 endif
 
 let s:red = s:complete({
-    \ 'dark':  rcabralc#hsv(  0, 60, 90).term_aware(9),
-    \ 'light': rcabralc#hsv(  0, 60, 55).term_aware(1)
+    \ 'dark':  rcabralc#hsv(  0, 60, 90).term_aware(9)
 \ })
 let s:green = s:complete({
-    \ 'dark':  rcabralc#hsv( 45, 50, 90).term_aware(10),
-    \ 'light': rcabralc#hsv( 45, 50, 55).term_aware(2)
+    \ 'dark':  rcabralc#hsv( 45, 50, 90).term_aware(10)
 \ })
 let s:orange = s:complete({
-    \ 'dark':  rcabralc#hsv( 15, 70, 95).term_aware(3),
-    \ 'light': rcabralc#hsv( 15, 70, 70).term_aware(11)
+    \ 'dark':  rcabralc#hsv( 15, 70, 95).term_aware(3)
 \ })
 let s:yellow = s:complete({
-    \ 'dark':  rcabralc#hsv( 15, 50, 95).term_aware(11),
-    \ 'light': rcabralc#hsv( 15, 50, 50).term_aware(3)
+    \ 'dark':  rcabralc#hsv( 15, 50, 95).term_aware(11)
 \ })
 let s:purple = s:complete({
-    \ 'dark':  rcabralc#hsv(330, 40, 60).term_aware(12),
-    \ 'light': rcabralc#hsv(330, 40, 60).term_aware(4)
+    \ 'dark':  rcabralc#hsv(330, 40, 60).term_aware(12)
 \ })
 let s:pink = s:complete({
-    \ 'dark':  rcabralc#hsv(350, 50, 90).term_aware(13),
-    \ 'light': rcabralc#hsv(350, 50, 55).term_aware(5)
+    \ 'dark':  rcabralc#hsv(350, 50, 90).term_aware(13)
 \ })
 let s:cyan = s:complete({
-    \ 'dark':  rcabralc#hsv(210, 30, 80).term_aware(14),
-    \ 'light': rcabralc#hsv(210, 30, 35).term_aware(6)
+    \ 'dark':  rcabralc#hsv(210, 30, 80).term_aware(14)
 \ })
 
 let s:altred = s:complete({
-    \ 'dark':  s:red.dark.blend(s:black.actual, 0.8).term_aware(1),
-    \ 'light': s:red.light.blend(s:white.actual, 0.8).term_aware(9)
+    \ 'dark':  s:red.dark.blend(s:black.actual, 0.8).term_aware(1)
 \ })
 let s:altgreen = s:complete({
-    \ 'dark':  s:green.dark.blend(s:black.actual, 0.8).term_aware(2),
-    \ 'light': s:green.light.blend(s:white.actual, 0.8).term_aware(10)
+    \ 'dark':  s:green.dark.blend(s:black.actual, 0.8).term_aware(2)
 \ })
 let s:altorange = s:complete({
-    \ 'dark':  s:orange.dark.blend(s:black.actual, 0.8).term_aware(),
-    \ 'light': s:orange.light.blend(s:white.actual, 0.8).term_aware()
+    \ 'dark':  s:orange.dark.blend(s:black.actual, 0.8).term_aware()
 \ })
 let s:altyellow = s:complete({
-    \ 'dark':  s:yellow.dark.blend(s:black.actual, 0.8).term_aware(),
-    \ 'light': s:yellow.light.blend(s:white.actual, 0.8).term_aware()
+    \ 'dark':  s:yellow.dark.blend(s:black.actual, 0.8).term_aware()
 \ })
 let s:altpurple = s:complete({
-    \ 'dark':  s:purple.dark.blend(s:black.actual, 0.8).term_aware(4),
-    \ 'light': s:purple.light.blend(s:white.actual, 0.8).term_aware(12)
+    \ 'dark':  s:purple.dark.blend(s:black.actual, 0.8).term_aware(4)
 \ })
 let s:altpink = s:complete({
-    \ 'dark':  s:pink.dark.blend(s:black.actual, 0.8).term_aware(5),
-    \ 'light': s:pink.light.blend(s:white.actual, 0.8).term_aware(13)
+    \ 'dark':  s:pink.dark.blend(s:black.actual, 0.8).term_aware(5)
 \ })
 let s:altcyan = s:complete({
-    \ 'dark':  s:cyan.dark.blend(s:black.actual, 0.8).term_aware(6),
-    \ 'light': s:cyan.light.blend(s:white.actual, 0.8).term_aware(14)
+    \ 'dark':  s:cyan.dark.blend(s:black.actual, 0.8).term_aware(6)
 \ })
 
 let s:altred2 = s:complete({
-    \ 'dark':  s:red.dark.blend(s:black.actual, 0.5).term_aware(),
-    \ 'light': s:red.light.blend(s:white.actual, 0.5).term_aware()
+    \ 'dark':  s:red.dark.blend(s:black.actual, 0.5).term_aware()
 \ })
 let s:altgreen2 = s:complete({
-    \ 'dark':  s:green.dark.blend(s:black.actual, 0.3).term_aware(),
-    \ 'light': s:green.light.blend(s:white.actual, 0.3).term_aware()
+    \ 'dark':  s:green.dark.blend(s:black.actual, 0.3).term_aware()
 \ })
 let s:altorange2 = s:complete({
-    \ 'dark':  s:orange.dark.blend(s:black.actual, 0.4).term_aware(),
-    \ 'light': s:orange.light.blend(s:white.actual, 0.4).term_aware()
+    \ 'dark':  s:orange.dark.blend(s:black.actual, 0.4).term_aware()
 \ })
 let s:altyellow2 = s:complete({
-    \ 'dark':  s:yellow.dark.blend(s:black.actual, 0.4).term_aware(),
-    \ 'light': s:yellow.light.blend(s:white.actual, 0.4).term_aware()
+    \ 'dark':  s:yellow.dark.blend(s:black.actual, 0.4).term_aware()
 \ })
 let s:altpurple2 = s:complete({
-    \ 'dark':  s:purple.dark.blend(s:black.actual, 0.4).term_aware(),
-    \ 'light': s:purple.light.blend(s:white.actual, 0.4).term_aware()
+    \ 'dark':  s:purple.dark.blend(s:black.actual, 0.4).term_aware()
 \ })
 let s:altpink2 = s:complete({
-    \ 'dark':  s:pink.dark.blend(s:black.actual, 0.3).term_aware(),
-    \ 'light': s:pink.light.blend(s:white.actual, 0.3).term_aware()
+    \ 'dark':  s:pink.dark.blend(s:black.actual, 0.3).term_aware()
 \ })
 let s:altcyan2 = s:complete({
-    \ 'dark':  s:cyan.dark.blend(s:black.actual, 0.3).term_aware(),
-    \ 'light': s:cyan.light.blend(s:white.actual, 0.3).term_aware()
+    \ 'dark':  s:cyan.dark.blend(s:black.actual, 0.3).term_aware()
 \ })
 
 let s:redbg = s:complete({
-    \ 'dark':  s:red.dark.blend(s:black.actual, 0.2).term_aware(),
-    \ 'light': s:red.light.blend(s:white.actual, 0.2).term_aware()
+    \ 'dark':  s:red.dark.blend(s:black.actual, 0.2).term_aware()
 \ })
 let s:greenbg = s:complete({
-    \ 'dark':  s:green.dark.blend(s:black.actual, 0.2).term_aware(),
-    \ 'light': s:green.light.blend(s:white.actual, 0.2).term_aware()
+    \ 'dark':  s:green.dark.blend(s:black.actual, 0.2).term_aware()
 \ })
 let s:orangebg = s:complete({
-    \ 'dark':  s:orange.dark.blend(s:black.actual, 0.2).term_aware(),
-    \ 'light': s:orange.light.blend(s:white.actual, 0.2).term_aware()
+    \ 'dark':  s:orange.dark.blend(s:black.actual, 0.2).term_aware()
 \ })
 let s:yellowbg = s:complete({
-    \ 'dark':  s:yellow.dark.blend(s:black.actual, 0.2).term_aware(),
-    \ 'light': s:yellow.light.blend(s:white.actual, 0.2).term_aware()
+    \ 'dark':  s:yellow.dark.blend(s:black.actual, 0.2).term_aware()
 \ })
 let s:purplebg = s:complete({
-    \ 'dark':  s:purple.dark.blend(s:black.actual, 0.2).term_aware(),
-    \ 'light': s:purple.light.blend(s:white.actual, 0.2).term_aware()
+    \ 'dark':  s:purple.dark.blend(s:black.actual, 0.2).term_aware()
 \ })
 let s:pinkbg = s:complete({
-    \ 'dark':  s:pink.dark.blend(s:black.actual, 0.2).term_aware(),
-    \ 'light': s:pink.light.blend(s:white.actual, 0.2).term_aware()
+    \ 'dark':  s:pink.dark.blend(s:black.actual, 0.2).term_aware()
 \ })
 
 " Export the palette
