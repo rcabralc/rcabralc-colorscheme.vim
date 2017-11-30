@@ -35,7 +35,7 @@ function! s:complete(color)
         let v = (min_v + max_v) / 2.0
         let light = rcabralc#hsv(dark.hsv.h, dark.hsv.s, v)
         let current_contrast = s:white.actual.contrast_to(light)
-        while abs(current_contrast - target_contrast) >= 0.25 && (max_v - min_v) > 1
+        while abs(current_contrast - target_contrast) >= 0.0625 && (max_v - min_v) > 1
             if target_contrast > current_contrast
                 let max_v = v
             else
