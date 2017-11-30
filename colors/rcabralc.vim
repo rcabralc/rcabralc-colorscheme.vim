@@ -339,19 +339,19 @@ function! rcabralc#print_palette(...)
     let color_tone = a:0 > 0 ? a:1 : 'actual'
     let named_colors = map(filter(copy(g:rcabralc#palette), "v:key != 'none'"), "v:val.".color_tone)
     let sorted = sort(items(copy(named_colors)), function('s:sort_by_term_index'))
-    let line = line('.')
+    let lines = []
     for [name, color] in sorted
-        call append(line, printf(
-            \ "%12s  %3d  %s  rgb(%.0f,%.0f,%.0f)",
-            \ name,
+        call add(lines, printf(
+            \ '  { "name": %12s, "term": %3d, "hex": "%s", "rgb": "rgb(%.0f,%.0f,%.0f)" }',
+            \ '"'.name.'"',
             \ color.term,
             \ color.gui,
             \ round(color.r),
             \ round(color.g),
             \ round(color.b)
         \ ))
-        let line = line + 1
     endfor
+    call append(line('.') - 1, extend(['[', ']'], split(join(lines, ",\n"), "\n"), 1))
 endfunction
 
 function! s:sort_by_term_index(colorpair1, colorpair2)
