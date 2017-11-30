@@ -246,7 +246,7 @@ call s:hl('StorageClass', s:red.actual, s:none, 'bold')
 "         Debug          debugging statements
 call s:hl('Special', s:orange.actual, s:none)
 call s:hl('Tag', s:cyan.actual, s:none)
-call s:hl('Delimiter', s:orange.actual, s:none)
+call s:hl('Delimiter', s:orange.actual, s:none, 'bold')
 call s:hl('SpecialComment', s:cyan.actual, s:none, 'bold')
 call s:hl('Debug', s:cyan.actual, s:none)
 
