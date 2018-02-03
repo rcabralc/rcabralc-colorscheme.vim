@@ -27,15 +27,12 @@ function! s:complete(color)
 
     if !has_key(a:color, 'light')
         let target_contrast = s:black.actual.contrast_to(dark)
-        if target_contrast > 3.5
-            let target_contrast = 3.5
-        endif
         let min_v = 0.0
         let max_v = 100.0
         let v = (min_v + max_v) / 2.0
         let light = rcabralc#hsv(dark.hsv.h, dark.hsv.s, v)
         let current_contrast = s:white.actual.contrast_to(light)
-        while abs(current_contrast - target_contrast) >= 0.0625 && (max_v - min_v) > 1
+        while abs(current_contrast - target_contrast) >= 0.03125 && (max_v - min_v) > 1
             if target_contrast > current_contrast
                 let max_v = v
             else
@@ -70,7 +67,7 @@ endfunction
 " ------------------
 
 let s:none = { 'gui': 'NONE', 'term': 'NONE' }
-let s:defaultred = rcabralc#hsv(0, 63, 90)
+let s:defaultred = rcabralc#hsv(0, 65, 85)
 
 let s:black = s:complete({
     \ 'dark':  rcabralc#hsv(0, 10, 13).term_aware(0),
@@ -102,8 +99,8 @@ let s:red    = s:complete({ 'dark': s:defaultred.term_aware(9) })
 let s:green  = s:complete({ 'dark': rcabralc#hsv( 45, 60, 90).term_aware(10) })
 let s:orange = s:complete({ 'dark': rcabralc#hsv( 15, 75, 95).term_aware(3) })
 let s:yellow = s:complete({ 'dark': rcabralc#hsv( 15, 50, 95).term_aware(11) })
-let s:purple = s:complete({ 'dark': rcabralc#hsv(330, 40, 65).term_aware(12) })
-let s:pink   = s:complete({ 'dark': rcabralc#hsv(350, 50, 80).term_aware(13) })
+let s:purple = s:complete({ 'dark': rcabralc#hsv(320, 50, 70).term_aware(12) })
+let s:pink   = s:complete({ 'dark': rcabralc#hsv(350, 50, 85).term_aware(13) })
 let s:cyan   = s:complete({ 'dark': rcabralc#hsv(210, 30, 80).term_aware(14) })
 
 let s:altred = s:complete({ 'dark': s:red.dark.blend(s:black.actual, 0.8).term_aware(1) })
