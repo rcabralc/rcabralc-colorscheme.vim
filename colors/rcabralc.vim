@@ -52,9 +52,9 @@ function! s:complete(color)
         elseif term > 8 && term <= 15
             let light = light.term_aware(term - 8)
         elseif term == 7
-            let light = light.term_aware(8)
-        elseif term == 8
             let light = light.term_aware(7)
+        elseif term == 8
+            let light = light.term_aware(8)
         else
             let light = light.term_aware()
         endif
