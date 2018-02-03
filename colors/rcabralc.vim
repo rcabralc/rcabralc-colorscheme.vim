@@ -27,6 +27,9 @@ function! s:complete(color)
 
     if !has_key(a:color, 'light')
         let target_contrast = s:black.actual.contrast_to(dark)
+        if target_contrast > 3.5
+            let target_contrast = 3.5
+        endif
         let min_v = 0.0
         let max_v = 100.0
         let v = (min_v + max_v) / 2.0
