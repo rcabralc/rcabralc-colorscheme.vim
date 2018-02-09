@@ -87,10 +87,11 @@ let s:fg = s:complete({
 \ })
 let s:opaquebg = (&bg ==# 'dark') ? s:black : s:white
 
-let s:gray0 = s:complete({ 'dark': s:white.actual.blend(s:black.actual, 0.03).term_aware() })
-let s:gray1 = s:complete({ 'dark': s:white.actual.blend(s:black.actual, 0.08).term_aware() })
-let s:gray2 = s:complete({ 'dark': s:white.actual.blend(s:black.actual, 0.16).term_aware(8) })
-let s:gray3 = s:complete({ 'dark': s:white.actual.blend(s:black.actual, 0.44).term_aware(7) })
+let s:gray0 = s:complete({ 'dark': s:white.actual.blend(s:black.actual, 0.05).term_aware() })
+let s:gray1 = s:complete({ 'dark': s:white.actual.blend(s:black.actual, 0.10).term_aware() })
+let s:gray2 = s:complete({ 'dark': s:white.actual.blend(s:black.actual, 0.20).term_aware() })
+let s:gray3 = s:complete({ 'dark': s:white.actual.blend(s:black.actual, 0.30).term_aware(8) })
+let s:gray4 = s:complete({ 'dark': s:white.actual.blend(s:black.actual, 0.45).term_aware(7) })
 
 if !has('gui_running') && s:options.transparent_background == 1
     let s:bg = s:complete({ 'actual': s:none })
@@ -139,6 +140,7 @@ let g:rcabralc#palette.gray0 = s:gray0
 let g:rcabralc#palette.gray1 = s:gray1
 let g:rcabralc#palette.gray2 = s:gray2
 let g:rcabralc#palette.gray3 = s:gray3
+let g:rcabralc#palette.gray4 = s:gray4
 let g:rcabralc#palette.white = s:white
 let g:rcabralc#palette.red = s:red
 let g:rcabralc#palette.green = s:green
@@ -192,9 +194,9 @@ call s:hl('Normal', s:fg.actual, s:bg.actual)
 
 "        *Comment        any comment
 if s:options.allow_italics
-    call s:hl('Comment', s:gray3.actual, s:none, 'italic')
+    call s:hl('Comment', s:gray4.actual, s:none, 'italic')
 else
-    call s:hl('Comment', s:gray3.actual, s:none)
+    call s:hl('Comment', s:gray4.actual, s:none)
 endif
 
 "        *Constant       any constant
@@ -307,8 +309,8 @@ call s:hl('Pmenu', s:fg.actual, s:gray2.actual)
 call s:hl('PmenuSel', s:opaquebg.actual, s:pink.actual, 'bold')
 call s:hl('PmenuSbar', s:none, s:gray2.actual)
 call s:hl('PmenuThumb', s:none, s:gray3.actual)
-call s:hl('TabLine', s:gray3.actual, s:gray2.actual)
-call s:hl('TabLineFill', s:gray1.actual, s:gray0.actual)
+call s:hl('TabLine', s:gray4.actual, s:gray2.actual)
+call s:hl('TabLineFill', s:none, s:gray0.actual)
 call s:hl('TabLineSel', s:fg.actual, s:gray3.actual, 'bold')
 call s:hl('CursorColumn', s:none, s:gray1.actual)
 call s:hl('CursorLine', s:none, s:gray1.actual)
