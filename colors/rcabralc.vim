@@ -73,12 +73,12 @@ let s:none = { 'gui': 'NONE', 'term': 'NONE' }
 let s:defaultred = rcabralc#hsv(0, 65, 85)
 
 let s:black = s:complete({
-    \ 'dark':  rcabralc#hsv(0, 10, 13).term_aware(0),
-    \ 'light': rcabralc#hsv(0, 10, 13).term_aware()
+    \ 'dark':  rcabralc#hsv(50, 19, 13).term_aware(0),
+    \ 'light': rcabralc#hsv(50, 19, 13).term_aware()
 \ })
 let s:white = s:complete({
-    \ 'dark':  rcabralc#hsv(0, 10, 90).term_aware(),
-    \ 'light': rcabralc#hsv(0, 10, 90).term_aware(0)
+    \ 'dark':  rcabralc#hsv(50, 19, 90).term_aware(),
+    \ 'light': rcabralc#hsv(50, 19, 90).term_aware(0)
 \ })
 
 let s:fg = s:complete({
@@ -100,11 +100,11 @@ else
 endif
 
 let s:red    = s:complete({ 'dark': s:defaultred.term_aware(9) })
-let s:green  = s:complete({ 'dark': rcabralc#hsv( 45, 60, 90).term_aware(10) })
-let s:orange = s:complete({ 'dark': rcabralc#hsv( 15, 75, 95).term_aware(3) })
-let s:yellow = s:complete({ 'dark': rcabralc#hsv( 15, 50, 95).term_aware(11) })
+let s:green  = s:complete({ 'dark': rcabralc#hsv( 60, 60, 90).term_aware(10) })
+let s:orange = s:complete({ 'dark': rcabralc#hsv( 15, 85, 95).term_aware(3) })
+let s:yellow = s:complete({ 'dark': rcabralc#hsv( 15, 60, 95).term_aware(11) })
 let s:purple = s:complete({ 'dark': rcabralc#hsv(320, 50, 70).term_aware(12) })
-let s:pink   = s:complete({ 'dark': rcabralc#hsv(350, 50, 85).term_aware(13) })
+let s:pink   = s:complete({ 'dark': rcabralc#hsv(345, 55, 85).term_aware(13) })
 let s:cyan   = s:complete({ 'dark': rcabralc#hsv(210, 30, 80).term_aware(14) })
 
 let s:altred = s:complete({ 'dark': s:red.dark.blend(s:black.actual, 0.8).term_aware(1) })
@@ -129,6 +129,7 @@ let s:orangebg = s:complete({ 'dark': s:orange.dark.blend(s:black.actual, 0.2).t
 let s:yellowbg = s:complete({ 'dark': s:yellow.dark.blend(s:black.actual, 0.2).term_aware() })
 let s:purplebg = s:complete({ 'dark': s:purple.dark.blend(s:black.actual, 0.2).term_aware() })
 let s:pinkbg = s:complete({ 'dark': s:pink.dark.blend(s:black.actual, 0.2).term_aware() })
+let s:cyanbg = s:complete({ 'dark': s:cyan.dark.blend(s:black.actual, 0.2).term_aware() })
 
 " Export the palette
 let g:rcabralc#palette = {}
@@ -271,12 +272,12 @@ call s:hl('SpecialKey', s:purple.actual, s:none)
 call s:hl('NonText', s:gray2.actual, s:none)
 call s:hl('StatusLine', s:fg.actual, s:gray0.actual, 'bold')
 call s:hl('StatusLineNC', s:gray3.actual, s:gray0.actual)
-call s:hl('Visual', s:none, s:pinkbg.actual)
+call s:hl('Visual', s:none, s:purplebg.actual)
 call s:hl('Directory', s:pink.actual, s:none)
 call s:hl('ErrorMsg', s:red.actual, s:bg.actual, 'bold')
 call s:hl('IncSearch', s:opaquebg.actual, s:yellow.actual)
 call s:hl('Search', s:opaquebg.actual, s:yellow.actual)
-call s:hl('QuickFixLine', s:none, s:pinkbg.actual)
+call s:hl('QuickFixLine', s:none, s:orangebg.actual)
 call s:hl('MoreMsg', s:green.actual, s:bg.actual)
 call s:hl('ModeMsg', s:orange.actual, s:bg.actual)
 call s:hl('LineNr', s:gray3.actual, s:bg.actual)
@@ -289,9 +290,9 @@ call s:hl('WildMenu', s:green.actual, s:bg.actual)
 call s:hl('Folded', s:gray3.actual, s:bg.actual)
 call s:hl('FoldColumn', s:gray3.actual, s:bg.actual)
 call s:hl('DiffAdd', s:none, s:greenbg.actual)
-call s:hl('DiffChange', s:none, s:purplebg.actual)
+call s:hl('DiffChange', s:none, s:yellowbg.actual)
 call s:hl('DiffDelete', s:none, s:redbg.actual)
-call s:hl('DiffText', s:none, s:greenbg.actual, 'underline')
+call s:hl('DiffText', s:none, s:cyanbg.actual, 'underline')
 call s:hl('SignColumn', s:orange.actual, s:bg.actual)
 call s:hl('Conceal', s:gray1.actual, s:none)
 if has('gui_running')
@@ -301,7 +302,7 @@ if has('gui_running')
     call s:hl('SpellLocal', s:none, s:gray3.actual, 'undercurl', 'NONE', s:orange.actual)
 else
     call s:hl('SpellBad', s:none, s:redbg.actual, 'underline', 'NONE', s:red.actual)
-    call s:hl('SpellCap', s:none, s:yellowbg.actual, 'underline', 'NONE', s:yellow.actual)
+    call s:hl('SpellCap', s:none, s:pinkbg.actual, 'underline', 'NONE', s:pink.actual)
     call s:hl('SpellRare', s:none, s:none, 'underline', 'NONE', s:fg.actual)
     call s:hl('SpellLocal', s:none, s:orangebg.actual, 'underline', 'NONE', s:orange.actual)
 endif
