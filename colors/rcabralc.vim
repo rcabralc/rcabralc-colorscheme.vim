@@ -70,20 +70,19 @@ endfunction
 " ------------------
 
 let s:none = { 'gui': 'NONE', 'term': 'NONE' }
-let s:defaultred = rcabralc#hsv(0, 65, 85)
 
 let s:black = s:complete({
-    \ 'dark':  rcabralc#hsv(50, 19, 13).term_aware(0),
-    \ 'light': rcabralc#hsv(50, 19, 13).term_aware()
+    \ 'dark':  rcabralc#hsv(32, 34, 17).term_aware(0),
+    \ 'light': rcabralc#hsv(32, 34, 17).term_aware()
 \ })
 let s:white = s:complete({
-    \ 'dark':  rcabralc#hsv(50, 19, 90).term_aware(),
-    \ 'light': rcabralc#hsv(50, 19, 90).term_aware(0)
+    \ 'dark':  rcabralc#hsv(32, 34, 95).term_aware(),
+    \ 'light': rcabralc#hsv(32, 34, 95).term_aware(0)
 \ })
 
 let s:fg = s:complete({
-    \ 'dark': s:white.actual.blend(s:defaultred, 0.7).term_aware(15),
-    \ 'light': s:black.actual.blend(s:defaultred, 0.7).term_aware(15)
+    \ 'dark': s:white.actual.term_aware(15),
+    \ 'light': s:black.actual.term_aware(15)
 \ })
 let s:opaquebg = (&bg ==# 'dark') ? s:black : s:white
 
@@ -99,12 +98,12 @@ else
     let s:bg = s:opaquebg
 endif
 
-let s:red    = s:complete({ 'dark': s:defaultred.term_aware(9) })
-let s:green  = s:complete({ 'dark': rcabralc#hsv( 60, 60, 90).term_aware(10) })
+let s:red    = s:complete({ 'dark': rcabralc#hsv(350, 80, 90).term_aware(9) })
+let s:green  = s:complete({ 'dark': rcabralc#hsv( 60, 65, 90).term_aware(10) })
 let s:orange = s:complete({ 'dark': rcabralc#hsv( 15, 85, 95).term_aware(3) })
 let s:yellow = s:complete({ 'dark': rcabralc#hsv( 15, 60, 95).term_aware(11) })
-let s:purple = s:complete({ 'dark': rcabralc#hsv(320, 50, 70).term_aware(12) })
-let s:pink   = s:complete({ 'dark': rcabralc#hsv(345, 55, 85).term_aware(13) })
+let s:purple = s:complete({ 'dark': rcabralc#hsv(320, 55, 70).term_aware(12) })
+let s:pink   = s:complete({ 'dark': rcabralc#hsv(340, 60, 85).term_aware(13) })
 let s:cyan   = s:complete({ 'dark': rcabralc#hsv(210, 30, 80).term_aware(14) })
 
 let s:altred = s:complete({ 'dark': s:red.dark.blend(s:black.actual, 0.8).term_aware(1) })
