@@ -29,22 +29,22 @@ colors as the following:
 
 Color index    | Color value (dark version) | Color value (light version)
 -------------- | -------------------------- | ---------------------------
-0, Background  | `#2b241d`                  | `#f2cca0`
-1              | `#c02c43`                  | `#cb2944`
-2              | `#c0bf46`                  | `#6f6f27`
-3              | `#f25824`                  | `#9f5840`
-4              | `#97487a`                  | `#ad4e8e`
-5              | `#b64d6e`                  | `#b1476a`
-6              | `#7b92a9`                  | `#5b6e81`
-7              | `#857058`                  | `#826e56`
-8              | `#675744`                  | `#a3896c`
-9              | `#e62e4d`                  | `#eb3652`
-10             | `#e6e650`                  | `#706f29`
-11             | `#f28561`                  | `#bb441c`
-12             | `#b35092`                  | `#c55d9f`
-13             | `#d95782`                  | `#bb4f71`
-14             | `#8fadcc`                  | `#5c6d7f`
-15, Foreground | `#f2cca0`                  | `#2b241d`
+0, Background  | `#2b241d`                  | `#f5cea2`
+1              | `#c02c43`                  | `#ef3753`
+2              | `#c0bf46`                  | `#6a6926`
+3              | `#f25824`                  | `#a13a18`
+4              | `#97487a`                  | `#c75ea1`
+5              | `#b64d6e`                  | `#bf5173`
+6              | `#7b92a9`                  | `#4d5b6a`
+7              | `#867158`                  | `#836f57`
+8              | `#685744`                  | `#a3896c`
+9              | `#e62e4d`                  | `#cf2945`
+10             | `#e6e650`                  | `#50501c`
+11             | `#f28561`                  | `#894c37`
+12             | `#b35092`                  | `#af4f8f`
+13             | `#d95782`                  | `#a34162`
+14             | `#8fadcc`                  | `#3a4653`
+15, Foreground | `#f5cea2`                  | `#2b241d`
 
 Then set this in your `vimrc`/`init.vim` file (before setting the color
 scheme):
