@@ -15,21 +15,21 @@ let s:black    = g:rcabralc#palette.black.actual
 let s:white    = g:rcabralc#palette.white.actual
 let s:bg       = g:rcabralc#palette.bg.actual
 let s:fg       = g:rcabralc#palette.fg.actual
-let s:normal0  = g:rcabralc#palette.altpurple2.actual
-let s:normal   = g:rcabralc#palette.purple.actual
-let s:insert0  = g:rcabralc#palette.altgreen2.actual
-let s:insert   = g:rcabralc#palette.green.actual
-let s:replace0 = g:rcabralc#palette.altcyan2.actual
-let s:replace  = g:rcabralc#palette.cyan.actual
-let s:visual0  = g:rcabralc#palette.altpink2.actual
-let s:visual   = g:rcabralc#palette.pink.actual
-let s:error    = g:rcabralc#palette.red.actual
-let s:warning  = g:rcabralc#palette.orange.actual
+let s:normal0  = g:rcabralc#palette.purple2.actual
+let s:normal   = g:rcabralc#palette.purple0.actual
+let s:insert0  = g:rcabralc#palette.green2.actual
+let s:insert   = g:rcabralc#palette.green0.actual
+let s:replace0 = g:rcabralc#palette.cyan2.actual
+let s:replace  = g:rcabralc#palette.cyan0.actual
+let s:visual0  = g:rcabralc#palette.pink2.actual
+let s:visual   = g:rcabralc#palette.pink0.actual
+let s:error    = g:rcabralc#palette.red0.actual
+let s:warning  = g:rcabralc#palette.orange0.actual
 let s:gray1    = g:rcabralc#palette.gray1.actual
 let s:gray2    = g:rcabralc#palette.gray2.actual
 let s:gray3    = g:rcabralc#palette.gray3.actual
-let s:tabsel   = g:rcabralc#palette.purple.actual
-let s:tabright = g:rcabralc#palette.purple.actual
+let s:tabsel   = g:rcabralc#palette.purple0.actual
+let s:tabright = g:rcabralc#palette.purple0.actual
 
 
 function! s:e(fg, bg, ...)
