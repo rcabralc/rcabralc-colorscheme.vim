@@ -76,10 +76,10 @@ let s:none = { 'gui': 'NONE', 'term': 'NONE' }
 
 let s:black = s:complete({
     \ 'dark':  rcabralc#hsv(32, 34, 17).term_aware(0),
-    \ 'light': rcabralc#hsv(32, 34, 17).term_aware()
+    \ 'light': rcabralc#hsv(32, 34, 17).term_aware(15)
 \ })
 let s:white = s:complete({
-    \ 'dark':  rcabralc#hsv(32, 34, 96).term_aware(),
+    \ 'dark':  rcabralc#hsv(32, 34, 96).term_aware(15),
     \ 'light': rcabralc#hsv(32, 34, 96).term_aware(0)
 \ })
 
